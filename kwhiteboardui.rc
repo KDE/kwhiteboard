@@ -1,0 +1,7 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<gui name="kwhiteboard" >
+  <ToolBar name="test_toolbar" >
+    <text>Test</text>
+    <Action name="test_action" />
+  </ToolBar>
+</gui>
