@@ -16,20 +16,26 @@
  *  Boston, MA 02110-1301, USA.
  */
 
-#include <KAboutData>
-#include <KApplication>
-#include <KCmdLineArgs>
-#include <kwhiteboard.h>
+#ifndef KWHITEBOARD_H
+#define KWHITEBOARD_H
 
-int main(int argc, char *argv[])
+#include <QtDBus/QDBusConnection>
+
+#include <KXmlGuiWindow>
+
+class KWhiteBoardWidget;
+
+class KWhiteBoard: public KXmlGuiWindow
 {
-    KAboutData aboutData("kwhiteboard", 0, ki18n("KWhiteBoard"),
-                         "1.0", ki18n("KDE WhiteBoard Application"), KAboutData::License_LGPL);
-    KCmdLineArgs::init(argc, argv, &aboutData);
-    KApplication app;
+    Q_OBJECT
+public:
+    KWhiteBoard();
 
-    KWhiteBoard *mainWindow = new KWhiteBoard();
-    mainWindow->show();
+public Q_SLOTS:
+    void onGotTubeDBusConnection(const QDBusConnection &conn);
 
-    return app.exec();
-}
+private:
+    KWhiteBoardWidget* m_whiteBoardWidget;
+};
+
+#endif

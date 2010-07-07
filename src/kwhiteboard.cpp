@@ -20,17 +20,26 @@
 #include <KAction>
 #include <KActionCollection>
 #include <KLocale>
+#include <KDebug>
 #include "kwhiteboardwidget.h"
 
 KWhiteBoard::KWhiteBoard()
 {
     //KAction *action = new KAction(i18n("Connect"), actionCollection());
     //actionCollection()->addAction("test_action", action);
+    kDebug();
 
-    m_whiteBoardWidget = new KWhiteBoardWidget(this);
+}
+
+void KWhiteBoard::onGotTubeDBusConnection(const QDBusConnection& conn)
+{
+    kDebug();
+    
+    m_whiteBoardWidget = new KWhiteBoardWidget(this, conn);
     setCentralWidget(m_whiteBoardWidget);
-
+    
     setupGUI();
 }
+
 
 #include "kwhiteboard.moc"

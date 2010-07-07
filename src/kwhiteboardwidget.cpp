@@ -23,15 +23,15 @@
 #include <QMouseEvent>
 #include <QDBusConnection>
 
-static const char* s_objectPath = "/whiteboard";
+static const char* s_objectPath = "/";
 static const char* s_dbusInterface = "org.kde.KWhiteBoard";
 
-KWhiteBoardWidget::KWhiteBoardWidget(QWidget* parent)
+KWhiteBoardWidget::KWhiteBoardWidget(QWidget* parent, const QDBusConnection &conn)
     : QWidget(parent)
 {
-    //new KWhiteBoardIface(this); // our "adaptor"
+   // new KWhiteBoardIface(this); // our "adaptor"
 
-    QDBusConnection dbus = QDBusConnection::sessionBus();
+    QDBusConnection dbus = conn;
     if (!dbus.registerObject(QString::fromLatin1(s_objectPath), this, QDBusConnection::ExportAllSignals | QDBusConnection::ExportAllSlots)) {
         kWarning() << "Could not register object to D-BUS!";
         qApp->exit(1);

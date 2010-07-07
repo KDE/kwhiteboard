@@ -1,13 +1,21 @@
+project(kwhiteboard)
+
 cmake_minimum_required(VERSION 2.6)
+set (CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules" ${CMAKE_MODULE_PATH})
+
+find_package(Qt4 REQUIRED)
 find_package(KDE4 REQUIRED)
-include(KDE4Defaults)
-include_directories(${QT_INCLUDES} ${KDE4_INCLUDES})
+find_package(TelepathyQt4 REQUIRED)
 
-kde4_add_executable(kwhiteboard main.cpp kwhiteboard.cpp kwhiteboardwidget.cpp)
+include (KDE4Defaults)
+include (MacroLibrary)
 
-qt4_generate_dbus_interface(org.kde.KWhiteBoard.xml)
+include_directories(
+  ${QT_INCLUDES}
+  ${KDE4_INCLUDES}
+  ${CMAKE_SOURCE_DIR}
+  ${TELEPATHY_QT4_INCLUDE_DIR}
+  )
 
-target_link_libraries(kwhiteboard ${KDE4_KDEUI_LIBS} ${QT_QTNETWORK_LIBRARY})
-
-install( FILES kwhiteboardui.rc DESTINATION  ${DATA_INSTALL_DIR}/kwhiteboard )
+add_subdirectory (src)
 

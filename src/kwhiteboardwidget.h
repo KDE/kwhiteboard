@@ -16,21 +16,36 @@
  *  Boston, MA 02110-1301, USA.
  */
 
-#ifndef KWHITEBOARD_H
-#define KWHITEBOARD_H
+#ifndef KWHITEBOARDWIDGET_H
+#define KWHITEBOARDWIDGET_H
 
-#include <KXmlGuiWindow>
+#include <QWidget>
+#include <QPixmap>
+#include <QDBusConnection>
 
-class KWhiteBoardWidget;
-
-class KWhiteBoard: public KXmlGuiWindow
+class KWhiteBoardWidget : public QWidget
 {
     Q_OBJECT
+    Q_CLASSINFO("D-Bus Interface", "org.kde.KWhiteBoard")
+
 public:
-    KWhiteBoard();
+    KWhiteBoardWidget(QWidget* parent, const QDBusConnection &conn);
+
+public Q_SLOTS:
+    void drawLine(int x1, int y1, int x2, int y2);
+
+Q_SIGNALS:
+    void sigDrawLine(int x1, int y1, int x2, int y2);
+
+protected:
+    virtual void resizeEvent(QResizeEvent *);
+    virtual void paintEvent(QPaintEvent *);
+    virtual void mousePressEvent(QMouseEvent *);
+    virtual void mouseMoveEvent(QMouseEvent *);
 
 private:
-    KWhiteBoardWidget* m_whiteBoardWidget;
+    QPixmap m_pixmap;
+    QPoint m_startPoint;
 };
 
 #endif
