@@ -93,8 +93,9 @@ void TubesManager::handleChannels(const Tp::MethodInvocationContextPtr<> & conte
                 m_outgoingTubes.append(oTube);
                 */
               Tp::OutgoingDBusTubeChannelPtr oTube = Tp::OutgoingDBusTubeChannel::create(channel->connection(), channel->objectPath(), channel->immutableProperties());
-              Q_EMIT gotTubeDBusConnection(oTube->dbusConnection());
-              Q_EMIT gotTubeChannel(channel);
+              connect(oTube->offerTube(QVariantMap()), SIGNAL(finished(Tp::PendingOperation*)), SLOT(onOfferTubeFinished(Tp::PendingOperation*)));
+              m_outgoingGroupDBusChannel = oTube;
+
               kDebug() << "Emitting out";
             } else {
                 kDebug() << "Incoming.....!!!!!";
@@ -106,11 +107,13 @@ void TubesManager::handleChannels(const Tp::MethodInvocationContextPtr<> & conte
                 m_incomingTubes.append(iTube);
                 */
                 Tp::IncomingDBusTubeChannelPtr iTube = Tp::IncomingDBusTubeChannel::create(channel->connection(), channel->objectPath(), channel->immutableProperties());
-                Q_EMIT gotTubeDBusConnection(iTube->dbusConnection());
+                connect(iTube->acceptTube(), SIGNAL(finished(Tp::PendingOperation*)), SLOT(onAcceptTubeFinished(Tp::PendingOperation*)));
+                m_incomingGroupDBusChannel = iTube;
                 kDebug() << "Emitting in";
             }
 
             m_groupDBusChannel = channel;
+
         }
 
         m_groupTextChannel = channel;
@@ -119,6 +122,23 @@ void TubesManager::handleChannels(const Tp::MethodInvocationContextPtr<> & conte
 
     context->setFinished();
 }
+
+
+void TubesManager::onOfferTubeFinished(Tp::PendingOperation* op)
+{
+    kDebug();
+
+    Q_EMIT gotTubeDBusConnection(m_outgoingGroupDBusChannel->dbusConnection());
+    Q_EMIT gotTubeChannel(m_groupDBusChannel);
+}
+
+void TubesManager::onAcceptTubeFinished(Tp::PendingOperation* op)
+{
+    kDebug();
+
+    Q_EMIT gotTubeDBusConnection(m_incomingGroupDBusChannel->dbusConnection());
+}
+
 
 
 #include "TubesManager.moc"

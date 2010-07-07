@@ -75,7 +75,7 @@ void TubeLauncher::onConnectionReady(Tp::PendingOperation* op)
     // Connection is now ready. Lets get ContactPtrs for the contacts we want.
     QStringList identifiers;
     // FIXME: Hard coded contact identifiers
-    identifiers << "telepathy-test1@kdetalk.net" << "telepathy-test2@kdetalk.net";
+    identifiers << "telepathy-test2@kdetalk.net";
 
     Tp::PendingContacts *pc = m_connection->contactManager()->contactsForIdentifiers(identifiers);
 

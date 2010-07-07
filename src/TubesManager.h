@@ -30,6 +30,10 @@ public:
     virtual void addRequest(const Tp::ChannelRequestPtr &request);
     virtual void removeRequest(const Tp::ChannelRequestPtr &request, const QString &errorName, const QString &errorMessage);
 
+public Q_SLOTS:
+    void onOfferTubeFinished(Tp::PendingOperation *op);
+    void onAcceptTubeFinished(Tp::PendingOperation *op);
+
 Q_SIGNALS:
     void newIncomingTube(QTcpSocket *socket, const QString &jabberId);
     void newOutgoingTube(QTcpSocket *socket, const QString &jabberId);
@@ -43,6 +47,8 @@ private:
     Tp::ChannelRequestPtr m_channelRequest;
 
     Tp::ChannelPtr m_groupTextChannel;
+    Tp::IncomingDBusTubeChannelPtr m_incomingGroupDBusChannel;
+    Tp::OutgoingDBusTubeChannelPtr m_outgoingGroupDBusChannel;
     Tp::ChannelPtr m_groupDBusChannel;
 };
 
