@@ -31,6 +31,8 @@ public:
     virtual void removeRequest(const Tp::ChannelRequestPtr &request, const QString &errorName, const QString &errorMessage);
 
 public Q_SLOTS:
+    void onOutgoingTubeReady(Tp::PendingOperation *op);
+    void onIncomingTubeReady(Tp::PendingOperation *op);
     void onOfferTubeFinished(Tp::PendingOperation *op);
     void onAcceptTubeFinished(Tp::PendingOperation *op);
 

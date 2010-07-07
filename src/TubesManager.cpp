@@ -10,6 +10,7 @@
 #include <TelepathyQt4/Debug>
 #include <TelepathyQt4/IncomingDBusTubeChannel>
 #include <TelepathyQt4/OutgoingDBusTubeChannel>
+#include <TelepathyQt4/PendingReady>
 
 #include <KDebug>
 
@@ -33,7 +34,7 @@ TubesManager::TubesManager(QObject *parent)
 {
     kDebug();
 
-  //  Tp::enableDebug(true);
+    Tp::enableDebug(true);
     Tp::enableWarnings(true);
 
 }
@@ -92,9 +93,13 @@ void TubesManager::handleChannels(const Tp::MethodInvocationContextPtr<> & conte
                         SIGNAL(newOutgoingTube(QTcpSocket*,QString)));
                 m_outgoingTubes.append(oTube);
                 */
-              Tp::OutgoingDBusTubeChannelPtr oTube = Tp::OutgoingDBusTubeChannel::create(channel->connection(), channel->objectPath(), channel->immutableProperties());
-              connect(oTube->offerTube(QVariantMap()), SIGNAL(finished(Tp::PendingOperation*)), SLOT(onOfferTubeFinished(Tp::PendingOperation*)));
-              m_outgoingGroupDBusChannel = oTube;
+              m_outgoingGroupDBusChannel = Tp::OutgoingDBusTubeChannel::create(channel->connection(), channel->objectPath(), channel->immutableProperties());
+              Tp::Features oFeatures;
+              oFeatures << Tp::Channel::FeatureCore << Tp::OutgoingDBusTubeChannel::FeatureDBusTube
+                        << Tp::TubeChannel::FeatureTube << Tp::OutgoingDBusTubeChannel::FeatureBusNamesMonitoring;
+              connect(m_outgoingGroupDBusChannel->becomeReady(oFeatures),
+                      SIGNAL(finished(Tp::PendingOperation*)),
+                      SLOT(onOutgoingTubeReady(Tp::PendingOperation*)));
 
               kDebug() << "Emitting out";
             } else {
@@ -106,9 +111,13 @@ void TubesManager::handleChannels(const Tp::MethodInvocationContextPtr<> & conte
                         SIGNAL(newIncomingTube(QTcpSocket*,QString)));
                 m_incomingTubes.append(iTube);
                 */
-                Tp::IncomingDBusTubeChannelPtr iTube = Tp::IncomingDBusTubeChannel::create(channel->connection(), channel->objectPath(), channel->immutableProperties());
-                connect(iTube->acceptTube(), SIGNAL(finished(Tp::PendingOperation*)), SLOT(onAcceptTubeFinished(Tp::PendingOperation*)));
-                m_incomingGroupDBusChannel = iTube;
+                m_incomingGroupDBusChannel = Tp::IncomingDBusTubeChannel::create(channel->connection(), channel->objectPath(), channel->immutableProperties());
+                Tp::Features iFeatures;
+                iFeatures << Tp::Channel::FeatureCore << Tp::IncomingDBusTubeChannel::FeatureDBusTube
+                          << Tp::TubeChannel::FeatureTube << Tp::IncomingDBusTubeChannel::FeatureBusNamesMonitoring;
+                connect(m_incomingGroupDBusChannel->becomeReady(iFeatures),
+                        SIGNAL(finished(Tp::PendingOperation*)),
+                        SLOT(onIncomingTubeReady(Tp::PendingOperation*)));
                 kDebug() << "Emitting in";
             }
 
@@ -123,6 +132,19 @@ void TubesManager::handleChannels(const Tp::MethodInvocationContextPtr<> & conte
     context->setFinished();
 }
 
+void TubesManager::onOutgoingTubeReady(Tp::PendingOperation* op)
+{
+    kDebug();
+
+    connect(m_outgoingGroupDBusChannel->offerTube(QVariantMap()), SIGNAL(finished(Tp::PendingOperation*)), SLOT(onOfferTubeFinished(Tp::PendingOperation*)));
+}
+
+void TubesManager::onIncomingTubeReady(Tp::PendingOperation* op)
+{
+    kDebug();
+
+    connect(m_incomingGroupDBusChannel->acceptTube(), SIGNAL(finished(Tp::PendingOperation*)), SLOT(onAcceptTubeFinished(Tp::PendingOperation*)));
+}
 
 void TubesManager::onOfferTubeFinished(Tp::PendingOperation* op)
 {
