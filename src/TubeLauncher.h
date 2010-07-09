@@ -28,7 +28,7 @@ private Q_SLOTS:
     void onAccountReady(Tp::PendingOperation *op);
     void onConnectionReady(Tp::PendingOperation *op);
     void onContactsGot(Tp::PendingOperation *op);
-    void onChannelReady(Tp::PendingOperation *op);
+    void onChannelReady();
 
 public Q_SLOTS:
     void onGotTubeChannel(Tp::ChannelPtr channel);

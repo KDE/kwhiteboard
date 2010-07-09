@@ -3,7 +3,7 @@ Interfaces=org.freedesktop.Telepathy.Client.Handler;
 
 [org.freedesktop.Telepathy.Client.Handler.HandlerChannelFilter 0]
 org.freedesktop.Telepathy.Channel.ChannelType s=org.freedesktop.Telepathy.Channel.Type.DBusTube
-org.freedesktop.Telepathy.Channel.Type.DBusTube.ServiceName s=org.kde.KWhiteBoard
+
 
 [org.freedesktop.Telepathy.Client.Handler.HandlerChannelFilter 1]
 org.freedesktop.Telepathy.Channel.ChannelType s=org.freedesktop.Telepathy.Channel.Type.Text

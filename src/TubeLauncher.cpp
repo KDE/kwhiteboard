@@ -9,6 +9,8 @@
 #include <TelepathyQt4/PendingOperation>
 #include <TelepathyQt4/PendingReady>
 #include <TelepathyQt4/PendingContacts>
+#include <TelepathyQt4/DBusTubeChannel>
+#include <TelepathyQt4/OutgoingDBusTubeChannel>
 
 TubeLauncher::TubeLauncher(QObject *parent)
   :QObject(parent)
@@ -99,17 +101,19 @@ void TubeLauncher::onGotTubeChannel(Tp::ChannelPtr channel)
     // FIXME: Invite some participants.
     m_channel = channel;
     Tp::Features features;
-    features << Tp::Channel::FeatureCore;
+    features << Tp::Channel::FeatureCore << Tp::DBusTubeChannel::FeatureDBusTube << Tp::OutgoingDBusTubeChannel::FeatureDBusTube;
 
     connect(m_channel->becomeReady(features),
             SIGNAL(finished(Tp::PendingOperation*)),
-            SLOT(onChannelReady(Tp::PendingOperation*)));
+            SLOT(onChannelReady()));
+
+    QTimer::singleShot(5000, this, SLOT(onChannelReady()));
 }
 
-void TubeLauncher::onChannelReady(Tp::PendingOperation* op)
+void TubeLauncher::onChannelReady()
 {
     kDebug();
-    m_channel->groupAddContacts(m_targetContacts);
+   // m_channel->groupAddContacts(m_targetContacts);
 }
 
 void TubeLauncher::onStartWhiteBoardSessionClicked() {
@@ -123,11 +127,13 @@ void TubeLauncher::onStartWhiteBoardSessionClicked() {
     properties.insert(QLatin1String(TELEPATHY_INTERFACE_CHANNEL ".ChannelType"),
                       QLatin1String(TELEPATHY_INTERFACE_CHANNEL_TYPE_DBUS_TUBE));
     properties.insert(QLatin1String(TELEPATHY_INTERFACE_CHANNEL ".TargetHandleType"),
-                      Tp::HandleTypeRoom);
+  //                    Tp::HandleTypeRoom);
+                      Tp::HandleTypeContact);
     properties.insert(QLatin1String(TELEPATHY_INTERFACE_CHANNEL ".TargetID"),
-                      "omgwtfbbqoooooo");
+  //                    QLatin1String("omgwtfbbqoooooo"));
+                      QLatin1String("telepathy-test2@kdetalk.net"));
     properties.insert(QLatin1String(TELEPATHY_INTERFACE_CHANNEL_TYPE_DBUS_TUBE ".ServiceName"),
-                      "org.kde.KWhiteBoard");
+                      QLatin1String("org.kde.KWhiteBoard"));
 
     m_account->createChannel(properties);
 }

@@ -8,9 +8,12 @@
 #include <TelepathyQt4/Connection>
 #include <TelepathyQt4/Constants>
 #include <TelepathyQt4/Debug>
+#include <TelepathyQt4/Types>
+#include <TelepathyQt4/DBusTubeChannel>
 #include <TelepathyQt4/IncomingDBusTubeChannel>
 #include <TelepathyQt4/OutgoingDBusTubeChannel>
 #include <TelepathyQt4/PendingReady>
+#include <TelepathyQt4/SharedPtr>
 
 #include <KDebug>
 
@@ -19,7 +22,7 @@ static inline Tp::ChannelClassList channelClassList()
     QMap<QString, QDBusVariant> filter;
     filter[TELEPATHY_INTERFACE_CHANNEL ".ChannelType"] =
             QDBusVariant(TELEPATHY_INTERFACE_CHANNEL_TYPE_DBUS_TUBE);
-    filter[TELEPATHY_INTERFACE_CHANNEL_TYPE_DBUS_TUBE ".ServiceName"] = QDBusVariant("org.kde.KWhiteBoard");
+//    filter[TELEPATHY_INTERFACE_CHANNEL_TYPE_DBUS_TUBE ".ServiceName"] = QDBusVariant("org.kde.KWhiteBoard");
 
     QMap<QString, QDBusVariant> filter2;
     filter2[TELEPATHY_INTERFACE_CHANNEL ".ChannelType"] =
@@ -34,7 +37,7 @@ TubesManager::TubesManager(QObject *parent)
 {
     kDebug();
 
-    Tp::enableDebug(true);
+  //  Tp::enableDebug(true);
     Tp::enableWarnings(true);
 
 }
@@ -93,7 +96,8 @@ void TubesManager::handleChannels(const Tp::MethodInvocationContextPtr<> & conte
                         SIGNAL(newOutgoingTube(QTcpSocket*,QString)));
                 m_outgoingTubes.append(oTube);
                 */
-              m_outgoingGroupDBusChannel = Tp::OutgoingDBusTubeChannel::create(channel->connection(), channel->objectPath(), channel->immutableProperties());
+             // m_outgoingGroupDBusChannel = Tp::OutgoingDBusTubeChannel::create(channel->connection(), channel->objectPath(), channel->immutableProperties());
+             m_outgoingGroupDBusChannel = Tp::OutgoingDBusTubeChannelPtr::dynamicCast(channel);
               Tp::Features oFeatures;
               oFeatures << Tp::Channel::FeatureCore << Tp::OutgoingDBusTubeChannel::FeatureDBusTube
                         << Tp::TubeChannel::FeatureTube << Tp::OutgoingDBusTubeChannel::FeatureBusNamesMonitoring;
@@ -111,7 +115,8 @@ void TubesManager::handleChannels(const Tp::MethodInvocationContextPtr<> & conte
                         SIGNAL(newIncomingTube(QTcpSocket*,QString)));
                 m_incomingTubes.append(iTube);
                 */
-                m_incomingGroupDBusChannel = Tp::IncomingDBusTubeChannel::create(channel->connection(), channel->objectPath(), channel->immutableProperties());
+                //m_incomingGroupDBusChannel = Tp::IncomingDBusTubeChannel::create(channel->connection(), channel->objectPath(), channel->immutableProperties());
+                m_incomingGroupDBusChannel = Tp::IncomingDBusTubeChannelPtr::dynamicCast(channel);
                 Tp::Features iFeatures;
                 iFeatures << Tp::Channel::FeatureCore << Tp::IncomingDBusTubeChannel::FeatureDBusTube
                           << Tp::TubeChannel::FeatureTube << Tp::IncomingDBusTubeChannel::FeatureBusNamesMonitoring;

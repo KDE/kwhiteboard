@@ -23,25 +23,34 @@
 #include <QMouseEvent>
 #include <QDBusConnection>
 
-static const char* s_objectPath = "/";
+static const char* s_objectPath = "/example2";
 static const char* s_dbusInterface = "org.kde.KWhiteBoard";
 
 KWhiteBoardWidget::KWhiteBoardWidget(QWidget* parent, const QDBusConnection &conn)
     : QWidget(parent)
 {
-   // new KWhiteBoardIface(this); // our "adaptor"
+   // n7ew KWhiteBoardIface(this); // our "adaptor"
 
     QDBusConnection dbus = conn;
+    //dbus.registerService("org.kde.KWhiteBoard2");
     if (!dbus.registerObject(QString::fromLatin1(s_objectPath), this, QDBusConnection::ExportAllSignals | QDBusConnection::ExportAllSlots)) {
         kWarning() << "Could not register object to D-BUS!";
         qApp->exit(1);
     }
+    /*sleep(1);
+    if (dbus.objectRegisteredAt(QString::fromLatin1(s_objectPath)) != this) {
+        kDebug() << "Checked its registered";
+    }*/
+
+    // No service specified so that we connect to the signal from *all* of this object on the bus.
+    //dbus.connect(QString(), "/example", s_dbusInterface, "sigDrawLine", this, SLOT(drawLine(int, int, int, int)));
     dbus.connect(QString(), s_objectPath, s_dbusInterface, "sigDrawLine", this, SLOT(drawLine(int, int, int, int)));
 
 }
 
 void KWhiteBoardWidget::drawLine(int x1, int y1, int x2, int y2)
 {
+    kDebug();
     QPainter p(&m_pixmap);
     p.drawLine(x1, y1, x2, y2);
     update();
