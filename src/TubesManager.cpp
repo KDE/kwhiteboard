@@ -155,7 +155,7 @@ void TubesManager::onOfferTubeFinished(Tp::PendingOperation* op)
 {
     kDebug();
 
-    Q_EMIT gotTubeDBusConnection(m_outgoingGroupDBusChannel->dbusConnection());
+    Q_EMIT gotTubeDBusConnection(m_outgoingGroupDBusChannel->connection());
     Q_EMIT gotTubeChannel(m_groupDBusChannel);
 }
 
@@ -163,7 +163,7 @@ void TubesManager::onAcceptTubeFinished(Tp::PendingOperation* op)
 {
     kDebug();
 
-    Q_EMIT gotTubeDBusConnection(m_incomingGroupDBusChannel->dbusConnection());
+    Q_EMIT gotTubeDBusConnection(m_incomingGroupDBusChannel->connection());
 }
 
 

@@ -45,12 +45,11 @@ KWhiteBoardWidget::KWhiteBoardWidget(QWidget* parent, const QDBusConnection &con
     // No service specified so that we connect to the signal from *all* of this object on the bus.
     //dbus.connect(QString(), "/example", s_dbusInterface, "sigDrawLine", this, SLOT(drawLine(int, int, int, int)));
     dbus.connect(QString(), s_objectPath, s_dbusInterface, "sigDrawLine", this, SLOT(drawLine(int, int, int, int)));
-
+    connect(this, SIGNAL(sigDrawLine(int, int, int, int)), this, SLOT(drawLine(int, int, int, int)));
 }
 
 void KWhiteBoardWidget::drawLine(int x1, int y1, int x2, int y2)
 {
-    kDebug();
     QPainter p(&m_pixmap);
     p.drawLine(x1, y1, x2, y2);
     update();
