@@ -28,7 +28,7 @@ TelepathyChannelManager::~TelepathyChannelManager()
 
 void TelepathyChannelManager::initialize()
 {
-    // Register types for TelepathyQt4.
+    // Register types for TelepathyQt.
     Tp::registerTypes();
 
     // Set up the Telepathy Client Registrar.

@@ -4,9 +4,9 @@
 
 #include <QtNetwork/QTcpSocket>
 
-#include <TelepathyQt4/Feature>
-#include <TelepathyQt4/PendingOperation>
-#include <TelepathyQt4/PendingReady>
+#include <TelepathyQt/Feature>
+#include <TelepathyQt/PendingOperation>
+#include <TelepathyQt/PendingReady>
 
 IncomingTube::IncomingTube(const Tp::ChannelPtr &channel, QObject *parent)
  : QObject(parent),

@@ -36,7 +36,7 @@ extern "C"
 
 #include <QtCore/QTimer>
 
-#include <TelepathyQt4/Types>
+#include <TelepathyQt/Types>
 
 namespace
 {

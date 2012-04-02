@@ -3,11 +3,11 @@
 
 #include <QtCore/QObject>
 
-#include <TelepathyQt4/AccountManager>
-#include <TelepathyQt4/Account>
-#include <TelepathyQt4/Connection>
-#include <TelepathyQt4/Contact>
-#include <TelepathyQt4/ContactManager>
+#include <TelepathyQt/AccountManager>
+#include <TelepathyQt/Account>
+#include <TelepathyQt/Connection>
+#include <TelepathyQt/Contact>
+#include <TelepathyQt/ContactManager>
 
 namespace Tp {
     class PendingOperation;

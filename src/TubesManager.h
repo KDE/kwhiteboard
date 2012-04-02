@@ -4,8 +4,8 @@
 
 #include <QtCore/QList>
 
-#include <TelepathyQt4/AbstractClientHandler>
-#include <TelepathyQt4/ChannelRequest>
+#include <TelepathyQt/AbstractClientHandler>
+#include <TelepathyQt/ChannelRequest>
 
 class IncomingTube;
 class OutgoingTube;

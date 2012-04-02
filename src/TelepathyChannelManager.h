@@ -5,8 +5,8 @@
 #include <QtCore/QString>
 #include <QtNetwork/QTcpSocket>
 
-#include <TelepathyQt4/ClientRegistrar>
-#include <TelepathyQt4/Channel>
+#include <TelepathyQt/ClientRegistrar>
+#include <TelepathyQt/Channel>
 
 class TubesManager;
 

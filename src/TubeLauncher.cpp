@@ -2,15 +2,15 @@
 
 #include <KDebug>
 
-#include <TelepathyQt4/AccountManager>
-#include <TelepathyQt4/AccountSet>
-#include <TelepathyQt4/Channel>
-#include <TelepathyQt4/Feature>
-#include <TelepathyQt4/PendingOperation>
-#include <TelepathyQt4/PendingReady>
-#include <TelepathyQt4/PendingContacts>
-#include <TelepathyQt4/DBusTubeChannel>
-#include <TelepathyQt4/OutgoingDBusTubeChannel>
+#include <TelepathyQt/AccountManager>
+#include <TelepathyQt/AccountSet>
+#include <TelepathyQt/Channel>
+#include <TelepathyQt/Feature>
+#include <TelepathyQt/PendingOperation>
+#include <TelepathyQt/PendingReady>
+#include <TelepathyQt/PendingContacts>
+#include <TelepathyQt/DBusTubeChannel>
+#include <TelepathyQt/OutgoingDBusTubeChannel>
 
 TubeLauncher::TubeLauncher(QObject *parent)
   :QObject(parent)

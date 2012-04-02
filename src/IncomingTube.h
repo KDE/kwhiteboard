@@ -5,7 +5,7 @@
 
 #include <QtCore/QObject>
 
-#include <TelepathyQt4/Channel>
+#include <TelepathyQt/Channel>
 
 namespace Tp {
     class PendingOperation;

@@ -4,16 +4,16 @@
 #include "OutgoingTube.h"
 #include "TelepathyHelpers.h"
 
-#include <TelepathyQt4/Channel>
-#include <TelepathyQt4/Connection>
-#include <TelepathyQt4/Constants>
-#include <TelepathyQt4/Debug>
-#include <TelepathyQt4/Types>
-#include <TelepathyQt4/DBusTubeChannel>
-#include <TelepathyQt4/IncomingDBusTubeChannel>
-#include <TelepathyQt4/OutgoingDBusTubeChannel>
-#include <TelepathyQt4/PendingReady>
-#include <TelepathyQt4/SharedPtr>
+#include <TelepathyQt/Channel>
+#include <TelepathyQt/Connection>
+#include <TelepathyQt/Constants>
+#include <TelepathyQt/Debug>
+#include <TelepathyQt/Types>
+#include <TelepathyQt/DBusTubeChannel>
+#include <TelepathyQt/IncomingDBusTubeChannel>
+#include <TelepathyQt/OutgoingDBusTubeChannel>
+#include <TelepathyQt/PendingReady>
+#include <TelepathyQt/SharedPtr>
 
 #include <KDebug>
 
