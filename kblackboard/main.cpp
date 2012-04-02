@@ -6,11 +6,11 @@
 
 #include "telepathywhiteboard.h"
 
-#include <TelepathyQt4/AccountFactory>
-#include <TelepathyQt4/ClientRegistrar>
-#include <TelepathyQt4/ConnectionFactory>
-#include <TelepathyQt4/StreamTubeChannel>
-#include <TelepathyQt4/Debug>
+#include <TelepathyQt/AccountFactory>
+#include <TelepathyQt/ClientRegistrar>
+#include <TelepathyQt/ConnectionFactory>
+#include <TelepathyQt/StreamTubeChannel>
+#include <TelepathyQt/Debug>
 
 int main(int argc, char *argv[])
 {
@@ -32,6 +32,9 @@ int main(int argc, char *argv[])
     KCmdLineArgs::parsedArgs();
 
     Tp::registerTypes();
+
+    KApplication app;
+
     //Enable telepathy-Qt4 debug
     Tp::enableDebug(KCmdLineArgs::parsedArgs()->isSet("debug"));
     Tp::enableWarnings(true);
@@ -42,8 +45,8 @@ int main(int argc, char *argv[])
 
     Tp::ChannelFactoryPtr channelFactory = Tp::ChannelFactory::create(QDBusConnection::sessionBus());
     channelFactory->addCommonFeatures(Tp::Channel::FeatureCore);
-    channelFactory->addFeaturesForIncomingStreamTubes(Tp::StreamTubeChannel::FeatureStreamTube);
-    channelFactory->addFeaturesForOutgoingStreamTubes(Tp::StreamTubeChannel::FeatureStreamTube);
+    channelFactory->addFeaturesForIncomingStreamTubes(Tp::StreamTubeChannel::FeatureCore);
+    channelFactory->addFeaturesForOutgoingStreamTubes(Tp::StreamTubeChannel::FeatureCore);
 
     Tp::ContactFactoryPtr contactFactory = Tp::ContactFactory::create();
 
@@ -58,8 +61,6 @@ int main(int argc, char *argv[])
                               QLatin1String("KDE.Whiteboard"));
 
 
-
-    KApplication app;
 
     return app.exec();
 }

@@ -3,8 +3,8 @@
 
 #include <KDE/KApplication>
 
-#include <TelepathyQt4/AbstractClientHandler>
-#include <TelepathyQt4/MethodInvocationContext>
+#include <TelepathyQt/AbstractClientHandler>
+#include <TelepathyQt/MethodInvocationContext>
 
 
 // Forward declaration

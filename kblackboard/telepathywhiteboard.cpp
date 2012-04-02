@@ -9,10 +9,10 @@
 #include <KCmdLineArgs>
 
 
-#include <TelepathyQt4/ChannelClassSpec>
-#include <TelepathyQt4/PendingStreamTubeConnection>
-#include <TelepathyQt4/IncomingStreamTubeChannel>
-#include <TelepathyQt4/OutgoingStreamTubeChannel>
+#include <TelepathyQt/ChannelClassSpec>
+#include <TelepathyQt/PendingStreamTubeConnection>
+#include <TelepathyQt/IncomingStreamTubeChannel>
+#include <TelepathyQt/OutgoingStreamTubeChannel>
 
 
 #include "whiteboardwidget.h"
