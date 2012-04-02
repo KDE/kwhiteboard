@@ -20,13 +20,13 @@
 static inline Tp::ChannelClassList channelClassList()
 {
     QMap<QString, QDBusVariant> filter;
-    filter[TELEPATHY_INTERFACE_CHANNEL ".ChannelType"] =
-            QDBusVariant(TELEPATHY_INTERFACE_CHANNEL_TYPE_DBUS_TUBE);
+    filter.insert(TP_QT_IFACE_CHANNEL + QLatin1String(".ChannelType"),
+                 QDBusVariant(TP_QT_IFACE_CHANNEL_TYPE_DBUS_TUBE) );
 //    filter[TELEPATHY_INTERFACE_CHANNEL_TYPE_DBUS_TUBE ".ServiceName"] = QDBusVariant("org.kde.KWhiteBoard");
 
     QMap<QString, QDBusVariant> filter2;
-    filter2[TELEPATHY_INTERFACE_CHANNEL ".ChannelType"] =
-    QDBusVariant(TELEPATHY_INTERFACE_CHANNEL_TYPE_TEXT);
+    filter.insert(TP_QT_IFACE_CHANNEL + QLatin1String(".ChannelType"),
+                 QDBusVariant(TP_QT_IFACE_CHANNEL_TYPE_TEXT) );
 
     return Tp::ChannelClassList() << Tp::ChannelClass(filter) << Tp::ChannelClass(filter2);
 }
@@ -81,14 +81,14 @@ void TubesManager::handleChannels(const Tp::MethodInvocationContextPtr<> & conte
 
         QVariantMap properties = channel->immutableProperties();
 
-        kDebug() << "ChannelType: " << properties[TELEPATHY_INTERFACE_CHANNEL ".ChannelType"];
+        kDebug() << "ChannelType: " << properties.value(TP_QT_IFACE_CHANNEL + QLatin1String(".ChannelType"));
 
-        if (properties[TELEPATHY_INTERFACE_CHANNEL ".ChannelType"] ==
-               TELEPATHY_INTERFACE_CHANNEL_TYPE_DBUS_TUBE) {
+        if (properties.value(TP_QT_IFACE_CHANNEL + QLatin1String(".ChannelType")) ==
+               TP_QT_IFACE_CHANNEL_TYPE_DBUS_TUBE) {
 
             kDebug() << "It's a DBUS Tube...";
 
-            if (properties[TELEPATHY_INTERFACE_CHANNEL ".Requested"].toBool()) {
+            if (properties.value(TP_QT_IFACE_CHANNEL + QLatin1String(".Requested")).toBool()) {
                 kDebug() << "Outgoing.....!!!!!";
               /*  OutgoingTube *oTube = new OutgoingTube(channel);
                 connect(oTube,

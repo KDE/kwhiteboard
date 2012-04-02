@@ -124,15 +124,15 @@ void TubeLauncher::onStartWhiteBoardSessionClicked() {
 
     // HACK: We will assume the account is ready.
     QVariantMap properties;
-    properties.insert(QLatin1String(TELEPATHY_INTERFACE_CHANNEL ".ChannelType"),
-                      QLatin1String(TELEPATHY_INTERFACE_CHANNEL_TYPE_DBUS_TUBE));
-    properties.insert(QLatin1String(TELEPATHY_INTERFACE_CHANNEL ".TargetHandleType"),
+    properties.insert(TP_QT_IFACE_CHANNEL + QLatin1String(".ChannelType"),
+                      QLatin1String(TP_QT_IFACE_CHANNEL_TYPE_DBUS_TUBE));
+    properties.insert(TP_QT_IFACE_CHANNEL + QLatin1String(".TargetHandleType"),
   //                    Tp::HandleTypeRoom);
                       Tp::HandleTypeContact);
-    properties.insert(QLatin1String(TELEPATHY_INTERFACE_CHANNEL ".TargetID"),
+    properties.insert(TP_QT_IFACE_CHANNEL + QLatin1String(".TargetID"),
   //                    QLatin1String("omgwtfbbqoooooo"));
                       QLatin1String("telepathy-test2@kdetalk.net"));
-    properties.insert(QLatin1String(TELEPATHY_INTERFACE_CHANNEL_TYPE_DBUS_TUBE ".ServiceName"),
+    properties.insert(TP_QT_IFACE_CHANNEL_TYPE_DBUS_TUBE + QLatin1String(".ServiceName"),
                       QLatin1String("org.kde.KWhiteBoard"));
 
     m_account->createChannel(properties);
