@@ -101,8 +101,8 @@ void TubeLauncher::onGotTubeChannel(Tp::ChannelPtr channel)
     // FIXME: Invite some participants.
     m_channel = channel;
     Tp::Features features;
-    features << Tp::Channel::FeatureCore << Tp::DBusTubeChannel::FeatureDBusTube << Tp::OutgoingDBusTubeChannel::FeatureDBusTube;
-
+//    features << Tp::Channel::FeatureCore << Tp::DBusTubeChannel::FeatureDBusTube << Tp::OutgoingDBusTubeChannel::FeatureDBusTube;
+    features << Tp::Channel::FeatureCore << Tp::DBusTubeChannel::FeatureCore << Tp::DBusTubeChannel::FeatureBusNameMonitoring << Tp::OutgoingDBusTubeChannel::FeatureCore;
     connect(m_channel->becomeReady(features),
             SIGNAL(finished(Tp::PendingOperation*)),
             SLOT(onChannelReady()));
