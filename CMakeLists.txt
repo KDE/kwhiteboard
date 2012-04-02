@@ -5,7 +5,7 @@ set (CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules" ${CMAKE_MODUL
 
 find_package(Qt4 REQUIRED)
 find_package(KDE4 REQUIRED)
-find_package(TelepathyQt4 REQUIRED)
+find_package(TelepathyQt4 0.9.1 REQUIRED)
 
 include (KDE4Defaults)
 include (MacroLibrary)
