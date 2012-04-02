@@ -35,8 +35,8 @@ void TubeLauncher::onAccountManagerReady(Tp::PendingOperation* op)
     kDebug();
 
     // Get the first of the online accounts HACK!!!
-    kDebug() << "No. of accounts online:" << m_accountManager->onlineAccountsSet()->accounts().size();
-    m_account = m_accountManager->onlineAccountsSet()->accounts().first();
+    kDebug() << "No. of accounts online:" << m_accountManager->onlineAccounts()->accounts().size();
+    m_account = m_accountManager->onlineAccounts()->accounts().first();
 
     // Get it ready.
     Tp::Features features;
