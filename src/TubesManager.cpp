@@ -33,13 +33,11 @@ static inline Tp::ChannelClassList channelClassList()
 
 TubesManager::TubesManager(QObject *parent)
   : QObject(parent),
-    AbstractClientHandler(channelClassList(), true)
+    AbstractClientHandler(m_channelClassSpecList,m_capabilities,true)
 {
     kDebug();
-
-  //  Tp::enableDebug(true);
+    Tp::enableDebug(true);
     Tp::enableWarnings(true);
-
 }
 
 TubesManager::~TubesManager()

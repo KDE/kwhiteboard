@@ -6,6 +6,7 @@
 
 #include <TelepathyQt/AbstractClientHandler>
 #include <TelepathyQt/ChannelRequest>
+#include <TelepathyQt/ChannelClassSpecList>
 
 class IncomingTube;
 class OutgoingTube;
@@ -39,6 +40,7 @@ public Q_SLOTS:
 Q_SIGNALS:
     void newIncomingTube(QTcpSocket *socket, const QString &jabberId);
     void newOutgoingTube(QTcpSocket *socket, const QString &jabberId);
+    void gotTubeDBusConnection(Tp::ConnectionPtr connectionPtr);
     void gotTubeDBusConnection(const QDBusConnection &conn);
     void gotTubeChannel(Tp::ChannelPtr channel);
 
@@ -52,8 +54,9 @@ private:
     Tp::IncomingDBusTubeChannelPtr m_incomingGroupDBusChannel;
     Tp::OutgoingDBusTubeChannelPtr m_outgoingGroupDBusChannel;
     Tp::ChannelPtr m_groupDBusChannel;
+    Tp::AbstractClientHandler::Capabilities m_capabilities;
+    Tp::ChannelClassSpecList m_channelClassSpecList;
 };
 
 
 #endif // Header guard
-
