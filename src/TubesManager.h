@@ -26,7 +26,7 @@ public:
                                 const QList<Tp::ChannelPtr> &channels,
                                 const QList<Tp::ChannelRequestPtr> &requestsSatisfied,
                                 const QDateTime &userActionTime,
-                                const QVariantMap &handlerInfo);
+                                const HandlerInfo &handlerInfo);
     virtual void addRequest(const Tp::ChannelRequestPtr &request);
     virtual void removeRequest(const Tp::ChannelRequestPtr &request, const QString &errorName, const QString &errorMessage);
 

@@ -72,7 +72,7 @@ void TubesManager::handleChannels(const Tp::MethodInvocationContextPtr<> & conte
                                   const QList<Tp::ChannelPtr> & channels,
                                   const QList<Tp::ChannelRequestPtr> & requestsSatisfied,
                                   const QDateTime & userActionTime,
-                                  const QVariantMap & handlerInfo)
+                                  const HandlerInfo & handlerInfo)
 {
     kDebug();
 
