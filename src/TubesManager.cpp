@@ -99,8 +99,8 @@ void TubesManager::handleChannels(const Tp::MethodInvocationContextPtr<> & conte
              // m_outgoingGroupDBusChannel = Tp::OutgoingDBusTubeChannel::create(channel->connection(), channel->objectPath(), channel->immutableProperties());
              m_outgoingGroupDBusChannel = Tp::OutgoingDBusTubeChannelPtr::dynamicCast(channel);
               Tp::Features oFeatures;
-              oFeatures << Tp::Channel::FeatureCore << Tp::OutgoingDBusTubeChannel::FeatureDBusTube
-                        << Tp::TubeChannel::FeatureTube << Tp::OutgoingDBusTubeChannel::FeatureBusNamesMonitoring;
+              oFeatures << Tp::Channel::FeatureCore << Tp::OutgoingDBusTubeChannel::FeatureCore << Tp::DBusTubeChannel::FeatureCore
+                        << Tp::TubeChannel::FeatureCore << Tp::Channel::FeatureConferenceInitialInviteeContacts << Tp::DBusTubeChannel::FeatureBusNameMonitoring;
               connect(m_outgoingGroupDBusChannel->becomeReady(oFeatures),
                       SIGNAL(finished(Tp::PendingOperation*)),
                       SLOT(onOutgoingTubeReady(Tp::PendingOperation*)));
@@ -118,8 +118,8 @@ void TubesManager::handleChannels(const Tp::MethodInvocationContextPtr<> & conte
                 //m_incomingGroupDBusChannel = Tp::IncomingDBusTubeChannel::create(channel->connection(), channel->objectPath(), channel->immutableProperties());
                 m_incomingGroupDBusChannel = Tp::IncomingDBusTubeChannelPtr::dynamicCast(channel);
                 Tp::Features iFeatures;
-                iFeatures << Tp::Channel::FeatureCore << Tp::IncomingDBusTubeChannel::FeatureDBusTube
-                          << Tp::TubeChannel::FeatureTube << Tp::IncomingDBusTubeChannel::FeatureBusNamesMonitoring;
+                iFeatures << Tp::Channel::FeatureCore << Tp::IncomingDBusTubeChannel::FeatureCore << Tp::DBusTubeChannel::FeatureCore
+                          << Tp::TubeChannel::FeatureCore << Tp::Channel::FeatureConferenceInitialInviteeContacts << Tp::DBusTubeChannel::FeatureBusNameMonitoring;
                 connect(m_incomingGroupDBusChannel->becomeReady(iFeatures),
                         SIGNAL(finished(Tp::PendingOperation*)),
                         SLOT(onIncomingTubeReady(Tp::PendingOperation*)));
