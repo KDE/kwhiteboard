@@ -14,6 +14,7 @@
 #include <TelepathyQt/OutgoingDBusTubeChannel>
 #include <TelepathyQt/PendingReady>
 #include <TelepathyQt/SharedPtr>
+#include <TelepathyQt/PendingDBusTubeConnection>
 
 #include <KDebug>
 
@@ -138,15 +139,18 @@ void TubesManager::handleChannels(const Tp::MethodInvocationContextPtr<> & conte
 void TubesManager::onOutgoingTubeReady(Tp::PendingOperation* op)
 {
     kDebug();
-
-    connect(m_outgoingGroupDBusChannel->offerTube(QVariantMap()), SIGNAL(finished(Tp::PendingOperation*)), SLOT(onOfferTubeFinished(Tp::PendingOperation*)));
+    connect(m_outgoingGroupDBusChannel->offerTube(QVariantMap()),
+            SIGNAL(finished(Tp::PendingOperation*)),
+            SLOT(onOfferTubeFinished(Tp::PendingOperation*)));
 }
 
 void TubesManager::onIncomingTubeReady(Tp::PendingOperation* op)
 {
     kDebug();
 
-    connect(m_incomingGroupDBusChannel->acceptTube(), SIGNAL(finished(Tp::PendingOperation*)), SLOT(onAcceptTubeFinished(Tp::PendingOperation*)));
+    connect(m_incomingGroupDBusChannel->acceptTube(),
+            SIGNAL(finished(Tp::PendingOperation*)),
+            SLOT(onAcceptTubeFinished(Tp::PendingOperation*)));
 }
 
 void TubesManager::onOfferTubeFinished(Tp::PendingOperation* op)
