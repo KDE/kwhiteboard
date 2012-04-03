@@ -17,13 +17,13 @@ kde4_add_executable (kwhiteboard
 qt4_generate_dbus_interface(org.kde.KWhiteBoard.xml)
 
 target_link_libraries(kwhiteboard
-  ${QT_QTCORE_LIBRARY}
-    ${QT_QTGUI_LIBRARY}
-  ${QT_QTDBUS_LIBRARY}
-  ${KDE4_KDECORE_LIBS}
-    ${KDE4_KDEUI_LIBS}
-  ${TELEPATHY_QT4_LIBRARIES}
-  ${QT_QTNETWORK_LIBRARY}
+                      ${QT_QTCORE_LIBRARY}
+                      ${QT_QTGUI_LIBRARY}
+                      ${QT_QTDBUS_LIBRARY}
+                      ${KDE4_KDECORE_LIBS}
+                      ${KDE4_KDEUI_LIBS}
+                      ${TELEPATHY_QT4_LIBRARIES}
+                      ${QT_QTNETWORK_LIBRARY}
 )
 
 configure_file(org.freedesktop.Telepathy.Client.kwhiteboard.service.in

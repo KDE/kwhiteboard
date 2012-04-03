@@ -13,13 +13,13 @@ class TubesManager;
 class TelepathyChannelManager : public QObject
 {
     Q_OBJECT
-    
+
 public:
     TelepathyChannelManager(QObject *parent = 0);
     ~TelepathyChannelManager();
-    
+
     void initialize();
-    
+
     /**
      * Call this method with when you want to start a channel to
      * someone, with their Jabber ID as the jabberID parameter.
@@ -29,7 +29,7 @@ public:
      * the newOutgoingChannel() signal will be emitted.
      */
     void startChannel(const QString &jabberId);
-    
+
 Q_SIGNALS:
     /**
      * Once a channel you have requested is ready to use, this
@@ -38,7 +38,7 @@ Q_SIGNALS:
      * channel to.
      */
     void newOutgoingChannel(QTcpSocket *socket, const QString &jabberId);
-    
+
     /**
      * When someone else requests a channel to you, this signal is emitted
      * with a QTcpSocket which you can read from/write to, and their
@@ -49,7 +49,7 @@ Q_SIGNALS:
     void gotTubeDBusConnection(const QDBusConnection &conn);
 
     void gotTubeChannel(Tp::ChannelPtr channel);
-    
+
 private:
     Tp::ClientRegistrarPtr m_registrar;
     Tp::SharedPtr<TubesManager> m_tubesManager;

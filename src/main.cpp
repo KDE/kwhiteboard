@@ -59,14 +59,13 @@ int main(int argc, char *argv[])
 
     KCmdLineOptions options;
     options.add("initiate", ki18n("initiate"), "1");
-    
+
     KCmdLineArgs::addCmdLineOptions(options);
-    
+
     KApplication app;
 
     KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
-    
-    
+
     // Initialise Telepathy.
     Tp::registerTypes();
 
@@ -84,11 +83,10 @@ int main(int argc, char *argv[])
 
     // Set up the main widget
     //MainWidget *mainWidget = new MainWidget;
-    
 
     //QObject::connect(mainWidget, SIGNAL(destroyed()),
       //      &app, SLOT(quit()));
-    
+
     KWhiteBoard *mainWindow = new KWhiteBoard();
     mainWindow->show();
 
@@ -99,14 +97,13 @@ int main(int argc, char *argv[])
                             tubeLauncher, SLOT(onGotTubeChannel(Tp::ChannelPtr)));
 
         QTimer::singleShot(10000, tubeLauncher, SLOT(onStartWhiteBoardSessionClicked()));
-        
 
     }
     QObject::connect(tpChannelManager, SIGNAL(gotTubeDBusConnection(QDBusConnection)),
                      mainWindow, SLOT(onGotTubeDBusConnection(QDBusConnection)));
 
     kDebug() << "Let's go...";
-    
+
     // Start event loop.
     return app.exec();
 }

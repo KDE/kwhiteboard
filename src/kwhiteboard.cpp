@@ -34,10 +34,10 @@ KWhiteBoard::KWhiteBoard()
 void KWhiteBoard::onGotTubeDBusConnection(const QDBusConnection& conn)
 {
     kDebug();
-    
+
     m_whiteBoardWidget = new KWhiteBoardWidget(this, conn);
     setCentralWidget(m_whiteBoardWidget);
-    
+
     setupGUI();
 }
 

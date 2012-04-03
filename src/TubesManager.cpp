@@ -47,7 +47,7 @@ TubesManager::~TubesManager()
 bool TubesManager::bypassApproval() const
 {
     kDebug();
- 
+
     return false;
 }
 
@@ -167,6 +167,4 @@ void TubesManager::onAcceptTubeFinished(Tp::PendingOperation* op)
 }
 
 
-
 #include "TubesManager.moc"
-
