@@ -1,6 +1,6 @@
 #include "TubesManager.h"
 
-#include "TelepathyHelpers.h"
+// #include "TelepathyHelpers.h"
 
 #include <TelepathyQt/Channel>
 #include <TelepathyQt/Connection>
