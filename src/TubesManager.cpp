@@ -1,7 +1,5 @@
 #include "TubesManager.h"
 
-#include "IncomingTube.h"
-#include "OutgoingTube.h"
 #include "TelepathyHelpers.h"
 
 #include <TelepathyQt/Channel>
