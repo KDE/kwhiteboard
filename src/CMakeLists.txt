@@ -2,7 +2,6 @@ set(kwhiteboard_SRCS
     main.cpp
     kwhiteboard.cpp
     kwhiteboardwidget.cpp
-    TelepathyChannelManager.cpp
     TubesManager.cpp
 )
 

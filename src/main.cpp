@@ -19,14 +19,16 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-#include "TelepathyChannelManager.h"
+// #include "TelepathyChannelManager.h"
 #include "kwhiteboard.h"
+#include "TubesManager.h"
 
 #include <KAboutData>
 #include <KCmdLineArgs>
 #include <KDebug>
 
 #include <TelepathyQt/Debug>
+#include <TelepathyQt/ClientRegistrar>
 
 #include <KTp/telepathy-handler-application.h>
 
@@ -40,13 +42,17 @@ int main(int argc, char *argv[])
 
     KTp::TelepathyHandlerApplication app;
 
-    TelepathyChannelManager *tpChannelManager = new TelepathyChannelManager;
-    tpChannelManager->initialize();
+    Tp::SharedPtr<TubesManager> tubesManager(new TubesManager());
+
+    // Set up the Telepathy Client Registrar.
+    // TODO use Tp-Qt factories
+    Tp::ClientRegistrarPtr registrar = Tp::ClientRegistrar::create();
+    registrar->registerClient(Tp::AbstractClientPtr::dynamicCast(tubesManager), "KTp.KWhiteboard");
 
     KWhiteBoard *mainWindow = new KWhiteBoard();
     mainWindow->show();
 
-    QObject::connect(tpChannelManager, SIGNAL(gotTubeDBusConnection(QDBusConnection)),
+    QObject::connect(tubesManager.data(), SIGNAL(gotTubeDBusConnection(QDBusConnection)),
                      mainWindow, SLOT(onGotTubeDBusConnection(QDBusConnection)));
 
     kDebug() << "Let's go...";
