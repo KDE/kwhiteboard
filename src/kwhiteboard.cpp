@@ -25,10 +25,8 @@
 
 KWhiteboard::KWhiteboard()
 {
-    //KAction *action = new KAction(i18n("Connect"), actionCollection());
-    //actionCollection()->addAction("test_action", action);
     kDebug();
-
+    setWindowIcon(KIcon(QLatin1String("applications-education")));
 }
 
 void KWhiteboard::onGotTubeDBusConnection(const QDBusConnection& conn)
