@@ -34,8 +34,6 @@ int main(int argc, char *argv[])
     aboutData.addAuthor(ki18n("Daniele E. Domenichelli"), ki18n("Author"), "daniele.domenichelli@gmail.com");
 
     KCmdLineArgs::init(argc, argv, &aboutData);
-
-    KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
     KApplication app;
 
     MainWindow *w = new MainWindow();
