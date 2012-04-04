@@ -29,14 +29,16 @@ static const char* s_dbusInterface = "org.kde.KWhiteboard";
 KWhiteboardWidget::KWhiteboardWidget(QWidget* parent, const QDBusConnection &conn)
     : QWidget(parent)
 {
-    QDBusConnection dbus = conn;
-    if (!dbus.registerObject(QString::fromLatin1(s_objectPath), this, QDBusConnection::ExportAllSignals | QDBusConnection::ExportAllSlots)) {
-        kWarning() << "Could not register object to D-BUS!";
+    QDBusConnection connection = conn;
+    if (!connection.registerObject(QString::fromLatin1(s_objectPath), this, QDBusConnection::ExportAllSignals | QDBusConnection::ExportAllSlots)) {
+        kWarning() << parent << "Could not register object on DBus connection" << connection.name();
         qApp->exit(1);
+    } else {
+        kDebug() << parent << "Object registered on DBus connection" << connection.name();
     }
 
     // No service specified so that we connect to the signal from *all* of this object on the bus.
-    dbus.connect(QString(), s_objectPath, s_dbusInterface, "sigDrawLine", this, SLOT(drawLine(int, int, int, int)));
+    connection.connect(QString(), s_objectPath, s_dbusInterface, "sigDrawLine", this, SLOT(drawLine(int, int, int, int)));
     connect(this, SIGNAL(sigDrawLine(int, int, int, int)), this, SLOT(drawLine(int, int, int, int)));
 }
 
