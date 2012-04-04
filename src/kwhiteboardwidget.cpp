@@ -78,7 +78,8 @@ void KWhiteboardWidget::mousePressEvent(QMouseEvent *event)
 
 void KWhiteboardWidget::mouseMoveEvent(QMouseEvent *event)
 {
-    emit sigDrawLine(m_startPoint.x(), m_startPoint.y(), event->x(), event->y());
+    // Emit the signal both "locally" and in the DBus tube
+    Q_EMIT sigDrawLine(m_startPoint.x(), m_startPoint.y(), event->x(), event->y());
     m_startPoint = event->pos();
 }
 
