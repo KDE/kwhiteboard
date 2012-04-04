@@ -23,27 +23,19 @@
 #include <QMouseEvent>
 #include <QDBusConnection>
 
-static const char* s_objectPath = "/example2";
+static const char* s_objectPath = "/kwhiteboard";
 static const char* s_dbusInterface = "org.kde.KWhiteboard";
 
 KWhiteboardWidget::KWhiteboardWidget(QWidget* parent, const QDBusConnection &conn)
     : QWidget(parent)
 {
-   // n7ew KWhiteboardIface(this); // our "adaptor"
-
     QDBusConnection dbus = conn;
-    //dbus.registerService("org.kde.KWhiteboard2");
     if (!dbus.registerObject(QString::fromLatin1(s_objectPath), this, QDBusConnection::ExportAllSignals | QDBusConnection::ExportAllSlots)) {
         kWarning() << "Could not register object to D-BUS!";
         qApp->exit(1);
     }
-    /*sleep(1);
-    if (dbus.objectRegisteredAt(QString::fromLatin1(s_objectPath)) != this) {
-        kDebug() << "Checked its registered";
-    }*/
 
     // No service specified so that we connect to the signal from *all* of this object on the bus.
-    //dbus.connect(QString(), "/example", s_dbusInterface, "sigDrawLine", this, SLOT(drawLine(int, int, int, int)));
     dbus.connect(QString(), s_objectPath, s_dbusInterface, "sigDrawLine", this, SLOT(drawLine(int, int, int, int)));
     connect(this, SIGNAL(sigDrawLine(int, int, int, int)), this, SLOT(drawLine(int, int, int, int)));
 }
