@@ -128,12 +128,7 @@ void KWhiteboardHandler::handleChannels(const Tp::MethodInvocationContextPtr<> &
                         SLOT(onIncomingTubeReady(Tp::PendingOperation*)));
                 kDebug() << "Emitting in";
             }
-
-            m_groupDBusChannel = channel;
-
         }
-
-        m_groupTextChannel = channel;
     }
     kDebug() << "Context finished";
 
@@ -168,7 +163,6 @@ void KWhiteboardHandler::onOfferTubeFinished(Tp::PendingOperation* op)
     kDebug();
 
     Q_EMIT gotTubeDBusConnection(m_outgoingGroupDBusChannel->connection());
-    Q_EMIT gotTubeChannel(m_groupDBusChannel);
 }
 
 void KWhiteboardHandler::onAcceptTubeFinished(Tp::PendingOperation* op)

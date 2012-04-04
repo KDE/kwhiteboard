@@ -24,12 +24,10 @@
 #include <QtCore/QList>
 
 #include <TelepathyQt/AbstractClientHandler>
-#include <TelepathyQt/ChannelRequest>
-#include <TelepathyQt/ChannelClassSpecList>
 
-class IncomingTube;
-class OutgoingTube;
-class QTcpSocket;
+namespace Tp {
+    class PendingOperation;
+}
 
 class KWhiteboardHandler : public QObject, public Tp::AbstractClientHandler
 {
@@ -55,22 +53,12 @@ public Q_SLOTS:
     void onAcceptTubeFinished(Tp::PendingOperation *op);
 
 Q_SIGNALS:
-    void newIncomingTube(QTcpSocket *socket, const QString &jabberId);
-    void newOutgoingTube(QTcpSocket *socket, const QString &jabberId);
-    void gotTubeDBusConnection(Tp::ConnectionPtr connectionPtr);
     void gotTubeDBusConnection(const QDBusConnection &conn);
     void gotTubeChannel(Tp::ChannelPtr channel);
 
 private:
-    QList<IncomingTube*> m_incomingTubes;
-    QList<OutgoingTube*> m_outgoingTubes;
-
-    Tp::ChannelRequestPtr m_channelRequest;
-
-    Tp::ChannelPtr m_groupTextChannel;
     Tp::IncomingDBusTubeChannelPtr m_incomingGroupDBusChannel;
     Tp::OutgoingDBusTubeChannelPtr m_outgoingGroupDBusChannel;
-    Tp::ChannelPtr m_groupDBusChannel;
 };
 
 
