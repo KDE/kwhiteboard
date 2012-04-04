@@ -5,11 +5,11 @@
 
 class QTcpSocket;
 
-class WhiteboardWidget : public QWidget
+class BlackboardWidget : public QWidget
 {
     Q_OBJECT
 public:
-    explicit WhiteboardWidget(QWidget *parent = 0);
+    explicit BlackboardWidget(QWidget *parent = 0);
     void setSocket(QTcpSocket* socket);
 
 protected:

@@ -12,18 +12,18 @@
 class QTcpServer;
 class QTcpSocket;
 
-class WhiteboardWidget;
+class BlackboardWidget;
 
 namespace Tp{
     class PendingOperation;
 };
 
-class TelepathyWhiteboard: public QObject, public Tp::AbstractClientHandler
+class TelepathyBlackboard: public QObject, public Tp::AbstractClientHandler
 {
     Q_OBJECT
 public:
-    TelepathyWhiteboard();
-    ~TelepathyWhiteboard();
+    TelepathyBlackboard();
+    ~TelepathyBlackboard();
 
     virtual void handleChannels(const Tp::MethodInvocationContextPtr<> &context,
                                 const Tp::AccountPtr &account,
@@ -43,7 +43,7 @@ private slots:
 
 private:
     QTcpServer *m_server;
-    WhiteboardWidget *m_whiteboardWidget;
+    BlackboardWidget *m_whiteboardWidget;
 };
 
 #endif

@@ -1,4 +1,4 @@
-#include "telepathywhiteboard.h"
+#include "telepathyblackboard.h"
 
 // Qt headers
 #include <QtGui/QWidget>
@@ -15,10 +15,10 @@
 #include <TelepathyQt/OutgoingStreamTubeChannel>
 
 
-#include "whiteboardwidget.h"
+#include "blackboardwidget.h"
 
 
-TelepathyWhiteboard::TelepathyWhiteboard()
+TelepathyBlackboard::TelepathyBlackboard()
     : QObject(),
       Tp::AbstractClientHandler(Tp::ChannelClassSpecList() << Tp::ChannelClassSpec::incomingStreamTube("kwhiteboard")
                                                            << Tp::ChannelClassSpec::outgoingStreamTube("kwhiteboard")),
@@ -27,15 +27,15 @@ TelepathyWhiteboard::TelepathyWhiteboard()
     qDebug() << "waiting for connections";
 }
 
-TelepathyWhiteboard::~TelepathyWhiteboard()
+TelepathyBlackboard::~TelepathyBlackboard()
 {
 }
 
-void TelepathyWhiteboard::onNewConnectionAvaiable()
+void TelepathyBlackboard::onNewConnectionAvaiable()
 {
     QTcpSocket* socket = m_server->nextPendingConnection();
     if (socket) {
-        m_whiteboardWidget = new WhiteboardWidget();
+        m_whiteboardWidget = new BlackboardWidget();
         m_whiteboardWidget->setSocket(socket);
         m_whiteboardWidget->show();
     }
@@ -43,12 +43,12 @@ void TelepathyWhiteboard::onNewConnectionAvaiable()
 
 
 
-bool TelepathyWhiteboard::bypassApproval() const
+bool TelepathyBlackboard::bypassApproval() const
 {
     return true;
 }
 
-void TelepathyWhiteboard::handleChannels(const Tp::MethodInvocationContextPtr<> &context, const Tp::AccountPtr &account, const Tp::ConnectionPtr &connection, const QList<Tp::ChannelPtr> &channels, const QList<Tp::ChannelRequestPtr> &requestsSatisfied, const QDateTime &userActionTime, const Tp::AbstractClientHandler::HandlerInfo &handlerInfo)
+void TelepathyBlackboard::handleChannels(const Tp::MethodInvocationContextPtr<> &context, const Tp::AccountPtr &account, const Tp::ConnectionPtr &connection, const QList<Tp::ChannelPtr> &channels, const QList<Tp::ChannelRequestPtr> &requestsSatisfied, const QDateTime &userActionTime, const Tp::AbstractClientHandler::HandlerInfo &handlerInfo)
 {
     Q_UNUSED(account);
     Q_UNUSED(connection);
@@ -75,7 +75,7 @@ void TelepathyWhiteboard::handleChannels(const Tp::MethodInvocationContextPtr<> 
     context->setFinished();
 }
 
-void TelepathyWhiteboard::onPendingIncomingConnectionReady(Tp::PendingOperation *op)
+void TelepathyBlackboard::onPendingIncomingConnectionReady(Tp::PendingOperation *op)
 {
     Tp::PendingStreamTubeConnection *pendingConnection = qobject_cast<Tp::PendingStreamTubeConnection*>(op);
     Q_ASSERT(pendingConnection);
@@ -86,11 +86,11 @@ void TelepathyWhiteboard::onPendingIncomingConnectionReady(Tp::PendingOperation 
     QTcpSocket* socket = new QTcpSocket(this);
     socket->connectToHost(pendingConnection->ipAddress().first, pendingConnection->ipAddress().second);
 
-    m_whiteboardWidget = new WhiteboardWidget();
+    m_whiteboardWidget = new BlackboardWidget();
     m_whiteboardWidget->setSocket(socket);
     m_whiteboardWidget->show();
 }
 
 
-#include "moc_telepathywhiteboard.cpp"
+#include "moc_telepathyblackboard.cpp"
 

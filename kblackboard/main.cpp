@@ -4,7 +4,7 @@
 #include <KAboutData>
 #include <KLocale>
 
-#include "telepathywhiteboard.h"
+#include "telepathyblackboard.h"
 
 #include <TelepathyQt/AccountFactory>
 #include <TelepathyQt/ClientRegistrar>
@@ -55,8 +55,8 @@ int main(int argc, char *argv[])
                                                                    channelFactory,
                                                                    contactFactory);
 
-    Tp::SharedPtr<TelepathyWhiteboard> handler = Tp::SharedPtr<TelepathyWhiteboard>(
-                new TelepathyWhiteboard());
+    Tp::SharedPtr<TelepathyBlackboard> handler = Tp::SharedPtr<TelepathyBlackboard>(
+                new TelepathyBlackboard());
     registrar->registerClient(Tp::AbstractClientPtr(handler),
                               QLatin1String("KDE.Whiteboard"));
 

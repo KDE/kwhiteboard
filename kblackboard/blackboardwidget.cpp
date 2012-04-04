@@ -1,24 +1,24 @@
-#include "whiteboardwidget.h"
+#include "blackboardwidget.h"
 
 #include <QTcpSocket>
 #include <QMouseEvent>
 #include <QPainter>
 
 
-WhiteboardWidget::WhiteboardWidget(QWidget *parent) :
+BlackboardWidget::BlackboardWidget(QWidget *parent) :
     QWidget(parent),
     m_socket(0)
 {
 }
 
-void WhiteboardWidget::setSocket(QTcpSocket *socket)
+void BlackboardWidget::setSocket(QTcpSocket *socket)
 {
     m_socket = socket;
     connect(m_socket, SIGNAL(readyRead()), SLOT(onDataAvailable()));
     qDebug() << "connected";
 }
 
-void WhiteboardWidget::onDataAvailable()
+void BlackboardWidget::onDataAvailable()
 {
     QPoint start, end;
 
@@ -29,20 +29,20 @@ void WhiteboardWidget::onDataAvailable()
     }
 }
 
-void WhiteboardWidget::paintEvent(QPaintEvent *)
+void BlackboardWidget::paintEvent(QPaintEvent *)
 {
     QPainter painter(this);
 
     painter.drawPixmap(0, 0, m_pixmap);
 }
 
-void WhiteboardWidget::mousePressEvent(QMouseEvent *e)
+void BlackboardWidget::mousePressEvent(QMouseEvent *e)
 {
     m_startPoint = e->pos();
 }
 
 
-void WhiteboardWidget::mouseMoveEvent(QMouseEvent *e)
+void BlackboardWidget::mouseMoveEvent(QMouseEvent *e)
 {
     QPoint endPoint = e->pos();
 
@@ -58,7 +58,7 @@ void WhiteboardWidget::mouseMoveEvent(QMouseEvent *e)
     m_startPoint = e->pos();
 }
 
-void WhiteboardWidget::drawLine(const QPoint &start, const QPoint &end)
+void BlackboardWidget::drawLine(const QPoint &start, const QPoint &end)
 {
     QPainter painter(&m_pixmap);
     QPen pen = painter.pen();
@@ -70,7 +70,7 @@ void WhiteboardWidget::drawLine(const QPoint &start, const QPoint &end)
     update();
 }
 
-void WhiteboardWidget::resizeEvent(QResizeEvent *)
+void BlackboardWidget::resizeEvent(QResizeEvent *)
 {
     // Never shrink the buffer pixmap, to avoid losing data.
     //(not that that matters...it all gets whited out anyway.)
