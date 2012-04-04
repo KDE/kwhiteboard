@@ -24,6 +24,7 @@ target_link_libraries(kwhiteboard
                       ${KDE4_KDEUI_LIBS}
                       ${TELEPATHY_QT4_LIBRARIES}
                       ${QT_QTNETWORK_LIBRARY}
+                      ${KTP_LIBRARIES}
 )
 
 configure_file(org.freedesktop.Telepathy.Client.KTp.KWhiteboard.service.in
