@@ -71,6 +71,12 @@ void KWhiteboardHandler::handleChannels(const Tp::MethodInvocationContextPtr<> &
                                   const QDateTime & userActionTime,
                                   const HandlerInfo & handlerInfo)
 {
+    Q_UNUSED(account);
+    Q_UNUSED(connection);
+    Q_UNUSED(requestsSatisfied);
+    Q_UNUSED(userActionTime);
+    Q_UNUSED(handlerInfo);
+
     kDebug();
 
     Q_FOREACH (const Tp::ChannelPtr &channel, channels) {
@@ -136,6 +142,8 @@ void KWhiteboardHandler::handleChannels(const Tp::MethodInvocationContextPtr<> &
 
 void KWhiteboardHandler::onOutgoingTubeReady(Tp::PendingOperation* op)
 {
+    Q_UNUSED(op);
+
     kDebug();
     connect(m_outgoingGroupDBusChannel->offerTube(QVariantMap()),
             SIGNAL(finished(Tp::PendingOperation*)),
@@ -144,6 +152,8 @@ void KWhiteboardHandler::onOutgoingTubeReady(Tp::PendingOperation* op)
 
 void KWhiteboardHandler::onIncomingTubeReady(Tp::PendingOperation* op)
 {
+    Q_UNUSED(op);
+
     kDebug();
 
     connect(m_incomingGroupDBusChannel->acceptTube(),
@@ -153,6 +163,8 @@ void KWhiteboardHandler::onIncomingTubeReady(Tp::PendingOperation* op)
 
 void KWhiteboardHandler::onOfferTubeFinished(Tp::PendingOperation* op)
 {
+    Q_UNUSED(op);
+
     kDebug();
 
     Q_EMIT gotTubeDBusConnection(m_outgoingGroupDBusChannel->connection());
@@ -161,6 +173,8 @@ void KWhiteboardHandler::onOfferTubeFinished(Tp::PendingOperation* op)
 
 void KWhiteboardHandler::onAcceptTubeFinished(Tp::PendingOperation* op)
 {
+    Q_UNUSED(op);
+
     kDebug();
 
     Q_EMIT gotTubeDBusConnection(m_incomingGroupDBusChannel->connection());
