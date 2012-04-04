@@ -54,8 +54,6 @@ private:
     Tp::IncomingDBusTubeChannelPtr m_incomingGroupDBusChannel;
     Tp::OutgoingDBusTubeChannelPtr m_outgoingGroupDBusChannel;
     Tp::ChannelPtr m_groupDBusChannel;
-    Tp::AbstractClientHandler::Capabilities m_capabilities;
-    Tp::ChannelClassSpecList m_channelClassSpecList;
 };
 
 

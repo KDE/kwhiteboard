@@ -13,26 +13,23 @@
 #include <TelepathyQt/PendingReady>
 #include <TelepathyQt/SharedPtr>
 #include <TelepathyQt/PendingDBusTubeConnection>
+#include <TelepathyQt/ChannelClassSpec>
 
 #include <KDebug>
 
-static inline Tp::ChannelClassList channelClassList()
+#define KWHITEBOARD_SERVICE_NAME QLatin1String("org.kde.KWhiteBoard")
+
+static inline Tp::ChannelClassSpecList channelClassSpecList()
 {
-    QMap<QString, QDBusVariant> filter;
-    filter.insert(TP_QT_IFACE_CHANNEL + QLatin1String(".ChannelType"),
-                 QDBusVariant(TP_QT_IFACE_CHANNEL_TYPE_DBUS_TUBE) );
-//    filter[TELEPATHY_INTERFACE_CHANNEL_TYPE_DBUS_TUBE ".ServiceName"] = QDBusVariant("org.kde.KWhiteBoard");
-
-    QMap<QString, QDBusVariant> filter2;
-    filter.insert(TP_QT_IFACE_CHANNEL + QLatin1String(".ChannelType"),
-                 QDBusVariant(TP_QT_IFACE_CHANNEL_TYPE_TEXT) );
-
-    return Tp::ChannelClassList() << Tp::ChannelClass(filter) << Tp::ChannelClass(filter2);
+    return (Tp::ChannelClassSpecList() << Tp::ChannelClassSpec::incomingDBusTube(KWHITEBOARD_SERVICE_NAME)
+                                       << Tp::ChannelClassSpec::outgoingDBusTube(KWHITEBOARD_SERVICE_NAME)
+                                       << Tp::ChannelClassSpec::incomingRoomDBusTube(KWHITEBOARD_SERVICE_NAME)
+                                       << Tp::ChannelClassSpec::outgoingRoomDBusTube(KWHITEBOARD_SERVICE_NAME));
 }
 
 TubesManager::TubesManager(QObject *parent)
   : QObject(parent),
-    AbstractClientHandler(m_channelClassSpecList,m_capabilities,true)
+    AbstractClientHandler(channelClassSpecList(), Capabilities(), true)
 {
     kDebug();
     Tp::enableDebug(true);
