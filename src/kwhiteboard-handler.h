@@ -47,8 +47,6 @@ public:
                                 const QList<Tp::ChannelRequestPtr> &requestsSatisfied,
                                 const QDateTime &userActionTime,
                                 const HandlerInfo &handlerInfo);
-    virtual void addRequest(const Tp::ChannelRequestPtr &request);
-    virtual void removeRequest(const Tp::ChannelRequestPtr &request, const QString &errorName, const QString &errorMessage);
 
 public Q_SLOTS:
     void onOutgoingTubeReady(Tp::PendingOperation *op);

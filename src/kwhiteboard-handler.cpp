@@ -63,18 +63,6 @@ bool KWhiteboardHandler::bypassApproval() const
     return false;
 }
 
-void KWhiteboardHandler::addRequest(const Tp::ChannelRequestPtr& request)
-{
-    kDebug();
-    m_channelRequest = request;
-}
-
-void KWhiteboardHandler::removeRequest(const Tp::ChannelRequestPtr& request, const QString& errorName, const QString& errorMessage)
-{
-    kDebug();
-}
-
-
 void KWhiteboardHandler::handleChannels(const Tp::MethodInvocationContextPtr<> & context,
                                   const Tp::AccountPtr & account,
                                   const Tp::ConnectionPtr & connection,
