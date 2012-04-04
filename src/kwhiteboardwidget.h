@@ -44,6 +44,7 @@ protected:
     virtual void mouseMoveEvent(QMouseEvent *);
 
 private:
+    QDBusConnection m_connection;
     QPixmap m_pixmap;
     QPoint m_startPoint;
 };
