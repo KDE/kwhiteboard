@@ -23,7 +23,7 @@
 #include <KDebug>
 #include "kwhiteboardwidget.h"
 
-KWhiteBoard::KWhiteBoard()
+KWhiteboard::KWhiteboard()
 {
     //KAction *action = new KAction(i18n("Connect"), actionCollection());
     //actionCollection()->addAction("test_action", action);
@@ -31,12 +31,12 @@ KWhiteBoard::KWhiteBoard()
 
 }
 
-void KWhiteBoard::onGotTubeDBusConnection(const QDBusConnection& conn)
+void KWhiteboard::onGotTubeDBusConnection(const QDBusConnection& conn)
 {
     kDebug();
 
-    m_whiteBoardWidget = new KWhiteBoardWidget(this, conn);
-    setCentralWidget(m_whiteBoardWidget);
+    m_whiteboardWidget = new KWhiteboardWidget(this, conn);
+    setCentralWidget(m_whiteboardWidget);
 
     setupGUI();
 }

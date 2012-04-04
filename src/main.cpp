@@ -46,7 +46,7 @@ int main(int argc, char *argv[])
     // TODO use Tp-Qt factories
     Tp::ClientRegistrarPtr registrar = Tp::ClientRegistrar::create();
     if (!registrar->registerClient(Tp::AbstractClientPtr(kwhiteboardHandler), "KTp.KWhiteboard")) {
-        kDebug() << "KWhiteBoard already running. Exiting";
+        kDebug() << "KWhiteboard already running. Exiting";
         return 1;
     }
 

@@ -130,7 +130,7 @@ void MainWindow::onDialogAccepted()
     if (ui->kwhiteboardRadioButton->isChecked()) {
         // start dbustube
         channelRequest = account->createDBusTube(contact,
-                                                 QLatin1String("org.kde.KWhiteBoard"),
+                                                 QLatin1String("org.kde.KWhiteboard"),
                                                  QDateTime::currentDateTime(),
                                                  PREFERRED_KWHITEBOARD_HANDLER);
     } else {

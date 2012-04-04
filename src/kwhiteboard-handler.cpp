@@ -35,7 +35,7 @@
 
 #include <KDebug>
 
-#define KWHITEBOARD_SERVICE_NAME QLatin1String("org.kde.KWhiteBoard")
+#define KWHITEBOARD_SERVICE_NAME QLatin1String("org.kde.KWhiteboard")
 
 static inline Tp::ChannelClassSpecList channelClassSpecList()
 {
@@ -93,7 +93,7 @@ void KWhiteboardHandler::handleChannels(const Tp::MethodInvocationContextPtr<> &
             kDebug() << "It's a DBUS Tube...";
 
 
-            KWhiteBoard *mainWindow = new KWhiteBoard();
+            KWhiteboard *mainWindow = new KWhiteboard();
             mainWindow->show();
 
             connect(this, SIGNAL(gotTubeDBusConnection(QDBusConnection)),

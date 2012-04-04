@@ -24,15 +24,15 @@
 #include <QDBusConnection>
 
 static const char* s_objectPath = "/example2";
-static const char* s_dbusInterface = "org.kde.KWhiteBoard";
+static const char* s_dbusInterface = "org.kde.KWhiteboard";
 
-KWhiteBoardWidget::KWhiteBoardWidget(QWidget* parent, const QDBusConnection &conn)
+KWhiteboardWidget::KWhiteboardWidget(QWidget* parent, const QDBusConnection &conn)
     : QWidget(parent)
 {
-   // n7ew KWhiteBoardIface(this); // our "adaptor"
+   // n7ew KWhiteboardIface(this); // our "adaptor"
 
     QDBusConnection dbus = conn;
-    //dbus.registerService("org.kde.KWhiteBoard2");
+    //dbus.registerService("org.kde.KWhiteboard2");
     if (!dbus.registerObject(QString::fromLatin1(s_objectPath), this, QDBusConnection::ExportAllSignals | QDBusConnection::ExportAllSlots)) {
         kWarning() << "Could not register object to D-BUS!";
         qApp->exit(1);
@@ -48,14 +48,14 @@ KWhiteBoardWidget::KWhiteBoardWidget(QWidget* parent, const QDBusConnection &con
     connect(this, SIGNAL(sigDrawLine(int, int, int, int)), this, SLOT(drawLine(int, int, int, int)));
 }
 
-void KWhiteBoardWidget::drawLine(int x1, int y1, int x2, int y2)
+void KWhiteboardWidget::drawLine(int x1, int y1, int x2, int y2)
 {
     QPainter p(&m_pixmap);
     p.drawLine(x1, y1, x2, y2);
     update();
 }
 
-void KWhiteBoardWidget::resizeEvent(QResizeEvent *)
+void KWhiteboardWidget::resizeEvent(QResizeEvent *)
 {
     // Never shrink the buffer pixmap, to avoid losing data.
     QPixmap tmp(size().expandedTo(m_pixmap.size()));
@@ -66,18 +66,18 @@ void KWhiteBoardWidget::resizeEvent(QResizeEvent *)
     m_pixmap = tmp;
 }
 
-void KWhiteBoardWidget::paintEvent(QPaintEvent *)
+void KWhiteboardWidget::paintEvent(QPaintEvent *)
 {
     QPainter p(this);
     p.drawPixmap(0, 0, m_pixmap);
 }
 
-void KWhiteBoardWidget::mousePressEvent(QMouseEvent *event)
+void KWhiteboardWidget::mousePressEvent(QMouseEvent *event)
 {
     m_startPoint = event->pos();
 }
 
-void KWhiteBoardWidget::mouseMoveEvent(QMouseEvent *event)
+void KWhiteboardWidget::mouseMoveEvent(QMouseEvent *event)
 {
     emit sigDrawLine(m_startPoint.x(), m_startPoint.y(), event->x(), event->y());
     m_startPoint = event->pos();

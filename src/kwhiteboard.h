@@ -23,19 +23,19 @@
 
 #include <KXmlGuiWindow>
 
-class KWhiteBoardWidget;
+class KWhiteboardWidget;
 
-class KWhiteBoard: public KXmlGuiWindow
+class KWhiteboard: public KXmlGuiWindow
 {
     Q_OBJECT
 public:
-    KWhiteBoard();
+    KWhiteboard();
 
 public Q_SLOTS:
     void onGotTubeDBusConnection(const QDBusConnection &conn);
 
 private:
-    KWhiteBoardWidget* m_whiteBoardWidget;
+    KWhiteboardWidget* m_whiteboardWidget;
 };
 
 #endif

@@ -12,7 +12,7 @@ kde4_add_executable (kwhiteboard
                      ${kwhiteboard_SRCS}
 )
 
-qt4_generate_dbus_interface(org.kde.KWhiteBoard.xml)
+qt4_generate_dbus_interface(org.kde.KWhiteboard.xml)
 
 target_link_libraries(kwhiteboard
                       ${QT_QTCORE_LIBRARY}
