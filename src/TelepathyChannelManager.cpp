@@ -33,7 +33,7 @@ void TelepathyChannelManager::initialize()
 
     // Set up the Telepathy Client Registrar.
     m_registrar = Tp::ClientRegistrar::create();
-    m_registrar->registerClient(Tp::AbstractClientPtr::dynamicCast(m_tubesManager), "kwhiteboard");
+    m_registrar->registerClient(Tp::AbstractClientPtr::dynamicCast(m_tubesManager), "KTp.KWhiteboard");
 }
 
 void TelepathyChannelManager::startChannel(const QString &jabberId)

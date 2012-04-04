@@ -26,12 +26,12 @@ target_link_libraries(kwhiteboard
                       ${QT_QTNETWORK_LIBRARY}
 )
 
-configure_file(org.freedesktop.Telepathy.Client.kwhiteboard.service.in
-               org.freedesktop.Telepathy.Client.kwhiteboard.service)
-install(FILES ${CMAKE_BINARY_DIR}/src/org.freedesktop.Telepathy.Client.kwhiteboard.service
+configure_file(org.freedesktop.Telepathy.Client.KTp.KWhiteboard.service.in
+               org.freedesktop.Telepathy.Client.KTp.KWhiteboard.service)
+install(FILES ${CMAKE_BINARY_DIR}/src/org.freedesktop.Telepathy.Client.KTp.KWhiteboard.service
         DESTINATION ${DBUS_SERVICES_INSTALL_DIR})
 
-install(FILES kwhiteboard.client DESTINATION ${CMAKE_INSTALL_PREFIX}/share/telepathy/clients/)
+install(FILES KTp.KWhiteboard.client DESTINATION ${CMAKE_INSTALL_PREFIX}/share/telepathy/clients/)
 
 install( TARGETS kwhiteboard DESTINATION ${BIN_INSTALL_DIR})
 
