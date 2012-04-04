@@ -19,8 +19,6 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-// #include "TelepathyChannelManager.h"
-#include "kwhiteboard.h"
 #include "kwhiteboard-handler.h"
 
 #include <KAboutData>
@@ -51,12 +49,6 @@ int main(int argc, char *argv[])
         kDebug() << "KWhiteBoard already running. Exiting";
         return 1;
     }
-
-    KWhiteBoard *mainWindow = new KWhiteBoard();
-    mainWindow->show();
-
-    QObject::connect(kwhiteboardHandler.data(), SIGNAL(gotTubeDBusConnection(QDBusConnection)),
-                     mainWindow, SLOT(onGotTubeDBusConnection(QDBusConnection)));
 
     kDebug() << "Let's go...";
 

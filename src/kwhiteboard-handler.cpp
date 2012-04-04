@@ -19,6 +19,7 @@
  */
 
 #include "kwhiteboard-handler.h"
+#include "kwhiteboard.h"
 
 #include <TelepathyQt/Channel>
 #include <TelepathyQt/Connection>
@@ -90,6 +91,13 @@ void KWhiteboardHandler::handleChannels(const Tp::MethodInvocationContextPtr<> &
                TP_QT_IFACE_CHANNEL_TYPE_DBUS_TUBE) {
 
             kDebug() << "It's a DBUS Tube...";
+
+
+            KWhiteBoard *mainWindow = new KWhiteBoard();
+            mainWindow->show();
+
+            connect(this, SIGNAL(gotTubeDBusConnection(QDBusConnection)),
+                    mainWindow, SLOT(onGotTubeDBusConnection(QDBusConnection)));
 
             if (properties.value(TP_QT_IFACE_CHANNEL + QLatin1String(".Requested")).toBool()) {
                 kDebug() << "Outgoing.....!!!!!";
