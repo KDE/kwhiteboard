@@ -104,7 +104,7 @@ void KWhiteboardHandler::handleChannels(const Tp::MethodInvocationContextPtr<> &
                 m_outgoingGroupDBusChannel = Tp::OutgoingDBusTubeChannelPtr::dynamicCast(channel);
                 Tp::Features oFeatures;
                 oFeatures << Tp::Channel::FeatureCore << Tp::OutgoingDBusTubeChannel::FeatureCore << Tp::DBusTubeChannel::FeatureCore
-                          << Tp::TubeChannel::FeatureCore << Tp::Channel::FeatureConferenceInitialInviteeContacts << Tp::DBusTubeChannel::FeatureBusNameMonitoring;
+                          << Tp::TubeChannel::FeatureCore << Tp::DBusTubeChannel::FeatureBusNameMonitoring;
                 connect(m_outgoingGroupDBusChannel->becomeReady(oFeatures),
                         SIGNAL(finished(Tp::PendingOperation*)),
                         SLOT(onOutgoingTubeReady(Tp::PendingOperation*)));
@@ -115,7 +115,7 @@ void KWhiteboardHandler::handleChannels(const Tp::MethodInvocationContextPtr<> &
                 m_incomingGroupDBusChannel = Tp::IncomingDBusTubeChannelPtr::dynamicCast(channel);
                 Tp::Features iFeatures;
                 iFeatures << Tp::Channel::FeatureCore << Tp::IncomingDBusTubeChannel::FeatureCore << Tp::DBusTubeChannel::FeatureCore
-                          << Tp::TubeChannel::FeatureCore << Tp::Channel::FeatureConferenceInitialInviteeContacts << Tp::DBusTubeChannel::FeatureBusNameMonitoring;
+                          << Tp::TubeChannel::FeatureCore << Tp::DBusTubeChannel::FeatureBusNameMonitoring;
                 connect(m_incomingGroupDBusChannel->becomeReady(iFeatures),
                         SIGNAL(finished(Tp::PendingOperation*)),
                         SLOT(onIncomingTubeReady(Tp::PendingOperation*)));
