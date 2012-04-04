@@ -4,7 +4,6 @@ set(kwhiteboard_SRCS
     kwhiteboardwidget.cpp
     TelepathyChannelManager.cpp
     TubesManager.cpp
-    TubeLauncher.cpp
 )
 
 #kde4_add_ui_files (kwhiteboard_SRCS
