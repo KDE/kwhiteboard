@@ -5,7 +5,6 @@
 #include <TelepathyQt/Channel>
 #include <TelepathyQt/Connection>
 #include <TelepathyQt/Constants>
-#include <TelepathyQt/Debug>
 #include <TelepathyQt/Types>
 #include <TelepathyQt/DBusTubeChannel>
 #include <TelepathyQt/IncomingDBusTubeChannel>
@@ -32,8 +31,6 @@ TubesManager::TubesManager(QObject *parent)
     AbstractClientHandler(channelClassSpecList(), Capabilities(), true)
 {
     kDebug();
-    Tp::enableDebug(true);
-    Tp::enableWarnings(true);
 }
 
 TubesManager::~TubesManager()

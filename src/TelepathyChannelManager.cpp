@@ -28,9 +28,6 @@ TelepathyChannelManager::~TelepathyChannelManager()
 
 void TelepathyChannelManager::initialize()
 {
-    // Register types for TelepathyQt.
-    Tp::registerTypes();
-
     // Set up the Telepathy Client Registrar.
     m_registrar = Tp::ClientRegistrar::create();
     m_registrar->registerClient(Tp::AbstractClientPtr::dynamicCast(m_tubesManager), "KTp.KWhiteboard");

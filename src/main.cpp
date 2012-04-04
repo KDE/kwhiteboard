@@ -37,6 +37,7 @@ extern "C"
 #include <QtCore/QTimer>
 
 #include <TelepathyQt/Types>
+#include <TelepathyQt/Debug>
 
 namespace
 {
@@ -68,6 +69,8 @@ int main(int argc, char *argv[])
 
     // Initialise Telepathy.
     Tp::registerTypes();
+    Tp::enableDebug(true);
+    Tp::enableWarnings(true);
 
     // Set up signal handlers.
     if (signal(SIGINT, signal_handler) == SIG_ERR) {
