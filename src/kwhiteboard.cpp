@@ -31,7 +31,7 @@ KWhiteboard::KWhiteboard()
 
 void KWhiteboard::onGotTubeDBusConnection(const QDBusConnection& conn)
 {
-    kDebug();
+    kDebug() << conn.name();
 
     m_whiteboardWidget = new KWhiteboardWidget(this, conn);
     setCentralWidget(m_whiteboardWidget);
