@@ -100,33 +100,18 @@ void KWhiteboardHandler::handleChannels(const Tp::MethodInvocationContextPtr<> &
                     mainWindow, SLOT(onGotTubeDBusConnection(QDBusConnection)));
 
             if (properties.value(TP_QT_IFACE_CHANNEL + QLatin1String(".Requested")).toBool()) {
-                kDebug() << "Outgoing.....!!!!!";
-              /*  OutgoingTube *oTube = new OutgoingTube(channel);
-                connect(oTube,
-                        SIGNAL(tubeReady(QTcpSocket*,QString)),
-                        SIGNAL(newOutgoingTube(QTcpSocket*,QString)));
-                m_outgoingTubes.append(oTube);
-                */
-             // m_outgoingGroupDBusChannel = Tp::OutgoingDBusTubeChannel::create(channel->connection(), channel->objectPath(), channel->immutableProperties());
-             m_outgoingGroupDBusChannel = Tp::OutgoingDBusTubeChannelPtr::dynamicCast(channel);
-              Tp::Features oFeatures;
-              oFeatures << Tp::Channel::FeatureCore << Tp::OutgoingDBusTubeChannel::FeatureCore << Tp::DBusTubeChannel::FeatureCore
-                        << Tp::TubeChannel::FeatureCore << Tp::Channel::FeatureConferenceInitialInviteeContacts << Tp::DBusTubeChannel::FeatureBusNameMonitoring;
-              connect(m_outgoingGroupDBusChannel->becomeReady(oFeatures),
-                      SIGNAL(finished(Tp::PendingOperation*)),
-                      SLOT(onOutgoingTubeReady(Tp::PendingOperation*)));
+                kDebug() << "Outgoing.....!!!!!" << mainWindow;
+                m_outgoingGroupDBusChannel = Tp::OutgoingDBusTubeChannelPtr::dynamicCast(channel);
+                Tp::Features oFeatures;
+                oFeatures << Tp::Channel::FeatureCore << Tp::OutgoingDBusTubeChannel::FeatureCore << Tp::DBusTubeChannel::FeatureCore
+                          << Tp::TubeChannel::FeatureCore << Tp::Channel::FeatureConferenceInitialInviteeContacts << Tp::DBusTubeChannel::FeatureBusNameMonitoring;
+                connect(m_outgoingGroupDBusChannel->becomeReady(oFeatures),
+                        SIGNAL(finished(Tp::PendingOperation*)),
+                        SLOT(onOutgoingTubeReady(Tp::PendingOperation*)));
 
-              kDebug() << "Emitting out";
+                kDebug() << "Emitting out";
             } else {
-                kDebug() << "Incoming.....!!!!!";
-                /*
-                IncomingTube *iTube = new IncomingTube(channel);
-                connect(iTube,
-                        SIGNAL(tubeReady(QTcpSocket*,QString)),
-                        SIGNAL(newIncomingTube(QTcpSocket*,QString)));
-                m_incomingTubes.append(iTube);
-                */
-                //m_incomingGroupDBusChannel = Tp::IncomingDBusTubeChannel::create(channel->connection(), channel->objectPath(), channel->immutableProperties());
+                kDebug() << "Incoming.....!!!!!" << mainWindow;
                 m_incomingGroupDBusChannel = Tp::IncomingDBusTubeChannelPtr::dynamicCast(channel);
                 Tp::Features iFeatures;
                 iFeatures << Tp::Channel::FeatureCore << Tp::IncomingDBusTubeChannel::FeatureCore << Tp::DBusTubeChannel::FeatureCore
@@ -145,9 +130,12 @@ void KWhiteboardHandler::handleChannels(const Tp::MethodInvocationContextPtr<> &
 
 void KWhiteboardHandler::onOutgoingTubeReady(Tp::PendingOperation* op)
 {
-    Q_UNUSED(op);
-
     kDebug();
+
+    if (op->isError()) {
+        kWarning() << op->errorName() << op->errorMessage();
+    }
+
     connect(m_outgoingGroupDBusChannel->offerTube(QVariantMap()),
             SIGNAL(finished(Tp::PendingOperation*)),
             SLOT(onOfferTubeFinished(Tp::PendingOperation*)));
@@ -155,9 +143,11 @@ void KWhiteboardHandler::onOutgoingTubeReady(Tp::PendingOperation* op)
 
 void KWhiteboardHandler::onIncomingTubeReady(Tp::PendingOperation* op)
 {
-    Q_UNUSED(op);
-
     kDebug();
+
+    if (op->isError()) {
+        kWarning() << op->errorName() << op->errorMessage();
+    }
 
     connect(m_incomingGroupDBusChannel->acceptTube(),
             SIGNAL(finished(Tp::PendingOperation*)),
@@ -166,20 +156,24 @@ void KWhiteboardHandler::onIncomingTubeReady(Tp::PendingOperation* op)
 
 void KWhiteboardHandler::onOfferTubeFinished(Tp::PendingOperation* op)
 {
-    Q_UNUSED(op);
-
     kDebug();
 
-    Q_EMIT gotTubeDBusConnection(m_outgoingGroupDBusChannel->connection());
+    if (op->isError()) {
+        kWarning() << op->errorName() << op->errorMessage();
+    }
+
+    Q_EMIT gotTubeDBusConnection(QDBusConnection::connectToPeer(m_outgoingGroupDBusChannel->address(), "xxx"));
 }
 
 void KWhiteboardHandler::onAcceptTubeFinished(Tp::PendingOperation* op)
 {
-    Q_UNUSED(op);
-
     kDebug();
 
-    Q_EMIT gotTubeDBusConnection(m_incomingGroupDBusChannel->connection());
+    if (op->isError()) {
+        kWarning() << op->errorName() << op->errorMessage();
+    }
+
+    Q_EMIT gotTubeDBusConnection(QDBusConnection::connectToPeer(m_incomingGroupDBusChannel->address(), "yyy"));
 }
 
 
