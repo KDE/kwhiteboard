@@ -2,7 +2,7 @@ set(kwhiteboard_SRCS
     main.cpp
     kwhiteboard.cpp
     kwhiteboardwidget.cpp
-    TubesManager.cpp
+    kwhiteboard-handler.cpp
 )
 
 #kde4_add_ui_files (kwhiteboard_SRCS

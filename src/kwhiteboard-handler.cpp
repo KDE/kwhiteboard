@@ -1,6 +1,24 @@
-#include "TubesManager.h"
+/*
+ * Copyright (C) 2009-2010 Collabora Ltd. <info@collabora.co.uk>
+ *   @author George Goldberg <george.goldberg@collabora.co.uk>
+ * Copyright (C) 2012 Daniele E. Domenichelli <daniele.domenichelli@gmail.com>
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ */
 
-// #include "TelepathyHelpers.h"
+#include "kwhiteboard-handler.h"
 
 #include <TelepathyQt/Channel>
 #include <TelepathyQt/Connection>
@@ -26,38 +44,38 @@ static inline Tp::ChannelClassSpecList channelClassSpecList()
                                        << Tp::ChannelClassSpec::outgoingRoomDBusTube(KWHITEBOARD_SERVICE_NAME));
 }
 
-TubesManager::TubesManager(QObject *parent)
+KWhiteboardHandler::KWhiteboardHandler(QObject *parent)
   : QObject(parent),
     AbstractClientHandler(channelClassSpecList(), Capabilities(), true)
 {
     kDebug();
 }
 
-TubesManager::~TubesManager()
+KWhiteboardHandler::~KWhiteboardHandler()
 {
     kDebug();
 }
 
-bool TubesManager::bypassApproval() const
+bool KWhiteboardHandler::bypassApproval() const
 {
     kDebug();
 
     return false;
 }
 
-void TubesManager::addRequest(const Tp::ChannelRequestPtr& request)
+void KWhiteboardHandler::addRequest(const Tp::ChannelRequestPtr& request)
 {
     kDebug();
     m_channelRequest = request;
 }
 
-void TubesManager::removeRequest(const Tp::ChannelRequestPtr& request, const QString& errorName, const QString& errorMessage)
+void KWhiteboardHandler::removeRequest(const Tp::ChannelRequestPtr& request, const QString& errorName, const QString& errorMessage)
 {
     kDebug();
 }
 
 
-void TubesManager::handleChannels(const Tp::MethodInvocationContextPtr<> & context,
+void KWhiteboardHandler::handleChannels(const Tp::MethodInvocationContextPtr<> & context,
                                   const Tp::AccountPtr & account,
                                   const Tp::ConnectionPtr & connection,
                                   const QList<Tp::ChannelPtr> & channels,
@@ -128,7 +146,7 @@ void TubesManager::handleChannels(const Tp::MethodInvocationContextPtr<> & conte
     context->setFinished();
 }
 
-void TubesManager::onOutgoingTubeReady(Tp::PendingOperation* op)
+void KWhiteboardHandler::onOutgoingTubeReady(Tp::PendingOperation* op)
 {
     kDebug();
     connect(m_outgoingGroupDBusChannel->offerTube(QVariantMap()),
@@ -136,7 +154,7 @@ void TubesManager::onOutgoingTubeReady(Tp::PendingOperation* op)
             SLOT(onOfferTubeFinished(Tp::PendingOperation*)));
 }
 
-void TubesManager::onIncomingTubeReady(Tp::PendingOperation* op)
+void KWhiteboardHandler::onIncomingTubeReady(Tp::PendingOperation* op)
 {
     kDebug();
 
@@ -145,7 +163,7 @@ void TubesManager::onIncomingTubeReady(Tp::PendingOperation* op)
             SLOT(onAcceptTubeFinished(Tp::PendingOperation*)));
 }
 
-void TubesManager::onOfferTubeFinished(Tp::PendingOperation* op)
+void KWhiteboardHandler::onOfferTubeFinished(Tp::PendingOperation* op)
 {
     kDebug();
 
@@ -153,7 +171,7 @@ void TubesManager::onOfferTubeFinished(Tp::PendingOperation* op)
     Q_EMIT gotTubeChannel(m_groupDBusChannel);
 }
 
-void TubesManager::onAcceptTubeFinished(Tp::PendingOperation* op)
+void KWhiteboardHandler::onAcceptTubeFinished(Tp::PendingOperation* op)
 {
     kDebug();
 
@@ -161,4 +179,4 @@ void TubesManager::onAcceptTubeFinished(Tp::PendingOperation* op)
 }
 
 
-#include "TubesManager.moc"
+#include "kwhiteboard-handler.moc"
