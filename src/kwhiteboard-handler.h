@@ -56,6 +56,9 @@ Q_SIGNALS:
     void gotTubeDBusConnection(const QDBusConnection &conn);
     void gotTubeChannel(Tp::ChannelPtr channel);
 
+private Q_SLOTS:
+    void onChannelInvalidated();
+
 private:
     Tp::IncomingDBusTubeChannelPtr m_incomingGroupDBusChannel;
     Tp::OutgoingDBusTubeChannelPtr m_outgoingGroupDBusChannel;

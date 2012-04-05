@@ -33,7 +33,11 @@
 #include <TelepathyQt/PendingDBusTubeConnection>
 #include <TelepathyQt/ChannelClassSpec>
 
-#include <KDebug>
+#include <KDE/KLocale>
+#include <KDE/KDebug>
+
+#include <KTp/telepathy-handler-application.h>
+
 
 #define KWHITEBOARD_SERVICE_NAME QLatin1String("org.kde.KWhiteboard")
 
@@ -87,6 +91,16 @@ void KWhiteboardHandler::handleChannels(const Tp::MethodInvocationContextPtr<> &
 
     Q_ASSERT (properties.value(TP_QT_IFACE_CHANNEL + QLatin1String(".ChannelType")) == TP_QT_IFACE_CHANNEL_TYPE_DBUS_TUBE);
     kDebug() << "It's a DBUS Tube...";
+
+    if (KTp::TelepathyHandlerApplication::newJob() >= 0) {
+        context->setFinished();
+        connect(channels.first().data(), SIGNAL(invalidated(Tp::DBusProxy*,QString,QString)), SLOT(onChannelInvalidated()));
+    } else {
+        context->setFinishedWithError(QLatin1String("org.freedesktop.Telepathy.KDE.KWhiteboard.Exiting"),
+                                      i18n("KWhiteboard is exiting. Cannot start job"));
+        return;
+    }
+
 
     if (properties.value(TP_QT_IFACE_CHANNEL + QLatin1String(".Requested")).toBool()) {
         kDebug() << "Outgoing.....!!!!!";
@@ -176,6 +190,11 @@ void KWhiteboardHandler::onAcceptTubeFinished(Tp::PendingOperation* op)
     KWhiteboard *mainWindow = new KWhiteboard();
     mainWindow->onGotTubeDBusConnection(yyy);
     mainWindow->show();
+}
+
+void KWhiteboardHandler::onChannelInvalidated()
+{
+    KTp::TelepathyHandlerApplication::jobFinished();
 }
 
 
