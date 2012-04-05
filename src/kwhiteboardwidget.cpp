@@ -50,6 +50,12 @@ KWhiteboardWidget::KWhiteboardWidget(QWidget* parent, const QDBusConnection &con
 void KWhiteboardWidget::drawLine(int x1, int y1, int x2, int y2)
 {
     QPainter p(&m_pixmap);
+    QPen pen = p.pen();
+    pen.setWidth(4);
+    if (sender() != this) {
+        pen.setColor(QColor(Qt::red));
+    }
+    p.setPen(pen);
     p.drawLine(x1, y1, x2, y2);
     update();
 }
