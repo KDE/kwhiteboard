@@ -80,44 +80,35 @@ void KWhiteboardHandler::handleChannels(const Tp::MethodInvocationContextPtr<> &
 
     kDebug();
 
-    Q_FOREACH (const Tp::ChannelPtr &channel, channels) {
-        kDebug() << "We have a channel...";
+    Q_ASSERT(channels.size() == 1);
+    kDebug() << "We have a channel...";
 
-        QVariantMap properties = channel->immutableProperties();
+    QVariantMap properties = channels.first()->immutableProperties();
 
-        kDebug() << "ChannelType: " << properties.value(TP_QT_IFACE_CHANNEL + QLatin1String(".ChannelType"));
+    Q_ASSERT (properties.value(TP_QT_IFACE_CHANNEL + QLatin1String(".ChannelType")) == TP_QT_IFACE_CHANNEL_TYPE_DBUS_TUBE);
+    kDebug() << "It's a DBUS Tube...";
 
-        if (properties.value(TP_QT_IFACE_CHANNEL + QLatin1String(".ChannelType")) ==
-               TP_QT_IFACE_CHANNEL_TYPE_DBUS_TUBE) {
-
-            kDebug() << "It's a DBUS Tube...";
-
-            if (properties.value(TP_QT_IFACE_CHANNEL + QLatin1String(".Requested")).toBool()) {
-                kDebug() << "Outgoing.....!!!!!";
-                m_outgoingGroupDBusChannel = Tp::OutgoingDBusTubeChannelPtr::dynamicCast(channel);
-                Tp::Features oFeatures;
-                oFeatures << Tp::Channel::FeatureCore << Tp::OutgoingDBusTubeChannel::FeatureCore << Tp::DBusTubeChannel::FeatureCore
-                          << Tp::TubeChannel::FeatureCore << Tp::DBusTubeChannel::FeatureBusNameMonitoring;
-                connect(m_outgoingGroupDBusChannel->becomeReady(oFeatures),
-                        SIGNAL(finished(Tp::PendingOperation*)),
-                        SLOT(onOutgoingTubeReady(Tp::PendingOperation*)));
-
-                kDebug() << "Emitting out";
-            } else {
-                kDebug() << "Incoming.....!!!!!";
-                m_incomingGroupDBusChannel = Tp::IncomingDBusTubeChannelPtr::dynamicCast(channel);
-                Tp::Features iFeatures;
-                iFeatures << Tp::Channel::FeatureCore << Tp::IncomingDBusTubeChannel::FeatureCore << Tp::DBusTubeChannel::FeatureCore
-                          << Tp::TubeChannel::FeatureCore << Tp::DBusTubeChannel::FeatureBusNameMonitoring;
-                connect(m_incomingGroupDBusChannel->becomeReady(iFeatures),
-                        SIGNAL(finished(Tp::PendingOperation*)),
-                        SLOT(onIncomingTubeReady(Tp::PendingOperation*)));
-                kDebug() << "Emitting in";
-            }
-        }
+    if (properties.value(TP_QT_IFACE_CHANNEL + QLatin1String(".Requested")).toBool()) {
+        kDebug() << "Outgoing.....!!!!!";
+        m_outgoingGroupDBusChannel = Tp::OutgoingDBusTubeChannelPtr::dynamicCast(channels.first());
+        Tp::Features oFeatures;
+        oFeatures << Tp::Channel::FeatureCore << Tp::OutgoingDBusTubeChannel::FeatureCore << Tp::DBusTubeChannel::FeatureCore
+                  << Tp::TubeChannel::FeatureCore << Tp::DBusTubeChannel::FeatureBusNameMonitoring;
+        connect(m_outgoingGroupDBusChannel->becomeReady(oFeatures),
+                SIGNAL(finished(Tp::PendingOperation*)),
+                SLOT(onOutgoingTubeReady(Tp::PendingOperation*)));
+    } else {
+        kDebug() << "Incoming.....!!!!!";
+        m_incomingGroupDBusChannel = Tp::IncomingDBusTubeChannelPtr::dynamicCast(channels.first());
+        Tp::Features iFeatures;
+        iFeatures << Tp::Channel::FeatureCore << Tp::IncomingDBusTubeChannel::FeatureCore << Tp::DBusTubeChannel::FeatureCore
+                  << Tp::TubeChannel::FeatureCore << Tp::DBusTubeChannel::FeatureBusNameMonitoring;
+        connect(m_incomingGroupDBusChannel->becomeReady(iFeatures),
+                SIGNAL(finished(Tp::PendingOperation*)),
+                SLOT(onIncomingTubeReady(Tp::PendingOperation*)));
     }
-    kDebug() << "Context finished";
 
+    kDebug() << "Context finished";
     context->setFinished();
 }
 
