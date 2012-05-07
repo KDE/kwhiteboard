@@ -25,11 +25,13 @@
 #include <QWidget>
 #include <TelepathyQt/AccountManager>
 
-namespace Ui {
-    class MainWindow;
+namespace Ui
+{
+class MainWindow;
 }
 
-namespace KTp {
+namespace KTp
+{
 class ContactGridWidget;
 }
 

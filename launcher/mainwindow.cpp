@@ -41,7 +41,6 @@
 #define PREFERRED_KWHITEBOARD_HANDLER "org.freedesktop.Telepathy.Client.KTp.KWhiteboard"
 #define PREFERRED_KBLACKBOARD_HANDLER "org.freedesktop.Telepathy.Client.KTp.KBlackboard"
 
-
 MainWindow::MainWindow(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::MainWindow),
@@ -81,7 +80,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
     m_accountsModel = new AccountsModel(this);
     connect(m_accountManager->becomeReady(), SIGNAL(finished(Tp::PendingOperation*)), SLOT(onAccountManagerReady()));
-
 
     m_contactGridWidget = new KTp::ContactGridWidget(m_accountsModel, this);
     m_contactGridWidget->contactFilterLineEdit()->setClickMessage(i18n("Search in Contacts..."));

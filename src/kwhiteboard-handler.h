@@ -25,8 +25,9 @@
 
 #include <TelepathyQt/AbstractClientHandler>
 
-namespace Tp {
-    class PendingOperation;
+namespace Tp
+{
+class PendingOperation;
 }
 
 class KWhiteboardHandler : public QObject, public Tp::AbstractClientHandler

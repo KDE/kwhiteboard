@@ -26,15 +26,19 @@
 #include <KDebug>
 
 #include <TelepathyQt/Debug>
+
+#include <TelepathyQt/AccountFactory>
 #include <TelepathyQt/ClientRegistrar>
 
-#include <KTp/telepathy-handler-application.h>
+#include <TelepathyQt/ConnectionFactory>
+#include <TelepathyQt/DBusTubeChannel>
 
+#include <KTp/telepathy-handler-application.h>
 
 int main(int argc, char *argv[])
 {
     KAboutData aboutData("kwhiteboard", 0, ki18n("KWhiteboard"),
-                         "1.0", ki18n("KDE Whiteboard Application"), KAboutData::License_LGPL);
+			 "1.0", ki18n("KDE Whiteboard Application"), KAboutData::License_LGPL);
     aboutData.addAuthor(ki18n("Daniele E. Domenichelli"), ki18n("Developer"), "daniele.domenichelli@gmail.com");
     KCmdLineArgs::init(argc, argv, &aboutData);
 
@@ -42,9 +46,23 @@ int main(int argc, char *argv[])
 
     Tp::SharedPtr<KWhiteboardHandler> kwhiteboardHandler (new KWhiteboardHandler(&app));
 
-    // Set up the Telepathy Client Registrar.
-    // TODO use Tp-Qt factories
-    Tp::ClientRegistrarPtr registrar = Tp::ClientRegistrar::create();
+    // Setting up the Telepathy Client Registrar
+    Tp::AccountFactoryPtr accountFactory = Tp::AccountFactory::create(QDBusConnection::sessionBus());
+
+    Tp::ConnectionFactoryPtr  connectionFactory = Tp::ConnectionFactory::create(QDBusConnection::sessionBus());
+
+    Tp::ChannelFactoryPtr channelFactory = Tp::ChannelFactory::create(QDBusConnection::sessionBus());
+    channelFactory->addCommonFeatures(Tp::Channel::FeatureCore);
+    channelFactory->addFeaturesForIncomingDBusTubes(Tp::DBusTubeChannel::FeatureCore);
+    channelFactory->addFeaturesForOutgoingDBusTubes(Tp::DBusTubeChannel::FeatureCore);
+    // FeatureBusNameMonitoring Feature will need to be added for multi-user support
+
+    Tp::ContactFactoryPtr contactFactory = Tp::ContactFactory::create();
+
+    Tp::ClientRegistrarPtr registrar = Tp::ClientRegistrar::create(accountFactory,
+                                                                   connectionFactory,
+                                                                   channelFactory,
+                                                                   contactFactory);
     if (!registrar->registerClient(Tp::AbstractClientPtr(kwhiteboardHandler), "KTp.KWhiteboard")) {
         kDebug() << "KWhiteboard already running. Exiting";
         return 1;
@@ -55,4 +73,3 @@ int main(int argc, char *argv[])
     // Start event loop.
     return app.exec();
 }
-

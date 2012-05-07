@@ -39,5 +39,4 @@ void KWhiteboard::onGotTubeDBusConnection(const QDBusConnection& conn)
     setupGUI();
 }
 
-
 #include "kwhiteboard.moc"

@@ -1,0 +1,217 @@
+diff --git a/launcher/mainwindow.cpp b/launcher/mainwindow.cpp
+index 02c28ff..9f1840a 100644
+--- a/launcher/mainwindow.cpp
++++ b/launcher/mainwindow.cpp
+@@ -41,7 +41,6 @@
+ #define PREFERRED_KWHITEBOARD_HANDLER "org.freedesktop.Telepathy.Client.KTp.KWhiteboard"
+ #define PREFERRED_KBLACKBOARD_HANDLER "org.freedesktop.Telepathy.Client.KTp.KBlackboard"
+ 
+-
+ MainWindow::MainWindow(QWidget *parent) :
+     QWidget(parent),
+     ui(new Ui::MainWindow),
+@@ -82,7 +81,6 @@ MainWindow::MainWindow(QWidget *parent) :
+     m_accountsModel = new AccountsModel(this);
+     connect(m_accountManager->becomeReady(), SIGNAL(finished(Tp::PendingOperation*)), SLOT(onAccountManagerReady()));
+ 
+-
+     m_contactGridWidget = new KTp::ContactGridWidget(m_accountsModel, this);
+     m_contactGridWidget->contactFilterLineEdit()->setClickMessage(i18n("Search in Contacts..."));
+     m_contactGridWidget->filter()->setPresenceTypeFilterFlags(AccountsFilterModel::ShowOnlyConnected);
+@@ -170,4 +168,4 @@ void MainWindow::slotCreateTubeFinished(Tp::PendingOperation* op)
+         // now I can close the dialog
+         close();
+     }
+-}
++}
+\ No newline at end of file
+diff --git a/launcher/mainwindow.h b/launcher/mainwindow.h
+index 69d5c5f..ccf4def 100644
+--- a/launcher/mainwindow.h
++++ b/launcher/mainwindow.h
+@@ -25,11 +25,13 @@
+ #include <QWidget>
+ #include <TelepathyQt/AccountManager>
+ 
+-namespace Ui {
+-    class MainWindow;
++namespace Ui
++{
++class MainWindow;
+ }
+ 
+-namespace KTp {
++namespace KTp
++{
+ class ContactGridWidget;
+ }
+ 
+diff --git a/src/kwhiteboard-handler.cpp b/src/kwhiteboard-handler.cpp
+index d78b09e..dc29c01 100644
+--- a/src/kwhiteboard-handler.cpp
++++ b/src/kwhiteboard-handler.cpp
+@@ -102,57 +102,28 @@ void KWhiteboardHandler::handleChannels(const Tp::MethodInvocationContextPtr<> &
+     }
+ 
+ 
++
+     if (properties.value(TP_QT_IFACE_CHANNEL + QLatin1String(".Requested")).toBool()) {
+         kDebug() << "Outgoing.....!!!!!";
+         m_outgoingGroupDBusChannel = Tp::OutgoingDBusTubeChannelPtr::dynamicCast(channels.first());
+-        Tp::Features oFeatures;
+-        oFeatures << Tp::Channel::FeatureCore << Tp::OutgoingDBusTubeChannel::FeatureCore << Tp::DBusTubeChannel::FeatureCore
+-                  << Tp::TubeChannel::FeatureCore << Tp::DBusTubeChannel::FeatureBusNameMonitoring;
+-        connect(m_outgoingGroupDBusChannel->becomeReady(oFeatures),
+-                SIGNAL(finished(Tp::PendingOperation*)),
+-                SLOT(onOutgoingTubeReady(Tp::PendingOperation*)));
++	Tp::PendingDBusTubeConnection *pendingConnection = m_outgoingGroupDBusChannel->offerTube(QVariantMap());
++	connect(pendingConnection,
++		SIGNAL(finished(Tp::PendingOperation*)),
++		SLOT(onOfferTubeFinished(Tp::PendingOperation*)));
+     } else {
+         kDebug() << "Incoming.....!!!!!";
+         m_incomingGroupDBusChannel = Tp::IncomingDBusTubeChannelPtr::dynamicCast(channels.first());
+-        Tp::Features iFeatures;
+-        iFeatures << Tp::Channel::FeatureCore << Tp::IncomingDBusTubeChannel::FeatureCore << Tp::DBusTubeChannel::FeatureCore
+-                  << Tp::TubeChannel::FeatureCore << Tp::DBusTubeChannel::FeatureBusNameMonitoring;
+-        connect(m_incomingGroupDBusChannel->becomeReady(iFeatures),
+-                SIGNAL(finished(Tp::PendingOperation*)),
+-                SLOT(onIncomingTubeReady(Tp::PendingOperation*)));
++	Tp::PendingDBusTubeConnection *pendingConnection = m_incomingGroupDBusChannel->acceptTube();
++	connect(pendingConnection,
++		SIGNAL(finished(Tp::PendingOperation*)),
++		SLOT(onAcceptTubeFinished(Tp::PendingOperation*)));
+     }
+ 
+     kDebug() << "Context finished";
+     context->setFinished();
+ }
+ 
+-void KWhiteboardHandler::onOutgoingTubeReady(Tp::PendingOperation* op)
+-{
+-    kDebug();
+-
+-    if (op->isError()) {
+-        kWarning() << op->errorName() << op->errorMessage();
+-    }
+-
+-    connect(m_outgoingGroupDBusChannel->offerTube(QVariantMap()),
+-            SIGNAL(finished(Tp::PendingOperation*)),
+-            SLOT(onOfferTubeFinished(Tp::PendingOperation*)));
+-}
+-
+-void KWhiteboardHandler::onIncomingTubeReady(Tp::PendingOperation* op)
+-{
+-    kDebug();
+-
+-    if (op->isError()) {
+-        kWarning() << op->errorName() << op->errorMessage();
+-    }
+-
+-    connect(m_incomingGroupDBusChannel->acceptTube(),
+-            SIGNAL(finished(Tp::PendingOperation*)),
+-            SLOT(onAcceptTubeFinished(Tp::PendingOperation*)));
+-}
+-
+-void KWhiteboardHandler::onOfferTubeFinished(Tp::PendingOperation* op)
++void KWhiteboardHandler::onOfferTubeFinished(Tp::PendingOperation *op)
+ {
+     kDebug();
+ 
+@@ -170,9 +141,10 @@ void KWhiteboardHandler::onOfferTubeFinished(Tp::PendingOperation* op)
+     KWhiteboard *mainWindow = new KWhiteboard();
+     mainWindow->onGotTubeDBusConnection(xxx);
+     mainWindow->show();
++    kDebug() << "Main window created";
+ }
+ 
+-void KWhiteboardHandler::onAcceptTubeFinished(Tp::PendingOperation* op)
++void KWhiteboardHandler::onAcceptTubeFinished(Tp::PendingOperation *op)
+ {
+     kDebug();
+ 
+@@ -190,6 +162,7 @@ void KWhiteboardHandler::onAcceptTubeFinished(Tp::PendingOperation* op)
+     KWhiteboard *mainWindow = new KWhiteboard();
+     mainWindow->onGotTubeDBusConnection(yyy);
+     mainWindow->show();
++    kDebug() << "Main window created";
+ }
+ 
+ void KWhiteboardHandler::onChannelInvalidated()
+diff --git a/src/kwhiteboard-handler.h b/src/kwhiteboard-handler.h
+index f3c55d0..d2e6e9a 100644
+--- a/src/kwhiteboard-handler.h
++++ b/src/kwhiteboard-handler.h
+@@ -25,8 +25,9 @@
+ 
+ #include <TelepathyQt/AbstractClientHandler>
+ 
+-namespace Tp {
+-    class PendingOperation;
++namespace Tp
++{
++class PendingOperation;
+ }
+ 
+ class KWhiteboardHandler : public QObject, public Tp::AbstractClientHandler
+diff --git a/src/main.cpp b/src/main.cpp
+index 7e721f3..e11c646 100644
+--- a/src/main.cpp
++++ b/src/main.cpp
+@@ -26,15 +26,19 @@
+ #include <KDebug>
+ 
+ #include <TelepathyQt/Debug>
++
++#include <TelepathyQt/AccountFactory>
+ #include <TelepathyQt/ClientRegistrar>
+ 
+-#include <KTp/telepathy-handler-application.h>
++#include <TelepathyQt/ConnectionFactory>
++#include <TelepathyQt/DBusTubeChannel>
+ 
++#include <KTp/telepathy-handler-application.h>
+ 
+ int main(int argc, char *argv[])
+ {
+     KAboutData aboutData("kwhiteboard", 0, ki18n("KWhiteboard"),
+-                         "1.0", ki18n("KDE Whiteboard Application"), KAboutData::License_LGPL);
++			 "1.0", ki18n("KDE Whiteboard Application"), KAboutData::License_LGPL);
+     aboutData.addAuthor(ki18n("Daniele E. Domenichelli"), ki18n("Developer"), "daniele.domenichelli@gmail.com");
+     KCmdLineArgs::init(argc, argv, &aboutData);
+ 
+@@ -42,9 +46,23 @@ int main(int argc, char *argv[])
+ 
+     Tp::SharedPtr<KWhiteboardHandler> kwhiteboardHandler (new KWhiteboardHandler(&app));
+ 
+-    // Set up the Telepathy Client Registrar.
+-    // TODO use Tp-Qt factories
+-    Tp::ClientRegistrarPtr registrar = Tp::ClientRegistrar::create();
++    // Setting up the Telepathy Client Registrar
++    Tp::AccountFactoryPtr accountFactory = Tp::AccountFactory::create(QDBusConnection::sessionBus());
++
++    Tp::ConnectionFactoryPtr  connectionFactory = Tp::ConnectionFactory::create(QDBusConnection::sessionBus());
++
++    Tp::ChannelFactoryPtr channelFactory = Tp::ChannelFactory::create(QDBusConnection::sessionBus());
++    channelFactory->addCommonFeatures(Tp::Channel::FeatureCore);
++    channelFactory->addFeaturesForIncomingDBusTubes(Tp::DBusTubeChannel::FeatureCore);
++    channelFactory->addFeaturesForOutgoingDBusTubes(Tp::DBusTubeChannel::FeatureCore);
++    // FeatureBusNameMonitoring Feature will need to be added for multi-user support
++    
++    Tp::ContactFactoryPtr contactFactory = Tp::ContactFactory::create();
++
++    Tp::ClientRegistrarPtr registrar = Tp::ClientRegistrar::create(accountFactory,
++                                                                   connectionFactory,
++                                                                   channelFactory,
++                                                                   contactFactory);
+     if (!registrar->registerClient(Tp::AbstractClientPtr(kwhiteboardHandler), "KTp.KWhiteboard")) {
+         kDebug() << "KWhiteboard already running. Exiting";
+         return 1;
+@@ -54,5 +72,4 @@ int main(int argc, char *argv[])
+ 
+     // Start event loop.
+     return app.exec();
+-}
+-
++}
+\ No newline at end of file
