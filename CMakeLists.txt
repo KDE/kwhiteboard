@@ -22,4 +22,4 @@ include_directories(
   )
 
 add_subdirectory (src)
-add_subdirectory (launcher)
+add_subdirectory (kwhiteboard)
