@@ -21,5 +21,6 @@ include_directories(
   ${KTP_INCLUDE_DIR}
   )
 
-add_subdirectory (src)
+add_subdirectory (launcher)
 add_subdirectory (kwhiteboard)
+add_subdirectory (kblackboard)
