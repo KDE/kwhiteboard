@@ -141,7 +141,7 @@ void MainWindow::onDialogAccepted()
     } else {
         // start streamtube
         channelRequest = account->createStreamTube(contact,
-                                                   QLatin1String("kwhiteboard"),
+                                                   QLatin1String("kblackboard"),
                                                    QDateTime::currentDateTime(),
                                                    PREFERRED_KBLACKBOARD_HANDLER);
     }
