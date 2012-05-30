@@ -37,6 +37,8 @@
 #include <KTp/Models/accounts-filter-model.h>
 #include <KTp/Widgets/contact-grid-widget.h>
 
+#include <config.h>
+
 //FIXME, copy and paste the approver code for loading this from a config file into this, the contact list and the chat handler.
 #define PREFERRED_KWHITEBOARD_HANDLER "org.freedesktop.Telepathy.Client.KTp.KWhiteboard"
 #define PREFERRED_KBLACKBOARD_HANDLER "org.freedesktop.Telepathy.Client.KTp.KBlackboard"
@@ -127,10 +129,15 @@ void MainWindow::onDialogAccepted()
     Tp::PendingChannelRequest *channelRequest;
     if (ui->kwhiteboardRadioButton->isChecked()) {
         // start dbustube
+#ifdef HAS_TP_QT_DBUS
         channelRequest = account->createDBusTube(contact,
                                                  QLatin1String("org.kde.KWhiteboard"),
                                                  QDateTime::currentDateTime(),
                                                  PREFERRED_KWHITEBOARD_HANDLER);
+#else
+        channelRequest = 0;
+        kFatal("Launcher compiled without TpQt Dbus support");
+#endif
     } else {
         // start streamtube
         channelRequest = account->createStreamTube(contact,
