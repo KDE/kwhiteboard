@@ -22,7 +22,10 @@ include_directories(
   ${CMAKE_CURRENT_BINARY_DIR}
   )
 
-check_include_files ("TelepathyQt/DBusTubeChannel" HAS_TP_QT_DBUS)
+
+set(CMAKE_REQUIRED_INCLUDES "${QT_INCLUDES};${TELEPATHY_QT4_INCLUDE_DIR}")
+include (CheckIncludeFileCXX)
+check_include_file_cxx("TelepathyQt/DBusTubeChannel" HAS_TP_QT_DBUS)
 configure_file(config.h.in ${CMAKE_CURRENT_BINARY_DIR}/config.h @ONLY)
 
 add_subdirectory (launcher)
