@@ -48,8 +48,6 @@ public:
                                 const HandlerInfo &handlerInfo);
 
 public Q_SLOTS:
-    void onOutgoingTubeReady(Tp::PendingOperation *op);
-    void onIncomingTubeReady(Tp::PendingOperation *op);
     void onOfferTubeFinished(Tp::PendingOperation *op);
     void onAcceptTubeFinished(Tp::PendingOperation *op);
 
