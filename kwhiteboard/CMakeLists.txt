@@ -27,7 +27,7 @@ target_link_libraries(kwhiteboard
 
 configure_file(org.freedesktop.Telepathy.Client.KTp.KWhiteboard.service.in
                org.freedesktop.Telepathy.Client.KTp.KWhiteboard.service)
-install(FILES ${CMAKE_BINARY_DIR}/src/org.freedesktop.Telepathy.Client.KTp.KWhiteboard.service
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/org.freedesktop.Telepathy.Client.KTp.KWhiteboard.service
         DESTINATION ${DBUS_SERVICES_INSTALL_DIR})
 
 install(FILES KTp.KWhiteboard.client DESTINATION ${CMAKE_INSTALL_PREFIX}/share/telepathy/clients/)

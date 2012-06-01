@@ -35,3 +35,5 @@ add_subdirectory (kwhiteboard)
 endif (HAS_TP_QT_DBUS)
 
 add_subdirectory (kblackboard)
+
+macro_display_feature_log()

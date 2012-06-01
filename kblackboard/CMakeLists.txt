@@ -18,8 +18,4 @@ target_link_libraries(telepathy-blackboard
 )
 
 install(TARGETS telepathy-blackboard ${INSTALL_TARGETS_DEFAULT_ARGS})
-install(FILES telepathy-blackboard.desktop DESTINATION ${XDG_APPS_INSTALL_DIR})
-
-macro_display_feature_log()
-
-
+#install(FILES telepathy-blackboard.desktop DESTINATION ${XDG_APPS_INSTALL_DIR})
