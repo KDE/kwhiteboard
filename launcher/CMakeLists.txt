@@ -18,5 +18,5 @@ target_link_libraries(kboard-launcher
   ${KTP_WIDGETS_LIBRARIES}
 )
 
-# install(TARGETS kboard-launcher ${INSTALL_TARGETS_DEFAULT_ARGS})
-# install(FILES kboard-launcher.desktop DESTINATION ${XDG_APPS_INSTALL_DIR})
+install(TARGETS kboard-launcher ${INSTALL_TARGETS_DEFAULT_ARGS})
+install(FILES kboard-launcher.desktop DESTINATION ${XDG_APPS_INSTALL_DIR})

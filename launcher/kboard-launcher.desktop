@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=KBoard Launcher
+GenericName=Start KWhiteboard/KBlackboard
+Comment=Start KWhiteboard/KBlackboard demo applications with one of your IM contacts
+Exec=kboard-launcher %u
+Type=Application
+Terminal=false
+Icon=telepathy-kde
+Categories=Qt;KDE;Network;InstantMessaging;
+X-DBUS-StartupType=Unique
