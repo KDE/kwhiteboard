@@ -136,10 +136,10 @@ void KWhiteboardHandler::onOfferTubeFinished(Tp::PendingOperation *op)
         kWarning() << "This is not a PendingDBusTubeConnection";
     }
 
-    QDBusConnection xxx = QDBusConnection::connectToPeer(dbusop->address(), "xxx");
-    kDebug() << "xxx ->" << xxx.name();
+    QDBusConnection conn = QDBusConnection::connectToPeer(dbusop->address(), dbusop->address().right(8));
+    kDebug() << "conn ->" << conn.name();
     KWhiteboard *mainWindow = new KWhiteboard();
-    mainWindow->onGotTubeDBusConnection(xxx);
+    mainWindow->onGotTubeDBusConnection(conn);
     mainWindow->show();
     kDebug() << "Main window created";
 }
@@ -157,10 +157,10 @@ void KWhiteboardHandler::onAcceptTubeFinished(Tp::PendingOperation *op)
         kWarning() << "This is not a PendingDBusTubeConnection";
     }
 
-    QDBusConnection yyy = QDBusConnection::connectToPeer(dbusop->address(), "yyy");
-    kDebug() << "yyy ->" << yyy.name();
+    QDBusConnection conn = QDBusConnection::connectToPeer(dbusop->address(), dbusop->address().right(8));
+    kDebug() << "conn ->" << conn.name();
     KWhiteboard *mainWindow = new KWhiteboard();
-    mainWindow->onGotTubeDBusConnection(yyy);
+    mainWindow->onGotTubeDBusConnection(conn);
     mainWindow->show();
     kDebug() << "Main window created";
 }
