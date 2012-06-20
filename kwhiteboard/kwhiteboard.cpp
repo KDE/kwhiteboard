@@ -23,7 +23,8 @@
 #include <KDebug>
 #include "kwhiteboardwidget.h"
 
-KWhiteboard::KWhiteboard()
+KWhiteboard::KWhiteboard(QWidget *parent) :
+    KXmlGuiWindow(parent)
 {
     kDebug();
     setWindowIcon(KIcon(QLatin1String("applications-education")));

@@ -29,7 +29,7 @@ class KWhiteboard: public KXmlGuiWindow
 {
     Q_OBJECT
 public:
-    KWhiteboard();
+    KWhiteboard(QWidget *parent=0);
 
 public Q_SLOTS:
     void onGotTubeDBusConnection(const QDBusConnection &conn);
