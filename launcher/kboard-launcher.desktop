@@ -1,7 +1,20 @@
 [Desktop Entry]
 Name=KBoard Launcher
+Name[pt]=Lançamento do KBoard
+Name[pt_BR]=Lançador do KBoard
+Name[uk]=Засіб запуску KBoard
+Name[x-test]=xxKBoard Launcherxx
 GenericName=Start KWhiteboard/KBlackboard
+GenericName[cs]=Spustit KWhiteboard/KBlackboard
+GenericName[pt]=Iniciar o KWhiteboard/KBlackboard
+GenericName[pt_BR]=Iniciar o KWhiteboard/KBlackboard
+GenericName[uk]=Запуск KWhiteboard/KBlackboard
+GenericName[x-test]=xxStart KWhiteboard/KBlackboardxx
 Comment=Start KWhiteboard/KBlackboard demo applications with one of your IM contacts
+Comment[pt]=Iniciar as aplicações de demonstração do KWhiteboard/KBlackboard com um dos seus contactos de IM
+Comment[pt_BR]=Inicia os aplicativos de demonstração do KWhiteboard/KBlackboard com um dos seus contatos de MI
+Comment[uk]=Запустити демонстраційні програми KWhiteboard/KBlackboard з одним з ваших контактів обміну повідомленнями
+Comment[x-test]=xxStart KWhiteboard/KBlackboard demo applications with one of your IM contactsxx
 Exec=kboard-launcher %u
 Type=Application
 Terminal=false
