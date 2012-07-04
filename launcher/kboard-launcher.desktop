@@ -1,5 +1,7 @@
 [Desktop Entry]
 Name=KBoard Launcher
+Name[et]=KBoardi käivitaja
+Name[hu]=KBoard indítóikon
 Name[nl]=Programmastarter KBoard
 Name[pt]=Lançamento do KBoard
 Name[pt_BR]=Lançador do KBoard
@@ -9,6 +11,8 @@ Name[uk]=Засіб запуску KBoard
 Name[x-test]=xxKBoard Launcherxx
 GenericName=Start KWhiteboard/KBlackboard
 GenericName[cs]=Spustit KWhiteboard/KBlackboard
+GenericName[et]=KWhiteboardi/KBlackboardi käivitamine
+GenericName[hu]=KWhiteboard/KBlackboard indítása
 GenericName[nl]=Start KWhiteboard/KBlackboard
 GenericName[pt]=Iniciar o KWhiteboard/KBlackboard
 GenericName[pt_BR]=Iniciar o KWhiteboard/KBlackboard
@@ -17,6 +21,8 @@ GenericName[sv]=Starta Kwhiteboard/Kblackboard
 GenericName[uk]=Запуск KWhiteboard/KBlackboard
 GenericName[x-test]=xxStart KWhiteboard/KBlackboardxx
 Comment=Start KWhiteboard/KBlackboard demo applications with one of your IM contacts
+Comment[et]=KWhiteboardi/KBlackboardi demorakenduste käivitamine oma kiirsuhtluskontaktiga
+Comment[hu]=KWhiteboard/KBlackboard demo alkalmazások indítása az azonnali üzenet partnerei egyikével
 Comment[nl]=Start de demo-toepassing van KWhiteboard/KBlackboard met één van uw IM-contactpersonen
 Comment[pt]=Iniciar as aplicações de demonstração do KWhiteboard/KBlackboard com um dos seus contactos de IM
 Comment[pt_BR]=Inicia os aplicativos de demonstração do KWhiteboard/KBlackboard com um dos seus contatos de MI
