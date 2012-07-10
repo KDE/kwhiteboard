@@ -106,17 +106,17 @@ void KWhiteboardHandler::handleChannels(const Tp::MethodInvocationContextPtr<> &
     if (properties.value(TP_QT_IFACE_CHANNEL + QLatin1String(".Requested")).toBool()) {
         kDebug() << "Outgoing.....!!!!!";
         m_outgoingGroupDBusChannel = Tp::OutgoingDBusTubeChannelPtr::dynamicCast(channels.first());
-	Tp::PendingDBusTubeConnection *pendingConnection = m_outgoingGroupDBusChannel->offerTube(QVariantMap());
-	connect(pendingConnection,
-		SIGNAL(finished(Tp::PendingOperation*)),
-		SLOT(onOfferTubeFinished(Tp::PendingOperation*)));
+        Tp::PendingDBusTubeConnection *pendingConnection = m_outgoingGroupDBusChannel->offerTube(QVariantMap());
+        connect(pendingConnection,
+                SIGNAL(finished(Tp::PendingOperation*)),
+                SLOT(onOfferTubeFinished(Tp::PendingOperation*)));
     } else {
         kDebug() << "Incoming.....!!!!!";
         m_incomingGroupDBusChannel = Tp::IncomingDBusTubeChannelPtr::dynamicCast(channels.first());
-	Tp::PendingDBusTubeConnection *pendingConnection = m_incomingGroupDBusChannel->acceptTube();
-	connect(pendingConnection,
-		SIGNAL(finished(Tp::PendingOperation*)),
-		SLOT(onAcceptTubeFinished(Tp::PendingOperation*)));
+        Tp::PendingDBusTubeConnection *pendingConnection = m_incomingGroupDBusChannel->acceptTube();
+        connect(pendingConnection,
+                SIGNAL(finished(Tp::PendingOperation*)),
+                SLOT(onAcceptTubeFinished(Tp::PendingOperation*)));
     }
 
     kDebug() << "Context finished";
