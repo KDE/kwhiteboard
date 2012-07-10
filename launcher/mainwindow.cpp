@@ -140,11 +140,6 @@ void MainWindow::onDialogAccepted()
     }
 
     connect(channelRequest, SIGNAL(finished(Tp::PendingOperation*)), SLOT(slotCreateTubeFinished(Tp::PendingOperation*)));
-
-    //disable the buttons
-    foreach(QAbstractButton* button, ui->buttonBox->buttons()) {
-        button->setEnabled(false);
-    }
 }
 
 void MainWindow::onContactSelectionChanged(Tp::AccountPtr account, Tp::ContactPtr contact)
