@@ -84,39 +84,38 @@ void KWhiteboardHandler::handleChannels(const Tp::MethodInvocationContextPtr<> &
 
     kDebug();
 
-    Q_ASSERT(channels.size() == 1);
-    kDebug() << "We have a channel...";
+    Q_FOREACH(Tp::ChannelPtr channel, channels) {
+        QVariantMap properties = channel->immutableProperties();
 
-    QVariantMap properties = channels.first()->immutableProperties();
+        Q_ASSERT (properties.value(TP_QT_IFACE_CHANNEL + QLatin1String(".ChannelType")) == TP_QT_IFACE_CHANNEL_TYPE_DBUS_TUBE);
+        kDebug() << "It's a DBUS Tube...";
 
-    Q_ASSERT (properties.value(TP_QT_IFACE_CHANNEL + QLatin1String(".ChannelType")) == TP_QT_IFACE_CHANNEL_TYPE_DBUS_TUBE);
-    kDebug() << "It's a DBUS Tube...";
-
-    if (KTp::TelepathyHandlerApplication::newJob() >= 0) {
-        context->setFinished();
-        connect(channels.first().data(), SIGNAL(invalidated(Tp::DBusProxy*,QString,QString)), SLOT(onChannelInvalidated()));
-    } else {
-        context->setFinishedWithError(QLatin1String("org.freedesktop.Telepathy.KDE.KWhiteboard.Exiting"),
-                                      i18n("KWhiteboard is exiting. Cannot start job"));
-        return;
-    }
+        if (KTp::TelepathyHandlerApplication::newJob() >= 0) {
+            context->setFinished();
+            connect(channel.data(), SIGNAL(invalidated(Tp::DBusProxy*,QString,QString)), SLOT(onChannelInvalidated()));
+        } else {
+            context->setFinishedWithError(QLatin1String("org.freedesktop.Telepathy.KDE.KWhiteboard.Exiting"),
+                                        i18n("KWhiteboard is exiting. Cannot start job"));
+            return;
+        }
 
 
 
-    if (properties.value(TP_QT_IFACE_CHANNEL + QLatin1String(".Requested")).toBool()) {
-        kDebug() << "Outgoing.....!!!!!";
-        m_outgoingGroupDBusChannel = Tp::OutgoingDBusTubeChannelPtr::dynamicCast(channels.first());
-        Tp::PendingDBusTubeConnection *pendingConnection = m_outgoingGroupDBusChannel->offerTube(QVariantMap());
-        connect(pendingConnection,
-                SIGNAL(finished(Tp::PendingOperation*)),
-                SLOT(onOfferTubeFinished(Tp::PendingOperation*)));
-    } else {
-        kDebug() << "Incoming.....!!!!!";
-        m_incomingGroupDBusChannel = Tp::IncomingDBusTubeChannelPtr::dynamicCast(channels.first());
-        Tp::PendingDBusTubeConnection *pendingConnection = m_incomingGroupDBusChannel->acceptTube();
-        connect(pendingConnection,
-                SIGNAL(finished(Tp::PendingOperation*)),
-                SLOT(onAcceptTubeFinished(Tp::PendingOperation*)));
+        if (properties.value(TP_QT_IFACE_CHANNEL + QLatin1String(".Requested")).toBool()) {
+            kDebug() << "Outgoing.....!!!!!";
+            m_outgoingGroupDBusChannel = Tp::OutgoingDBusTubeChannelPtr::dynamicCast(channel);
+            Tp::PendingDBusTubeConnection *pendingConnection = m_outgoingGroupDBusChannel->offerTube(QVariantMap());
+            connect(pendingConnection,
+                    SIGNAL(finished(Tp::PendingOperation*)),
+                    SLOT(onOfferTubeFinished(Tp::PendingOperation*)));
+        } else {
+            kDebug() << "Incoming.....!!!!!";
+            m_incomingGroupDBusChannel = Tp::IncomingDBusTubeChannelPtr::dynamicCast(channel);
+            Tp::PendingDBusTubeConnection *pendingConnection = m_incomingGroupDBusChannel->acceptTube();
+            connect(pendingConnection,
+                    SIGNAL(finished(Tp::PendingOperation*)),
+                    SLOT(onAcceptTubeFinished(Tp::PendingOperation*)));
+        }
     }
 
     kDebug() << "Context finished";
