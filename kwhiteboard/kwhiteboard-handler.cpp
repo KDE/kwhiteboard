@@ -84,7 +84,7 @@ void KWhiteboardHandler::handleChannels(const Tp::MethodInvocationContextPtr<> &
 
     kDebug();
 
-    Q_FOREACH(Tp::ChannelPtr channel, channels) {
+    Q_FOREACH(const Tp::ChannelPtr &channel, channels) {
         QVariantMap properties = channel->immutableProperties();
 
         Q_ASSERT (properties.value(TP_QT_IFACE_CHANNEL + QLatin1String(".ChannelType")) == TP_QT_IFACE_CHANNEL_TYPE_DBUS_TUBE);
