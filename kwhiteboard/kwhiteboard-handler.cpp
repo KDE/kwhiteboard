@@ -87,8 +87,13 @@ void KWhiteboardHandler::handleChannels(const Tp::MethodInvocationContextPtr<> &
     Q_FOREACH(const Tp::ChannelPtr &channel, channels) {
         QVariantMap properties = channel->immutableProperties();
 
-        Q_ASSERT (properties.value(TP_QT_IFACE_CHANNEL + QLatin1String(".ChannelType")) == TP_QT_IFACE_CHANNEL_TYPE_DBUS_TUBE);
-        kDebug() << "It's a DBUS Tube...";
+        //Q_ASSERT (properties.value(TP_QT_IFACE_CHANNEL + QLatin1String(".ChannelType")) == TP_QT_IFACE_CHANNEL_TYPE_DBUS_TUBE);
+        if (properties.value(TP_QT_IFACE_CHANNEL + QLatin1String(".ChannelType")) != TP_QT_IFACE_CHANNEL_TYPE_DBUS_TUBE) {
+            kWarning() << "Cannot handle channels of type" << properties.value(TP_QT_IFACE_CHANNEL + QLatin1String(".ChannelType"));
+            continue;
+	}
+
+        kDebug() << "It's a DBUS Tube:" << properties.value(TP_QT_IFACE_CHANNEL + QLatin1String(".ChannelType"));
 
         if (KTp::TelepathyHandlerApplication::newJob() >= 0) {
             context->setFinished();
