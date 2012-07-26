@@ -35,6 +35,16 @@
 
 #include <KTp/telepathy-handler-application.h>
 
+#include <QtDBus/QDBusMessage>
+
+typedef void (*QDBusSpyHook)(const QDBusMessage&);
+extern void qDBusAddSpyHook(QDBusSpyHook hook);
+
+void dbusSpyHook(const QDBusMessage &message)
+{
+    kDebug() << message;
+}
+
 int main(int argc, char *argv[])
 {
     KAboutData aboutData("kwhiteboard", 0, ki18n("KWhiteboard"),
@@ -67,6 +77,8 @@ int main(int argc, char *argv[])
         kDebug() << "KWhiteboard already running. Exiting";
         return 1;
     }
+
+    qDBusAddSpyHook(dbusSpyHook);
 
     kDebug() << "Let's go...";
 
