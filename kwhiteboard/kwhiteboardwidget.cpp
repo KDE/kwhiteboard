@@ -17,7 +17,6 @@
  */
 
 #include "kwhiteboardwidget.h"
-#include "kwhiteboardthread.h"
 #include <KDebug>
 #include <QApplication>
 #include <QPainter>
@@ -40,13 +39,12 @@ KWhiteboardWidget::KWhiteboardWidget(QWidget* parent, const QDBusConnection &con
         kDebug() << parent << "Object registered on DBus connection" << m_connection.name();
     }
 
-
     // Connect the local signal to the drawLine method
-    connect(this, SIGNAL(sigDrawLine(int,int,int,int)), this, SLOT(drawLine(int,int,int,int)));
+    connect(this, SIGNAL(sigDrawLine(int, int, int, int)), this, SLOT(drawLine(int, int, int, int)));
 
-    KWhiteboardThread *thread = new KWhiteboardThread(m_connection, this);
-    connect(thread, SIGNAL(sigDrawLine(int,int,int,int)), this, SLOT(drawLine(int,int,int,int)));
-    thread->start();
+    // Connect the remote signal to the drawLine method
+    // No service specified so that we connect to the signal from *all* of this object on the bus.
+    m_connection.connect(QString(), s_objectPath, s_dbusInterface, "sigDrawLine", this, SLOT(drawLine(int, int, int, int)));
 }
 
 void KWhiteboardWidget::drawLine(int x1, int y1, int x2, int y2)

@@ -3,7 +3,6 @@ set(kwhiteboard_SRCS
     kwhiteboard.cpp
     kwhiteboardwidget.cpp
     kwhiteboard-handler.cpp
-    kwhiteboardthread.cpp
 )
 
 #kde4_add_ui_files (kwhiteboard_SRCS
