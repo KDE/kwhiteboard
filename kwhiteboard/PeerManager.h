@@ -1,5 +1,5 @@
 /*
- *  Copyright (C) 2010 David Faure   <faure@kde.org>
+ *  Copyright (C) 20102Puneet Goyal   <puneetgoyal08@gmail.com>
  *
  *  This library is free software; you can redistribute it and/or
  *  modify it under the terms of the GNU Library General Public
@@ -16,29 +16,28 @@
  *  Boston, MA 02110-1301, USA.
  */
 
-#ifndef KWHITEBOARD_H
-#define KWHITEBOARD_H
+#ifndef PEERMANAGER_H
+#define PEERMANAGER_H
 
-#include <QtDBus/QDBusConnection>
 
-#include <KXmlGuiWindow>
+#include <QObject>
+#include <QPixmap>
+#include <QDBusConnection>
 
-class KWhiteboardWidget;
-
-class KWhiteboard: public KXmlGuiWindow
+class PeerManager : public QObject
 {
     Q_OBJECT
+    Q_CLASSINFO("D-Bus Interface", "org.freedesktop.DBus.Peer")
+
 public:
-	KWhiteboard(const QDBusConnection &conn, QTabWidget *parent=0);
-    void setupActions();
+    PeerManager(QObject* parent,const QDBusConnection &conn);
 
 public Q_SLOTS:
-    void onGotTubeDBusConnection();
-	void pingBoard();
+    void Ping();
+    QByteArray GetMachineId();
 
 private:
-    KWhiteboardWidget* m_whiteboardWidget;
-	QDBusConnection m_connection;
+    QDBusConnection m_connection;
 };
 
 #endif

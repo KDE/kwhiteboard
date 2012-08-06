@@ -22,6 +22,8 @@
 #include <QPainter>
 #include <QMouseEvent>
 #include <QDBusConnection>
+#include <QTimer>
+#include "PeerInterface.h"
 
 static const char* s_objectPath = "/kwhiteboard";
 static const char* s_dbusInterface = "org.kde.KWhiteboard";
@@ -31,8 +33,7 @@ KWhiteboardWidget::KWhiteboardWidget(QWidget* parent, const QDBusConnection &con
       m_connection(conn)
 {
     kDebug() << parent;
-
-    if (!m_connection.registerObject(QString::fromLatin1(s_objectPath), this, QDBusConnection::ExportAllSignals | QDBusConnection::ExportAllSlots)) {
+    if (!m_connection.registerObject(QString::fromLatin1(s_objectPath), this, QDBusConnection::ExportAllSignals | QDBusConnection::ExportAllSlots | QDBusConnection::ExportAdaptors | QDBusConnection::ExportScriptableContents | QDBusConnection::ExportNonScriptableContents)) {
         kWarning() << parent << "Could not register object on DBus connection" << m_connection.name();
         qApp->exit(1);
     } else {
@@ -80,6 +81,7 @@ void KWhiteboardWidget::paintEvent(QPaintEvent *)
 void KWhiteboardWidget::mousePressEvent(QMouseEvent *event)
 {
     m_startPoint = event->pos();
+
 }
 
 void KWhiteboardWidget::mouseMoveEvent(QMouseEvent *event)
@@ -87,6 +89,41 @@ void KWhiteboardWidget::mouseMoveEvent(QMouseEvent *event)
     // Emit the signal both "locally" and in the DBus tube
     Q_EMIT sigDrawLine(m_startPoint.x(), m_startPoint.y(), event->x(), event->y());
     m_startPoint = event->pos();
+		org::freedesktop::DBus::Peer *ping_iface = new org::freedesktop::DBus::Peer("", "/kwhiteboard", m_connection, this);
+	QTimer *timer = new QTimer(this);
+	org::freedesktop::DBus::Peer *ping_iface_root = new org::freedesktop::DBus::Peer("", "/", m_connection, this);
+
+	timer->start();
+    QDBusPendingReply<> reply = ping_iface->call("Ping");
+	reply.waitForFinished();
+	if(reply.isValid())
+	{
+
+		kDebug() << "No Error";
+	}
+	else
+	{
+		kDebug() << "Error!";
+	}
+	
+	timer->stop();
+	kDebug() << "Total Ping time: " << timer->interval();
+
+		timer->start();
+    QDBusPendingReply<> reply1 = ping_iface_root->Ping();
+	reply.waitForFinished();
+	if(reply1.isValid())
+	{
+		kDebug() << "No Error!";
+	}
+	else
+	{
+		kDebug() << "Error!";
+	}
+	
+	timer->stop();
+	kDebug() << "Total Ping time: " << timer->interval();
+
 }
 
 #include "kwhiteboardwidget.moc"

@@ -8,11 +8,14 @@ set(kwhiteboard_SRCS
 #kde4_add_ui_files (kwhiteboard_SRCS
 #)
 
+
+qt4_generate_dbus_interface(org.kde.KWhiteboard.xml)
+qt4_add_dbus_interface(kwhiteboard_SRCS org.freedesktop.DBus.Introspectable.xml IntrospectableInterface)
+qt4_add_dbus_interface(kwhiteboard_SRCS org.freedesktop.DBus.Peer.xml PeerInterface)
+
 kde4_add_executable (kwhiteboard
                      ${kwhiteboard_SRCS}
 )
-
-qt4_generate_dbus_interface(org.kde.KWhiteboard.xml)
 
 target_link_libraries(kwhiteboard
                       ${QT_QTCORE_LIBRARY}
