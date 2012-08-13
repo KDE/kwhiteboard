@@ -64,16 +64,22 @@ void KWhiteboard::setupActions()
 void KWhiteboard::pingBoard()
 {
     kDebug() << "ping ping!!";
-    org::freedesktop::DBus::Peer *ping_iface = new org::freedesktop::DBus::Peer("", "/kwhiteboard", m_connection, this);
-    kDebug() <<"My Machine ID: " << QDBusConnection::localMachineId () << "\n";
-    kDebug() << "other peer's machine id" << ping_iface->GetMachineId();
+    org::kde::DBus::Peer *ping_iface = new org::kde::DBus::Peer("", "/peer", m_connection, this);
+    kDebug() <<"My Machine ID: " << QDBusConnection::localMachineId();
+    QDBusPendingReply<QString> r = ping_iface->GetMachineId();
+    r.waitForFinished();
+    if (r.isValid()) {
+        kDebug() << "other peer's machine id" << r.value();
+    } else {
+        kDebug() << "ERROR";
+    }
+
     QTimer *timer = new QTimer(this);
     timer->start();
-    QDBusPendingReply<QString> reply = ping_iface->Ping();
+    QDBusPendingReply<> reply = ping_iface->Ping();
     reply.waitForFinished();
     if(reply.isValid())
     {
-        kDebug() << reply.value();
         kDebug() << "No Error!";
     }
     else

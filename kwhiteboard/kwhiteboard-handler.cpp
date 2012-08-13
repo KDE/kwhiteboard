@@ -20,6 +20,7 @@
 
 #include "kwhiteboard-handler.h"
 #include "kwhiteboard.h"
+#include "peer.h"
 
 #include <TelepathyQt/Channel>
 #include <TelepathyQt/Connection>
@@ -142,6 +143,7 @@ void KWhiteboardHandler::onOfferTubeFinished(Tp::PendingOperation *op)
 
     QDBusConnection conn = QDBusConnection::connectToPeer(dbusop->address(), dbusop->address().right(8));
     kDebug() << "conn ->" << conn.name();
+    new Peer(conn, this);
     KWhiteboard *mainWindow = new KWhiteboard(conn);
     mainWindow->onGotTubeDBusConnection();
     mainWindow->show();
@@ -163,6 +165,7 @@ void KWhiteboardHandler::onAcceptTubeFinished(Tp::PendingOperation *op)
 
     QDBusConnection conn = QDBusConnection::connectToPeer(dbusop->address(), dbusop->address().right(8));
     kDebug() << "conn ->" << conn.name();
+    new Peer(conn, this);
     KWhiteboard *mainWindow = new KWhiteboard(conn);
     mainWindow->onGotTubeDBusConnection();
     mainWindow->show();
