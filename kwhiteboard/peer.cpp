@@ -46,4 +46,5 @@ QString Peer::GetMachineId()
 
 void Peer::Ping()
 {
+    kDebug() << "Ping";
 }

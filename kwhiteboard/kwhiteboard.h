@@ -28,6 +28,8 @@ class KWhiteboardWidget;
 class KWhiteboard: public KXmlGuiWindow
 {
     Q_OBJECT
+    QStatusBar* m_status_bar;
+
 public:
     KWhiteboard(const QDBusConnection &conn, QTabWidget *parent=0);
     void setupActions();

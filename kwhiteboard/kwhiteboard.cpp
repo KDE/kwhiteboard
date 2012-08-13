@@ -22,6 +22,7 @@
 #include <KLocale>
 #include <KDebug>
 #include <KApplication>
+#include <KStatusBar>
 #include "kwhiteboardwidget.h"
 #include "PeerInterface.h"
 #include "IntrospectableInterface.h"
@@ -38,7 +39,7 @@ void KWhiteboard::onGotTubeDBusConnection()
 {
     kDebug() << m_connection.name();
 
-    m_whiteboardWidget = new KWhiteboardWidget(this, m_connection);
+    m_whiteboardWidget = new KWhiteboardWidget(this, m_connection, statusBar());
     setCentralWidget(m_whiteboardWidget);
 
     setupActions();
@@ -63,7 +64,6 @@ void KWhiteboard::setupActions()
 
 void KWhiteboard::pingBoard()
 {
-    kDebug() << "ping ping!!";
     org::kde::DBus::Peer *ping_iface = new org::kde::DBus::Peer("", "/peer", m_connection, this);
     kDebug() <<"My Machine ID: " << QDBusConnection::localMachineId();
     QDBusPendingReply<QString> r = ping_iface->GetMachineId();
@@ -74,7 +74,7 @@ void KWhiteboard::pingBoard()
         kDebug() << "ERROR";
     }
 
-    QTimer *timer = new QTimer(this);
+    QTime *timer = new QTime();
     timer->start();
     QDBusPendingReply<> reply = ping_iface->Ping();
     reply.waitForFinished();
@@ -86,9 +86,10 @@ void KWhiteboard::pingBoard()
     {
         kDebug() << "Error!";
     }
-
-    kDebug() << "Total Ping time: " << timer->interval();
-    timer->stop();
+//     const char* time = timer->elapsed();
+    QString time = "Total time taken to ping: ";
+    time.append(QString::number(timer->elapsed()));
+    m_whiteboardWidget->setStatus(time);
 }
 
 #include "kwhiteboard.moc"

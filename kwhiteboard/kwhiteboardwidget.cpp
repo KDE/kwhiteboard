@@ -22,15 +22,14 @@
 #include <QPainter>
 #include <QMouseEvent>
 #include <QDBusConnection>
-#include <QTimer>
-#include "PeerInterface.h"
 
 static const char* s_objectPath = "/kwhiteboard";
 static const char* s_dbusInterface = "org.kde.KWhiteboard";
 
-KWhiteboardWidget::KWhiteboardWidget(QWidget* parent, const QDBusConnection &conn)
+KWhiteboardWidget::KWhiteboardWidget(QWidget* parent, const QDBusConnection &conn, QStatusBar* sbar)
     : QWidget(parent),
-      m_connection(conn)
+      m_connection(conn),
+      m_statusBar(sbar)
 {
     kDebug() << parent;
     if (!m_connection.registerObject(QString::fromLatin1(s_objectPath), this, QDBusConnection::ExportAllSignals | QDBusConnection::ExportAllSlots | QDBusConnection::ExportAdaptors | QDBusConnection::ExportScriptableContents | QDBusConnection::ExportNonScriptableContents)) {
@@ -46,8 +45,13 @@ KWhiteboardWidget::KWhiteboardWidget(QWidget* parent, const QDBusConnection &con
     // Connect the remote signal to the drawLine method
     // No service specified so that we connect to the signal from *all* of this object on the bus.
     m_connection.connect(QString(), s_objectPath, s_dbusInterface, "sigDrawLine", this, SLOT(drawLine(int, int, int, int)));
+
 }
 
+void KWhiteboardWidget::setStatus(QString msg)
+{
+    m_statusBar->showMessage(msg);
+}
 void KWhiteboardWidget::drawLine(int x1, int y1, int x2, int y2)
 {
     QPainter p(&m_pixmap);
@@ -89,24 +93,6 @@ void KWhiteboardWidget::mouseMoveEvent(QMouseEvent *event)
     // Emit the signal both "locally" and in the DBus tube
     Q_EMIT sigDrawLine(m_startPoint.x(), m_startPoint.y(), event->x(), event->y());
     m_startPoint = event->pos();
-    org::kde::DBus::Peer *ping_iface = new org::kde::DBus::Peer("", "/peer", m_connection, this);
-
-    QTimer *timer = new QTimer(this);
-    timer->start();
-    QDBusPendingReply<> reply = ping_iface->call("Ping");
-    reply.waitForFinished();
-    if(reply.isValid())
-    {
-
-        kDebug() << "No Error";
-    }
-    else
-    {
-        kDebug() << "Error!";
-    }
-
-    timer->stop();
-    kDebug() << "Total Ping time: " << timer->interval();
 }
 
 #include "kwhiteboardwidget.moc"
