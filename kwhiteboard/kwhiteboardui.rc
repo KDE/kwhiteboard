@@ -3,7 +3,7 @@
   <ToolBar name="test_toolbar" >
     <text>Test</text>
     <Action name="test_action" />
-	<text>Ping</text>
-	<Action name="Ping" />
+    <text>Ping</text>
+    <Action name="Ping" />
   </ToolBar>
 </gui>

@@ -91,7 +91,7 @@ void KWhiteboardHandler::handleChannels(const Tp::MethodInvocationContextPtr<> &
         if (properties.value(TP_QT_IFACE_CHANNEL + QLatin1String(".ChannelType")) != TP_QT_IFACE_CHANNEL_TYPE_DBUS_TUBE) {
             kWarning() << "Cannot handle channels of type" << properties.value(TP_QT_IFACE_CHANNEL + QLatin1String(".ChannelType"));
             continue;
-	}
+    }
 
         kDebug() << "It's a DBUS Tube:" << properties.value(TP_QT_IFACE_CHANNEL + QLatin1String(".ChannelType"));
 

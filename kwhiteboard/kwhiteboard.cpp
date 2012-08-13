@@ -46,43 +46,43 @@ void KWhiteboard::onGotTubeDBusConnection()
 
 void KWhiteboard::setupActions()
 {
-	KAction* ping = new KAction(this);
-	ping->setText(i18n("&Ping"));
-	ping->setIcon(KIcon("document-new"));
-	ping->setShortcut(Qt::CTRL + Qt::Key_P);
-	actionCollection()->addAction("Ping", ping);
+    KAction* ping = new KAction(this);
+    ping->setText(i18n("&Ping"));
+    ping->setIcon(KIcon("document-new"));
+    ping->setShortcut(Qt::CTRL + Qt::Key_P);
+    actionCollection()->addAction("Ping", ping);
 
-	connect(ping, SIGNAL(triggered(bool)),
-			this, SLOT(pingBoard()));
+    connect(ping, SIGNAL(triggered(bool)),
+            this, SLOT(pingBoard()));
 
-	KStandardAction::quit(kapp, SLOT(quit()),
-							actionCollection());
+    KStandardAction::quit(kapp, SLOT(quit()),
+                            actionCollection());
 
-	setupGUI(Default, "kwhiteboardui.rc");
+    setupGUI(Default, "kwhiteboardui.rc");
 }
 
 void KWhiteboard::pingBoard()
 {
-	kDebug() << "ping ping!!";
-	org::freedesktop::DBus::Peer *ping_iface = new org::freedesktop::DBus::Peer("", "/kwhiteboard", m_connection, this);
-	kDebug() <<"My Machine ID: " << QDBusConnection::localMachineId () << "\n";
-	kDebug() << "other peer's machine id" << ping_iface->GetMachineId();
-	QTimer *timer = new QTimer(this);
-	timer->start();
+    kDebug() << "ping ping!!";
+    org::freedesktop::DBus::Peer *ping_iface = new org::freedesktop::DBus::Peer("", "/kwhiteboard", m_connection, this);
+    kDebug() <<"My Machine ID: " << QDBusConnection::localMachineId () << "\n";
+    kDebug() << "other peer's machine id" << ping_iface->GetMachineId();
+    QTimer *timer = new QTimer(this);
+    timer->start();
     QDBusPendingReply<QString> reply = ping_iface->Ping();
-	reply.waitForFinished();
-	if(reply.isValid())
-	{
-		kDebug() << reply.value();
-		kDebug() << "No Error!";
-	}
-	else
-	{
-		kDebug() << "Error!";
-	}
+    reply.waitForFinished();
+    if(reply.isValid())
+    {
+        kDebug() << reply.value();
+        kDebug() << "No Error!";
+    }
+    else
+    {
+        kDebug() << "Error!";
+    }
 
-	kDebug() << "Total Ping time: " << timer->interval();
-	timer->stop();
+    kDebug() << "Total Ping time: " << timer->interval();
+    timer->stop();
 }
 
 #include "kwhiteboard.moc"

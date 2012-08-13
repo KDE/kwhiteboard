@@ -29,16 +29,16 @@ class KWhiteboard: public KXmlGuiWindow
 {
     Q_OBJECT
 public:
-	KWhiteboard(const QDBusConnection &conn, QTabWidget *parent=0);
+    KWhiteboard(const QDBusConnection &conn, QTabWidget *parent=0);
     void setupActions();
 
 public Q_SLOTS:
     void onGotTubeDBusConnection();
-	void pingBoard();
+    void pingBoard();
 
 private:
     KWhiteboardWidget* m_whiteboardWidget;
-	QDBusConnection m_connection;
+    QDBusConnection m_connection;
 };
 
 #endif

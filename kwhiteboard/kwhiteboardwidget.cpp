@@ -89,40 +89,40 @@ void KWhiteboardWidget::mouseMoveEvent(QMouseEvent *event)
     // Emit the signal both "locally" and in the DBus tube
     Q_EMIT sigDrawLine(m_startPoint.x(), m_startPoint.y(), event->x(), event->y());
     m_startPoint = event->pos();
-		org::freedesktop::DBus::Peer *ping_iface = new org::freedesktop::DBus::Peer("", "/kwhiteboard", m_connection, this);
-	QTimer *timer = new QTimer(this);
-	org::freedesktop::DBus::Peer *ping_iface_root = new org::freedesktop::DBus::Peer("", "/", m_connection, this);
+        org::freedesktop::DBus::Peer *ping_iface = new org::freedesktop::DBus::Peer("", "/kwhiteboard", m_connection, this);
+    QTimer *timer = new QTimer(this);
+    org::freedesktop::DBus::Peer *ping_iface_root = new org::freedesktop::DBus::Peer("", "/", m_connection, this);
 
-	timer->start();
+    timer->start();
     QDBusPendingReply<> reply = ping_iface->call("Ping");
-	reply.waitForFinished();
-	if(reply.isValid())
-	{
+    reply.waitForFinished();
+    if(reply.isValid())
+    {
 
-		kDebug() << "No Error";
-	}
-	else
-	{
-		kDebug() << "Error!";
-	}
-	
-	timer->stop();
-	kDebug() << "Total Ping time: " << timer->interval();
+        kDebug() << "No Error";
+    }
+    else
+    {
+        kDebug() << "Error!";
+    }
 
-		timer->start();
+    timer->stop();
+    kDebug() << "Total Ping time: " << timer->interval();
+
+        timer->start();
     QDBusPendingReply<> reply1 = ping_iface_root->Ping();
-	reply.waitForFinished();
-	if(reply1.isValid())
-	{
-		kDebug() << "No Error!";
-	}
-	else
-	{
-		kDebug() << "Error!";
-	}
-	
-	timer->stop();
-	kDebug() << "Total Ping time: " << timer->interval();
+    reply.waitForFinished();
+    if(reply1.isValid())
+    {
+        kDebug() << "No Error!";
+    }
+    else
+    {
+        kDebug() << "Error!";
+    }
+
+    timer->stop();
+    kDebug() << "Total Ping time: " << timer->interval();
 
 }
 
