@@ -74,20 +74,16 @@ void KWhiteboard::checkLatency()
     timer->start();
     QDBusPendingReply<> reply = peerIface->Ping();
     reply.waitForFinished();
-    if(reply.isValid())
+    if(!reply.isValid())
     {
-        kDebug() << "No Error!";
-    }
-    else
-    {
-        kDebug() << "Error!";
+        kDebug() << "Error in calculating the latency!";
     }
     QString time = "Latency: ";
     time.append(QString::number(timer->elapsed()));
     latencyLabel->setText(time);
     QTimer *timer2 = new QTimer(this);
     connect(timer2, SIGNAL(timeout()), this, SLOT(checkLatency()));
-    timer2->start(30000);
+    timer2->start(10000);
 }
 
 #include "kwhiteboard.moc"
