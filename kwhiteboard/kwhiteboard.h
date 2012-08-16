@@ -22,7 +22,7 @@
 #include <QtDBus/QDBusConnection>
 
 #include <KXmlGuiWindow>
-#include <QtGui>
+#include <QLabel>
 
 class KWhiteboardWidget;
 
@@ -31,11 +31,11 @@ class KWhiteboard: public KXmlGuiWindow
     Q_OBJECT
 
 public:
-    KWhiteboard(QWidget *parent=0);
+    KWhiteboard(const QDBusConnection &conn, QWidget *parent=0);
+    int latencyValue();
 
-public Q_SLOTS:
-    void onGotTubeDBusConnection(const QDBusConnection &conn);
-    void checkLatency();
+protected:
+    void timerEvent(QTimerEvent *event);
 
 private:
     KWhiteboardWidget* m_whiteboardWidget;

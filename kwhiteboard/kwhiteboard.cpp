@@ -21,25 +21,18 @@
 #include <KActionCollection>
 #include <KLocale>
 #include <KDebug>
-#include <KApplication>
 #include <KStatusBar>
 #include <QTimer>
 #include <QDBusConnection>
 #include "kwhiteboardwidget.h"
 #include "PeerInterface.h"
 
-KWhiteboard::KWhiteboard(QWidget *parent) :
+KWhiteboard::KWhiteboard(const QDBusConnection& conn, QWidget *parent) :
     KXmlGuiWindow(parent),
-    m_connection(QDBusConnection(""))
+    m_connection(conn)
 {
-    kDebug();
-    setWindowIcon(KIcon(QLatin1String("applications-education")));
-}
-
-void KWhiteboard::onGotTubeDBusConnection(const QDBusConnection& conn)
-{
-    m_connection = QDBusConnection(conn.name());
     kDebug() << m_connection.name();
+    setWindowIcon(KIcon(QLatin1String("applications-education")));
 
     m_whiteboardWidget = new KWhiteboardWidget(this, m_connection);
     setCentralWidget(m_whiteboardWidget);
@@ -47,26 +40,28 @@ void KWhiteboard::onGotTubeDBusConnection(const QDBusConnection& conn)
     m_latencyLabel = new QLabel(this);
     statusBar()->addPermanentWidget(m_latencyLabel);
     setupGUI(Default, "kwhiteboardui.rc");
-    checkLatency();
+    startTimer(10000);
 }
 
-void KWhiteboard::checkLatency()
+int KWhiteboard::latencyValue()
 {
     org::kde::DBus::Peer *peerIface = new org::kde::DBus::Peer("", "/peer", m_connection, this);
     QTime *timer = new QTime();
     timer->start();
-    QDBusPendingReply<> reply = peerIface->Ping();
+    QDBusPendingReply<> reply = peerIface->asyncCall("Ping");
     reply.waitForFinished();
     if(!reply.isValid())
     {
         kDebug() << "Error in calculating the latency!";
     }
+    return timer->elapsed();
+}
+
+void KWhiteboard::timerEvent(QTimerEvent *event)
+{
     QString time = "Latency: ";
-    time.append(QString::number(timer->elapsed()));
+    time.append(QString::number(latencyValue()));
     m_latencyLabel->setText(time);
-    QTimer *timer2 = new QTimer(this);
-    connect(timer2, SIGNAL(timeout()), this, SLOT(checkLatency()));
-    timer2->start(10000);
 }
 
 #include "kwhiteboard.moc"

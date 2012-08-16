@@ -144,8 +144,7 @@ void KWhiteboardHandler::onOfferTubeFinished(Tp::PendingOperation *op)
     QDBusConnection conn = QDBusConnection::connectToPeer(dbusop->address(), dbusop->address().right(8));
     kDebug() << "conn ->" << conn.name();
     new Peer(conn, this);
-    KWhiteboard *mainWindow = new KWhiteboard();
-    mainWindow->onGotTubeDBusConnection(conn);
+    KWhiteboard *mainWindow = new KWhiteboard(conn);
     mainWindow->show();
     kDebug() << "Main window created";
 }
@@ -166,8 +165,7 @@ void KWhiteboardHandler::onAcceptTubeFinished(Tp::PendingOperation *op)
     QDBusConnection conn = QDBusConnection::connectToPeer(dbusop->address(), dbusop->address().right(8));
     kDebug() << "conn ->" << conn.name();
     new Peer(conn, this);
-    KWhiteboard *mainWindow = new KWhiteboard();
-    mainWindow->onGotTubeDBusConnection(conn);
+    KWhiteboard *mainWindow = new KWhiteboard(conn);
     mainWindow->show();
     kDebug() << "Main window created";
 }
