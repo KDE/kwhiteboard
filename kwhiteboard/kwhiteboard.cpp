@@ -23,6 +23,7 @@
 #include <KDebug>
 #include <KApplication>
 #include <KStatusBar>
+#include <QTimer>
 #include "kwhiteboardwidget.h"
 #include "PeerInterface.h"
 #include "IntrospectableInterface.h"
@@ -43,6 +44,7 @@ void KWhiteboard::onGotTubeDBusConnection()
     setCentralWidget(m_whiteboardWidget);
 
     setupActions();
+    pingBoard();
 }
 
 void KWhiteboard::setupActions()
@@ -65,15 +67,6 @@ void KWhiteboard::setupActions()
 void KWhiteboard::pingBoard()
 {
     org::kde::DBus::Peer *ping_iface = new org::kde::DBus::Peer("", "/peer", m_connection, this);
-    kDebug() <<"My Machine ID: " << QDBusConnection::localMachineId();
-    QDBusPendingReply<QString> r = ping_iface->GetMachineId();
-    r.waitForFinished();
-    if (r.isValid()) {
-        kDebug() << "other peer's machine id" << r.value();
-    } else {
-        kDebug() << "ERROR";
-    }
-
     QTime *timer = new QTime();
     timer->start();
     QDBusPendingReply<> reply = ping_iface->Ping();
@@ -90,6 +83,9 @@ void KWhiteboard::pingBoard()
     QString time = "Total time taken to ping: ";
     time.append(QString::number(timer->elapsed()));
     m_whiteboardWidget->setStatus(time);
+    QTimer *timer2 = new QTimer(this);
+    connect(timer2, SIGNAL(timeout()), this, SLOT(pingBoard()));
+    timer2->start(30000);
 }
 
 #include "kwhiteboard.moc"
