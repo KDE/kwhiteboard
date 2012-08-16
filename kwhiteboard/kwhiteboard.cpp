@@ -28,7 +28,7 @@
 #include "kwhiteboardwidget.h"
 #include "PeerInterface.h"
 
-KWhiteboard::KWhiteboard(QTabWidget *parent) :
+KWhiteboard::KWhiteboard(QWidget *parent) :
     KXmlGuiWindow(parent),
     m_connection(QDBusConnection(""))
 {
@@ -44,27 +44,10 @@ void KWhiteboard::onGotTubeDBusConnection(const QDBusConnection& conn)
     m_whiteboardWidget = new KWhiteboardWidget(this, m_connection);
     setCentralWidget(m_whiteboardWidget);
 
-    latencyLabel = new QLabel(this);
-    statusBar()->addPermanentWidget(latencyLabel);
-    setupActions();
-    checkLatency();
-}
-
-void KWhiteboard::setupActions()
-{
-    KAction* ping = new KAction(this);
-    ping->setText(i18n("&Ping"));
-    ping->setIcon(KIcon("document-new"));
-    ping->setShortcut(Qt::CTRL + Qt::Key_P);
-    actionCollection()->addAction("Ping", ping);
-
-    connect(ping, SIGNAL(triggered(bool)),
-            this, SLOT(checkLatency()));
-
-    KStandardAction::quit(kapp, SLOT(quit()),
-                            actionCollection());
-
+    m_latencyLabel = new QLabel(this);
+    statusBar()->addPermanentWidget(m_latencyLabel);
     setupGUI(Default, "kwhiteboardui.rc");
+    checkLatency();
 }
 
 void KWhiteboard::checkLatency()
@@ -80,7 +63,7 @@ void KWhiteboard::checkLatency()
     }
     QString time = "Latency: ";
     time.append(QString::number(timer->elapsed()));
-    latencyLabel->setText(time);
+    m_latencyLabel->setText(time);
     QTimer *timer2 = new QTimer(this);
     connect(timer2, SIGNAL(timeout()), this, SLOT(checkLatency()));
     timer2->start(10000);

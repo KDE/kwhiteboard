@@ -31,7 +31,7 @@ KWhiteboardWidget::KWhiteboardWidget(QWidget* parent, const QDBusConnection &con
       m_connection(conn)
 {
     kDebug() << parent;
-    if (!m_connection.registerObject(QString::fromLatin1(s_objectPath), this, QDBusConnection::ExportAllSignals | QDBusConnection::ExportAllSlots )) {
+    if (!m_connection.registerObject(QString::fromLatin1(s_objectPath), this, QDBusConnection::ExportAllSignals | QDBusConnection::ExportAllSlots)) {
         kWarning() << parent << "Could not register object on DBus connection" << m_connection.name();
         qApp->exit(1);
     } else {
