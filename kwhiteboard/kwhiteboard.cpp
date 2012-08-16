@@ -24,27 +24,28 @@
 #include <KApplication>
 #include <KStatusBar>
 #include <QTimer>
+#include <QDBusConnection>
 #include "kwhiteboardwidget.h"
 #include "PeerInterface.h"
-#include "IntrospectableInterface.h"
 
-KWhiteboard::KWhiteboard(const QDBusConnection& conn, QTabWidget *parent) :
+KWhiteboard::KWhiteboard(QTabWidget *parent) :
     KXmlGuiWindow(parent),
-    m_connection(conn)
+    m_connection(QDBusConnection(""))
 {
     kDebug();
     setWindowIcon(KIcon(QLatin1String("applications-education")));
 }
 
-void KWhiteboard::onGotTubeDBusConnection()
+void KWhiteboard::onGotTubeDBusConnection(const QDBusConnection& conn)
 {
+    m_connection = QDBusConnection(conn.name());
     kDebug() << m_connection.name();
 
     m_whiteboardWidget = new KWhiteboardWidget(this, m_connection, statusBar());
     setCentralWidget(m_whiteboardWidget);
 
     setupActions();
-    pingBoard();
+    checkLatency();
 }
 
 void KWhiteboard::setupActions()
@@ -56,7 +57,7 @@ void KWhiteboard::setupActions()
     actionCollection()->addAction("Ping", ping);
 
     connect(ping, SIGNAL(triggered(bool)),
-            this, SLOT(pingBoard()));
+            this, SLOT(checkLatency()));
 
     KStandardAction::quit(kapp, SLOT(quit()),
                             actionCollection());
@@ -64,12 +65,12 @@ void KWhiteboard::setupActions()
     setupGUI(Default, "kwhiteboardui.rc");
 }
 
-void KWhiteboard::pingBoard()
+void KWhiteboard::checkLatency()
 {
-    org::kde::DBus::Peer *ping_iface = new org::kde::DBus::Peer("", "/peer", m_connection, this);
+    org::kde::DBus::Peer *peerIface = new org::kde::DBus::Peer("", "/peer", m_connection, this);
     QTime *timer = new QTime();
     timer->start();
-    QDBusPendingReply<> reply = ping_iface->Ping();
+    QDBusPendingReply<> reply = peerIface->Ping();
     reply.waitForFinished();
     if(reply.isValid())
     {
@@ -79,12 +80,11 @@ void KWhiteboard::pingBoard()
     {
         kDebug() << "Error!";
     }
-//     const char* time = timer->elapsed();
     QString time = "Total time taken to ping: ";
     time.append(QString::number(timer->elapsed()));
     m_whiteboardWidget->setStatus(time);
     QTimer *timer2 = new QTimer(this);
-    connect(timer2, SIGNAL(timeout()), this, SLOT(pingBoard()));
+    connect(timer2, SIGNAL(timeout()), this, SLOT(checkLatency()));
     timer2->start(30000);
 }
 

@@ -28,15 +28,14 @@ class KWhiteboardWidget;
 class KWhiteboard: public KXmlGuiWindow
 {
     Q_OBJECT
-    QStatusBar* m_status_bar;
 
 public:
-    KWhiteboard(const QDBusConnection &conn, QTabWidget *parent=0);
+    KWhiteboard(QTabWidget *parent=0);
     void setupActions();
 
 public Q_SLOTS:
-    void onGotTubeDBusConnection();
-    void pingBoard();
+    void onGotTubeDBusConnection(const QDBusConnection &conn);
+    void checkLatency();
 
 private:
     KWhiteboardWidget* m_whiteboardWidget;

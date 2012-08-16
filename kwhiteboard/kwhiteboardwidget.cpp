@@ -32,7 +32,7 @@ KWhiteboardWidget::KWhiteboardWidget(QWidget* parent, const QDBusConnection &con
       m_statusBar(sbar)
 {
     kDebug() << parent;
-    if (!m_connection.registerObject(QString::fromLatin1(s_objectPath), this, QDBusConnection::ExportAllSignals | QDBusConnection::ExportAllSlots | QDBusConnection::ExportAdaptors | QDBusConnection::ExportScriptableContents | QDBusConnection::ExportNonScriptableContents)) {
+    if (!m_connection.registerObject(QString::fromLatin1(s_objectPath), this, QDBusConnection::ExportAllSignals | QDBusConnection::ExportAllSlots )) {
         kWarning() << parent << "Could not register object on DBus connection" << m_connection.name();
         qApp->exit(1);
     } else {
@@ -45,7 +45,6 @@ KWhiteboardWidget::KWhiteboardWidget(QWidget* parent, const QDBusConnection &con
     // Connect the remote signal to the drawLine method
     // No service specified so that we connect to the signal from *all* of this object on the bus.
     m_connection.connect(QString(), s_objectPath, s_dbusInterface, "sigDrawLine", this, SLOT(drawLine(int, int, int, int)));
-
 }
 
 void KWhiteboardWidget::setStatus(QString msg)
@@ -85,7 +84,6 @@ void KWhiteboardWidget::paintEvent(QPaintEvent *)
 void KWhiteboardWidget::mousePressEvent(QMouseEvent *event)
 {
     m_startPoint = event->pos();
-
 }
 
 void KWhiteboardWidget::mouseMoveEvent(QMouseEvent *event)
