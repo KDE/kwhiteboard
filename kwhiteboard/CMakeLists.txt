@@ -9,7 +9,6 @@ set(kwhiteboard_SRCS
 #kde4_add_ui_files (kwhiteboard_SRCS
 #)
 
-
 qt4_generate_dbus_interface(org.kde.KWhiteboard.xml)
 qt4_add_dbus_interface(kwhiteboard_SRCS org.kde.DBus.Peer.xml PeerInterface)
 qt4_add_dbus_adaptor(kwhiteboard_SRCS org.kde.DBus.Peer.xml peer.h Peer PeerAdaptor)
