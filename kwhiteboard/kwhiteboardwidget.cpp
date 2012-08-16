@@ -26,10 +26,9 @@
 static const char* s_objectPath = "/kwhiteboard";
 static const char* s_dbusInterface = "org.kde.KWhiteboard";
 
-KWhiteboardWidget::KWhiteboardWidget(QWidget* parent, const QDBusConnection &conn, QStatusBar* sbar)
+KWhiteboardWidget::KWhiteboardWidget(QWidget* parent, const QDBusConnection &conn)
     : QWidget(parent),
-      m_connection(conn),
-      m_statusBar(sbar)
+      m_connection(conn)
 {
     kDebug() << parent;
     if (!m_connection.registerObject(QString::fromLatin1(s_objectPath), this, QDBusConnection::ExportAllSignals | QDBusConnection::ExportAllSlots )) {
@@ -47,10 +46,6 @@ KWhiteboardWidget::KWhiteboardWidget(QWidget* parent, const QDBusConnection &con
     m_connection.connect(QString(), s_objectPath, s_dbusInterface, "sigDrawLine", this, SLOT(drawLine(int, int, int, int)));
 }
 
-void KWhiteboardWidget::setStatus(QString msg)
-{
-    m_statusBar->showMessage(msg);
-}
 void KWhiteboardWidget::drawLine(int x1, int y1, int x2, int y2)
 {
     QPainter p(&m_pixmap);

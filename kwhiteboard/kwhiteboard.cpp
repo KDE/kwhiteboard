@@ -41,9 +41,11 @@ void KWhiteboard::onGotTubeDBusConnection(const QDBusConnection& conn)
     m_connection = QDBusConnection(conn.name());
     kDebug() << m_connection.name();
 
-    m_whiteboardWidget = new KWhiteboardWidget(this, m_connection, statusBar());
+    m_whiteboardWidget = new KWhiteboardWidget(this, m_connection);
     setCentralWidget(m_whiteboardWidget);
 
+    latencyLabel = new QLabel(this);
+    statusBar()->addPermanentWidget(latencyLabel);
     setupActions();
     checkLatency();
 }
@@ -80,9 +82,9 @@ void KWhiteboard::checkLatency()
     {
         kDebug() << "Error!";
     }
-    QString time = "Total time taken to ping: ";
+    QString time = "Latency: ";
     time.append(QString::number(timer->elapsed()));
-    m_whiteboardWidget->setStatus(time);
+    latencyLabel->setText(time);
     QTimer *timer2 = new QTimer(this);
     connect(timer2, SIGNAL(timeout()), this, SLOT(checkLatency()));
     timer2->start(30000);

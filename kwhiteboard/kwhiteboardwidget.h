@@ -22,17 +22,14 @@
 #include <QWidget>
 #include <QPixmap>
 #include <QDBusConnection>
-#include <QStatusBar>
 
 class KWhiteboardWidget : public QWidget
 {
     Q_OBJECT
-    QStatusBar* m_statusBar;
     Q_CLASSINFO("D-Bus Interface", "org.kde.KWhiteboard")
 
 public:
-    KWhiteboardWidget(QWidget* parent, const QDBusConnection &conn, QStatusBar* sbar);
-    void setStatus(QString msg);
+    KWhiteboardWidget(QWidget* parent, const QDBusConnection &conn);
 
 public Q_SLOTS:
     void drawLine(int x1, int y1, int x2, int y2);

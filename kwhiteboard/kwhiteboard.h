@@ -22,6 +22,8 @@
 #include <QtDBus/QDBusConnection>
 
 #include <KXmlGuiWindow>
+#include <QtCore>
+#include <QtGui>
 
 class KWhiteboardWidget;
 
@@ -40,6 +42,7 @@ public Q_SLOTS:
 private:
     KWhiteboardWidget* m_whiteboardWidget;
     QDBusConnection m_connection;
+    QLabel *latencyLabel;
 };
 
 #endif
