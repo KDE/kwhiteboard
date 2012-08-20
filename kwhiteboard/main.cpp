@@ -48,7 +48,7 @@ void dbusSpyHook(const QDBusMessage &message)
 int main(int argc, char *argv[])
 {
     KAboutData aboutData("kwhiteboard", 0, ki18n("KWhiteboard"),
-             "1.0", ki18n("KDE Whiteboard Application"), KAboutData::License_LGPL);
+                         "1.0", ki18n("KDE Whiteboard Application"), KAboutData::License_LGPL);
     aboutData.addAuthor(ki18n("Daniele E. Domenichelli"), ki18n("Developer"), "daniele.domenichelli@gmail.com");
     KCmdLineArgs::init(argc, argv, &aboutData);
 
