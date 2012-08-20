@@ -17,27 +17,61 @@
  */
 
 #include "kwhiteboard.h"
-#include <KAction>
-#include <KActionCollection>
-#include <KLocale>
-#include <KDebug>
+#include <KDE/KAction>
+#include <KDE/KDebug>
+#include <KDE/KLocale>
+#include <KDE/KStatusBar>
+#include <QtCore/QTimer>
+#include <QtDBus/QDBusPendingReply>
 #include "kwhiteboardwidget.h"
+#include "PeerInterface.h"
 
-KWhiteboard::KWhiteboard(QWidget *parent) :
-    KXmlGuiWindow(parent)
+KWhiteboard::KWhiteboard(const QDBusConnection& conn, QWidget *parent) :
+    KXmlGuiWindow(parent),
+    m_connection(conn)
 {
-    kDebug();
+    kDebug() << m_connection.name();
     setWindowIcon(KIcon(QLatin1String("applications-education")));
-}
 
-void KWhiteboard::onGotTubeDBusConnection(const QDBusConnection& conn)
-{
-    kDebug() << conn.name();
-
-    m_whiteboardWidget = new KWhiteboardWidget(this, conn);
+    m_whiteboardWidget = new KWhiteboardWidget(this, m_connection);
     setCentralWidget(m_whiteboardWidget);
 
-    setupGUI();
+    m_latencyLabel = new QLabel(this);
+    m_latencyLabel->setContentsMargins(0, 0, 5, 0);
+    m_latencyLabel->setFrameStyle(QFrame::Panel|QFrame::Sunken);
+    statusBar()->addPermanentWidget(m_latencyLabel);
+    setupGUI(Default, "kwhiteboardui.rc");
+    startTimer(10000);
+    m_timer.invalidate();
+    m_latencyLabel->setText(i18n("Latency: ???"));
+}
+
+void KWhiteboard::setStatus(QDBusPendingCallWatcher *call)
+{
+    QDBusPendingReply<> reply = *call;
+    if (reply.isError()) {
+        kDebug() << reply.error();
+        m_latencyLabel->setText(i18n("Latency: ???"));
+    } else {
+        m_latencyLabel->setText(i18n("Latency: %1 ms", m_timer.elapsed()));
+    }
+    call->deleteLater();
+    m_timer.invalidate();
+}
+
+void KWhiteboard::timerEvent(QTimerEvent *event)
+{
+    Q_UNUSED(event);
+    if(!m_timer.isValid())
+    {
+        org::kde::DBus::Peer *peerIface = new org::kde::DBus::Peer("", "/peer", m_connection, this);
+        m_timer.start();
+        QDBusPendingCall async = peerIface->asyncCall("Ping");
+        QDBusPendingCallWatcher *watcher = new QDBusPendingCallWatcher(async, this);
+        QObject::connect(watcher, SIGNAL(finished(QDBusPendingCallWatcher*)),
+                             this, SLOT(setStatus(QDBusPendingCallWatcher*)));
+    }
+    // else previous ping is still running
 }
 
 #include "kwhiteboard.moc"

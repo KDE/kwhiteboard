@@ -20,6 +20,7 @@
 
 #include "kwhiteboard-handler.h"
 #include "kwhiteboard.h"
+#include "peer.h"
 
 #include <TelepathyQt/Channel>
 #include <TelepathyQt/Connection>
@@ -91,7 +92,7 @@ void KWhiteboardHandler::handleChannels(const Tp::MethodInvocationContextPtr<> &
         if (properties.value(TP_QT_IFACE_CHANNEL + QLatin1String(".ChannelType")) != TP_QT_IFACE_CHANNEL_TYPE_DBUS_TUBE) {
             kWarning() << "Cannot handle channels of type" << properties.value(TP_QT_IFACE_CHANNEL + QLatin1String(".ChannelType"));
             continue;
-	}
+    }
 
         kDebug() << "It's a DBUS Tube:" << properties.value(TP_QT_IFACE_CHANNEL + QLatin1String(".ChannelType"));
 
@@ -142,8 +143,8 @@ void KWhiteboardHandler::onOfferTubeFinished(Tp::PendingOperation *op)
 
     QDBusConnection conn = QDBusConnection::connectToPeer(dbusop->address(), dbusop->address().right(8));
     kDebug() << "conn ->" << conn.name();
-    KWhiteboard *mainWindow = new KWhiteboard();
-    mainWindow->onGotTubeDBusConnection(conn);
+    new Peer(conn, this);
+    KWhiteboard *mainWindow = new KWhiteboard(conn);
     mainWindow->show();
     kDebug() << "Main window created";
 }
@@ -163,8 +164,8 @@ void KWhiteboardHandler::onAcceptTubeFinished(Tp::PendingOperation *op)
 
     QDBusConnection conn = QDBusConnection::connectToPeer(dbusop->address(), dbusop->address().right(8));
     kDebug() << "conn ->" << conn.name();
-    KWhiteboard *mainWindow = new KWhiteboard();
-    mainWindow->onGotTubeDBusConnection(conn);
+    new Peer(conn, this);
+    KWhiteboard *mainWindow = new KWhiteboard(conn);
     mainWindow->show();
     kDebug() << "Main window created";
 }

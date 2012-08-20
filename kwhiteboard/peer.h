@@ -1,5 +1,5 @@
 /*
- *  Copyright (C) 2010 David Faure   <faure@kde.org>
+ *  Copyright (C) 2012 Daniele E. Domenichelli <daniele.domenichelli@gmail.com>
  *
  *  This library is free software; you can redistribute it and/or
  *  modify it under the terms of the GNU Library General Public
@@ -16,36 +16,24 @@
  *  Boston, MA 02110-1301, USA.
  */
 
-#ifndef KWHITEBOARD_H
-#define KWHITEBOARD_H
+#ifndef PEER_H
+#define PEER_H
 
-#include <QtDBus/QDBusConnection>
+#include <QtCore/QObject>
 
-#include <KXmlGuiWindow>
-#include <QtGui/QLabel>
-#include <QtDBus/QDBusPendingCallWatcher>
-#include <QtCore/QElapsedTimer>
+class QDBusConnection;
 
-class KWhiteboardWidget;
-
-class KWhiteboard: public KXmlGuiWindow
+class Peer : public QObject
 {
     Q_OBJECT
+    Q_DISABLE_COPY(Peer)
 
 public:
-    KWhiteboard(const QDBusConnection &conn, QWidget *parent=0);
+    Peer(QDBusConnection &connection, QObject *parent = 0);
 
 public Q_SLOTS:
-    void setStatus(QDBusPendingCallWatcher*);
-
-protected:
-    void timerEvent(QTimerEvent *event);
-
-private:
-    KWhiteboardWidget* m_whiteboardWidget;
-    QDBusConnection m_connection;
-    QLabel* m_latencyLabel;
-    QElapsedTimer m_timer;
+    QString GetMachineId();
+    void Ping();
 };
 
-#endif
+#endif // PEER_H
