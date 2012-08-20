@@ -22,7 +22,9 @@
 #include <QtDBus/QDBusConnection>
 
 #include <KXmlGuiWindow>
-#include <QLabel>
+#include <QtGui/QLabel>
+#include <QtDBus/QDBusPendingCallWatcher>
+#include <QtCore/QElapsedTimer>
 
 class KWhiteboardWidget;
 
@@ -32,7 +34,9 @@ class KWhiteboard: public KXmlGuiWindow
 
 public:
     KWhiteboard(const QDBusConnection &conn, QWidget *parent=0);
-    int latencyValue();
+
+public Q_SLOTS:
+    void setStatus(QDBusPendingCallWatcher*);
 
 protected:
     void timerEvent(QTimerEvent *event);
@@ -40,7 +44,8 @@ protected:
 private:
     KWhiteboardWidget* m_whiteboardWidget;
     QDBusConnection m_connection;
-    QLabel *m_latencyLabel;
+    QLabel* m_latencyLabel;
+    QElapsedTimer m_timer;
 };
 
 #endif

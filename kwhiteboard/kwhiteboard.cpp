@@ -17,13 +17,12 @@
  */
 
 #include "kwhiteboard.h"
-#include <KAction>
-#include <KActionCollection>
-#include <KLocale>
-#include <KDebug>
-#include <KStatusBar>
-#include <QTimer>
-#include <QDBusConnection>
+#include <KDE/KAction>
+#include <KDE/KDebug>
+#include <KDE/KLocale>
+#include <KDE/KStatusBar>
+#include <QtCore/QTimer>
+#include <QtDBus/QDBusPendingReply>
 #include "kwhiteboardwidget.h"
 #include "PeerInterface.h"
 
@@ -38,30 +37,41 @@ KWhiteboard::KWhiteboard(const QDBusConnection& conn, QWidget *parent) :
     setCentralWidget(m_whiteboardWidget);
 
     m_latencyLabel = new QLabel(this);
+    m_latencyLabel->setContentsMargins(0, 0, 5, 0);
+    m_latencyLabel->setFrameStyle(QFrame::Panel|QFrame::Sunken);
     statusBar()->addPermanentWidget(m_latencyLabel);
     setupGUI(Default, "kwhiteboardui.rc");
     startTimer(10000);
+    m_timer.invalidate();
+    m_latencyLabel->setText(i18n("Latency: ???"));
 }
 
-int KWhiteboard::latencyValue()
+void KWhiteboard::setStatus(QDBusPendingCallWatcher *call)
 {
-    org::kde::DBus::Peer *peerIface = new org::kde::DBus::Peer("", "/peer", m_connection, this);
-    QTime *timer = new QTime();
-    timer->start();
-    QDBusPendingReply<> reply = peerIface->asyncCall("Ping");
-    reply.waitForFinished();
-    if(!reply.isValid())
-    {
-        kDebug() << "Error in calculating the latency!";
+    QDBusPendingReply<> reply = *call;
+    if (reply.isError()) {
+        kDebug() << reply.error();
+        m_latencyLabel->setText(i18n("Latency: ???"));
+    } else {
+        m_latencyLabel->setText(i18n("Latency: %1 ms", m_timer.elapsed()));
     }
-    return timer->elapsed();
+    call->deleteLater();
+    m_timer.invalidate();
 }
 
 void KWhiteboard::timerEvent(QTimerEvent *event)
 {
-    QString time = "Latency: ";
-    time.append(QString::number(latencyValue()));
-    m_latencyLabel->setText(time);
+    Q_UNUSED(event);
+    if(!m_timer.isValid())
+    {
+        org::kde::DBus::Peer *peerIface = new org::kde::DBus::Peer("", "/peer", m_connection, this);
+        m_timer.start();
+        QDBusPendingCall async = peerIface->asyncCall("Ping");
+        QDBusPendingCallWatcher *watcher = new QDBusPendingCallWatcher(async, this);
+        QObject::connect(watcher, SIGNAL(finished(QDBusPendingCallWatcher*)),
+                             this, SLOT(setStatus(QDBusPendingCallWatcher*)));
+    }
+    // else previous ping is still running
 }
 
 #include "kwhiteboard.moc"
