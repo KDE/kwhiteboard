@@ -33,7 +33,8 @@
 #include <TelepathyQt/PendingChannelRequest>
 #include <TelepathyQt/PendingReady>
 
-#include <KTp/Models/contacts-model.h>
+#include <KTp/contact-factory.h>
+#include <KTp/Models/contacts-list-model.h>
 #include <KTp/Models/accounts-filter-model.h>
 #include <KTp/Widgets/contact-grid-widget.h>
 
@@ -44,7 +45,7 @@
 MainWindow::MainWindow(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::MainWindow),
-    m_contactsModel(0)
+    m_contactsListModel(0)
 {
     Tp::registerTypes();
 
@@ -66,7 +67,7 @@ MainWindow::MainWindow(QWidget *parent) :
                                                                                << Tp::Connection::FeatureRoster
                                                                                << Tp::Connection::FeatureSelfContact);
 
-    Tp::ContactFactoryPtr contactFactory = Tp::ContactFactory::create(Tp::Features()  << Tp::Contact::FeatureAlias
+    Tp::ContactFactoryPtr contactFactory = KTp::ContactFactory::create(Tp::Features()  << Tp::Contact::FeatureAlias
                                                                       << Tp::Contact::FeatureAvatarData
                                                                       << Tp::Contact::FeatureSimplePresence
                                                                       << Tp::Contact::FeatureCapabilities);
@@ -79,10 +80,10 @@ MainWindow::MainWindow(QWidget *parent) :
                                                   channelFactory,
                                                   contactFactory);
 
-    m_contactsModel = new ContactsModel(this);
+    m_contactsListModel = new KTp::ContactsListModel(this);
     connect(m_accountManager->becomeReady(), SIGNAL(finished(Tp::PendingOperation*)), SLOT(onAccountManagerReady()));
 
-    m_contactGridWidget = new KTp::ContactGridWidget(m_contactsModel, this);
+    m_contactGridWidget = new KTp::ContactGridWidget(m_contactsListModel, this);
     m_contactGridWidget->contactFilterLineEdit()->setClickMessage(i18n("Search in Contacts..."));
     m_contactGridWidget->filter()->setPresenceTypeFilterFlags(AccountsFilterModel::ShowOnlyConnected);
     //m_contactGridWidget->filter()->setCapabilityFilterFlags(AccountsFilterModel::FilterByFileTransferCapability);
@@ -104,7 +105,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::onAccountManagerReady()
 {
-    m_contactsModel->setAccountManager(m_accountManager);
+    m_contactsListModel->setAccountManager(m_accountManager);
 }
 
 void MainWindow::onDialogAccepted()

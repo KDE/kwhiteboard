@@ -33,9 +33,9 @@ class MainWindow;
 namespace KTp
 {
 class ContactGridWidget;
+class ContactsListModel;
 }
 
-class ContactsModel;
 
 class MainWindow : public QWidget
 {
@@ -54,7 +54,7 @@ private Q_SLOTS:
 private:
     Ui::MainWindow *ui;
     Tp::AccountManagerPtr m_accountManager;
-    ContactsModel *m_contactsModel;
+    KTp::ContactsListModel *m_contactsListModel;
     KTp::ContactGridWidget *m_contactGridWidget;
 };
 
