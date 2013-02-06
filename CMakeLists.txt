@@ -30,3 +30,5 @@ add_subdirectory (kwhiteboard)
 add_subdirectory (kblackboard)
 
 macro_display_feature_log()
+
+install(FILES approver/kblackboard.desktop approver/kwhiteboard.desktop DESTINATION ${SERVICES_INSTALL_DIR}/ktp)

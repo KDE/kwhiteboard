@@ -1,0 +1,13 @@
+[Desktop Entry]
+Type=Service
+X-KDE-ServiceTypes=KTpApprover
+Name=KWhiteboard
+Icon=applications-education
+Comment=User %1 wants to start KWhiteboard session with you
+
+X-KTp-ChannelType=org.freedesktop.Telepathy.Channel.Type.DBusTube
+X-KTp-Service=org.kde.KWhiteboard
+X-KTp-Cancellable=false
+X-KTp-Preferred-Incoming-Handler=org.freedesktop.Telepathy.Client.KWhiteboard
+X-KTp-Preferred-Outgoing-Handler=org.freedesktop.Telepathy.Client.KWhiteboard
+
