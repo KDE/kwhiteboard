@@ -2,8 +2,18 @@
 Type=Service
 X-KDE-ServiceTypes=KTpApprover
 Name=KBlackboard
+Name[nl]=KBlackboard
+Name[pt]=KBlackboard
+Name[pt_BR]=KBlackboard
+Name[uk]=KBlackboard
+Name[x-test]=xxKBlackboardxx
 Icon=applications-education
 Comment=User %1 wants to start KBlackboard session with you
+Comment[nl]=Gebruiker %1 wil een KBlackboard-sessie met u beginnen
+Comment[pt]=O utilizador %1 deseja iniciar uma sessão do KBlackboard consigo
+Comment[pt_BR]=O usuário %1 quer iniciar uma sessão do KBlackboard com você
+Comment[uk]=Користувач %1 хоче розпочати з вами сеанс KBlackboard
+Comment[x-test]=xxUser %1 wants to start KBlackboard session with youxx
 
 X-KTp-ChannelType=org.freedesktop.Telepathy.Channel.Type.StreamTube
 X-KTp-Service=org.kde.KBlackboard

@@ -2,8 +2,18 @@
 Type=Service
 X-KDE-ServiceTypes=KTpApprover
 Name=KWhiteboard
+Name[nl]=KWhiteboard
+Name[pt]=KWhiteboard
+Name[pt_BR]=KWhiteboard
+Name[uk]=KWhiteboard
+Name[x-test]=xxKWhiteboardxx
 Icon=applications-education
 Comment=User %1 wants to start KWhiteboard session with you
+Comment[nl]=Gebruiker %1 wil een KWhiteboard-sessie met u beginnen
+Comment[pt]=O utilizador %1 deseja iniciar uma sessão do KWhiteboard consigo
+Comment[pt_BR]=O usuário %1 quer iniciar uma sessão do KWhiteboard com você
+Comment[uk]=Користувач %1 хоче розпочати з вами сеанс KWhiteboard
+Comment[x-test]=xxUser %1 wants to start KWhiteboard session with youxx
 
 X-KTp-ChannelType=org.freedesktop.Telepathy.Channel.Type.DBusTube
 X-KTp-Service=org.kde.KWhiteboard
