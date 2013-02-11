@@ -2,6 +2,7 @@
 Type=Service
 X-KDE-ServiceTypes=KTpApprover
 Name=KBlackboard
+Name[de]=KBlackboard
 Name[nl]=KBlackboard
 Name[pt]=KBlackboard
 Name[pt_BR]=KBlackboard
@@ -9,6 +10,7 @@ Name[uk]=KBlackboard
 Name[x-test]=xxKBlackboardxx
 Icon=applications-education
 Comment=User %1 wants to start KBlackboard session with you
+Comment[de]=Der Benutzer %1 möchte eine KBlackboard-Sitzung  mit Ihnen starten
 Comment[nl]=Gebruiker %1 wil een KBlackboard-sessie met u beginnen
 Comment[pt]=O utilizador %1 deseja iniciar uma sessão do KBlackboard consigo
 Comment[pt_BR]=O usuário %1 quer iniciar uma sessão do KBlackboard com você
