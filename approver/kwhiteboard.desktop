@@ -6,6 +6,7 @@ Name[de]=KWhiteboard
 Name[nl]=KWhiteboard
 Name[pt]=KWhiteboard
 Name[pt_BR]=KWhiteboard
+Name[sv]=Kwhiteboard
 Name[uk]=KWhiteboard
 Name[x-test]=xxKWhiteboardxx
 Icon=applications-education
@@ -14,6 +15,7 @@ Comment[de]=Der Benutzer %1 möchte eine KWhiteboard-Sitzung  mit Ihnen starten
 Comment[nl]=Gebruiker %1 wil een KWhiteboard-sessie met u beginnen
 Comment[pt]=O utilizador %1 deseja iniciar uma sessão do KWhiteboard consigo
 Comment[pt_BR]=O usuário %1 quer iniciar uma sessão do KWhiteboard com você
+Comment[sv]=Användare %1 vill starta en Kwhiteboard-session med dig
 Comment[uk]=Користувач %1 хоче розпочати з вами сеанс KWhiteboard
 Comment[x-test]=xxUser %1 wants to start KWhiteboard session with youxx
 
