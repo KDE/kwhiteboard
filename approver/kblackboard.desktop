@@ -8,6 +8,7 @@ Name[nl]=KBlackboard
 Name[pt]=KBlackboard
 Name[pt_BR]=KBlackboard
 Name[sv]=Kblackboard
+Name[tr]=KBlackboard
 Name[uk]=KBlackboard
 Name[x-test]=xxKBlackboardxx
 Icon=applications-education
@@ -18,6 +19,7 @@ Comment[nl]=Gebruiker %1 wil een KBlackboard-sessie met u beginnen
 Comment[pt]=O utilizador %1 deseja iniciar uma sessão do KBlackboard consigo
 Comment[pt_BR]=O usuário %1 quer iniciar uma sessão do KBlackboard com você
 Comment[sv]=Användare %1 vill starta en Kblackboard-session med dig
+Comment[tr]=%1 kullanıcısı, sizinle bir KBlackboard oturumu başlatmak istiyor
 Comment[uk]=Користувач %1 хоче розпочати з вами сеанс KBlackboard
 Comment[x-test]=xxUser %1 wants to start KBlackboard session with youxx
 
