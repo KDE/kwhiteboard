@@ -35,7 +35,7 @@
 
 #include <KTp/contact-factory.h>
 #include <KTp/Models/contacts-list-model.h>
-#include <KTp/Models/accounts-filter-model.h>
+#include <KTp/Models/contacts-filter-model.h>
 #include <KTp/Widgets/contact-grid-widget.h>
 
 //FIXME, copy and paste the approver code for loading this from a config file into this, the contact list and the chat handler.
@@ -85,8 +85,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
     m_contactGridWidget = new KTp::ContactGridWidget(m_contactsListModel, this);
     m_contactGridWidget->contactFilterLineEdit()->setClickMessage(i18n("Search in Contacts..."));
-    m_contactGridWidget->filter()->setPresenceTypeFilterFlags(AccountsFilterModel::ShowOnlyConnected);
-    //m_contactGridWidget->filter()->setCapabilityFilterFlags(AccountsFilterModel::FilterByFileTransferCapability);
+    m_contactGridWidget->filter()->setPresenceTypeFilterFlags(KTp::ContactsFilterModel::ShowOnlyConnected);
+    //m_contactGridWidget->filter()->setCapabilityFilterFlags(KTp::ContactsFilterModel::FilterByFileTransferCapability);
     ui->recipientVLayout->insertWidget(1, m_contactGridWidget);
 
     connect(m_contactGridWidget,
