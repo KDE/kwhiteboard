@@ -23,7 +23,7 @@ void BlackboardWidget::onDataAvailable()
     QPoint start, end;
 
     QDataStream ds(m_socket);
-    while(m_socket->bytesAvailable() > sizeof(qint32) *4) {
+    while(m_socket->bytesAvailable() > static_cast<int>(sizeof(qint32) *4)) {
         ds >> start >> end;
         drawLine(start, end);
     }
