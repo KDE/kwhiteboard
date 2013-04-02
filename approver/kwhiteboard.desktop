@@ -3,6 +3,7 @@ Type=Service
 X-KDE-ServiceTypes=KTpApprover
 Name=KWhiteboard
 Name[de]=KWhiteboard
+Name[es]=KWhiteboard
 Name[fr]=KWhiteboard
 Name[mr]=के-व्हाईट-बोर्ड
 Name[nl]=KWhiteboard

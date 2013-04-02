@@ -3,6 +3,7 @@ Type=Service
 X-KDE-ServiceTypes=KTpApprover
 Name=KBlackboard
 Name[de]=KBlackboard
+Name[es]=KBlackboard
 Name[fr]=KBlackboard
 Name[nl]=KBlackboard
 Name[pt]=KBlackboard
