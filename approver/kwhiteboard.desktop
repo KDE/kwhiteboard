@@ -2,6 +2,7 @@
 Type=Service
 X-KDE-ServiceTypes=KTpApprover
 Name=KWhiteboard
+Name[bs]=KWhiteboard
 Name[de]=KWhiteboard
 Name[es]=KWhiteboard
 Name[fr]=KWhiteboard
@@ -18,6 +19,7 @@ Name[uk]=KWhiteboard
 Name[x-test]=xxKWhiteboardxx
 Icon=applications-education
 Comment=User %1 wants to start KWhiteboard session with you
+Comment[bs]=Korisnik %1 želi započeti KWhiteboard sessiju s vama
 Comment[de]=Der Benutzer %1 möchte eine KWhiteboard-Sitzung  mit Ihnen starten
 Comment[fr]=L'utilisateur %1 veut démarrer une session KWhiteboard avec vous
 Comment[hu]=%1 felhasználó szeretné elindítani a KWhiteboard munkamenetet önnel
